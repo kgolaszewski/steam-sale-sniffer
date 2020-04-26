@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import './App.css';
-import CustomModal from  './components/Modal';
+import '../App.css';
+import CustomModal from  '../components/Modal';
 import axios from 'axios';
 
 import { Link, withRouter } from 'react-router-dom'
@@ -39,14 +39,6 @@ class App extends Component {
         .then(res => console.log(item))
         .catch(err => {console.log(item); console.log(err);})
   }
-
-  // handleSubmit = (item) => {
-  //   this.toggle();
-  //   axios
-  //     .post('http://localhost:8001/api/wishlistitems/', item)
-  //     .then( res => console.log(res))
-  //     .catch( err => console.log(err))
-  // }
 
   toggle = (app_id) => { 
     let new_id = !this.state.modal ? app_id : ''

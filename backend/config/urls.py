@@ -24,6 +24,7 @@ router.register(r'wishlistitems', views.WishListItemView, 'wishlistitem')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('rest-auth/', include('rest_auth.urls')),
     path('api/', include(router.urls))
 ]
 

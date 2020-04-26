@@ -1,6 +1,6 @@
 // Define all methods that will take place on receiving the actions from actionTypes.js 
 import axios from 'axios'
-import * from './actionTypes'
+import * as actionTypes from './actionTypes'
 
 export const authStart   = () => { return { type: actionTypes.AUTH_START } }
 export const authSuccess = (token) => { return { type: actionTypes.AUTH_SUCCESS, token: token } }
@@ -58,7 +58,7 @@ export const authLogin =  (username, password) => {
     }
 }
 
-export const authCheckState() => {
+export const authCheckState = () => {
     return (dispatch) => {
         const token = localStorage.getItem('token')
         if (token === undefined) { dispatch(logout())

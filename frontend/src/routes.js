@@ -4,7 +4,7 @@ import Hoc from './hoc'
 
 import GameList from './containers/GameList'
 import Login from './containers/Login'
-import Signup from './containers/Signup3'
+import Signup from './containers/Signup'
 
 const BaseRouter = () => (
     <Hoc>

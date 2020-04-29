@@ -24,6 +24,8 @@ ALLOWED_HOSTS = ['localhost']
 
 AUTH_USER_MODEL = 'wishlist.User'
 
+SITE_ID = 1
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -35,13 +37,14 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'django.contrib.sites',
-    'rest_framework',
-    'rest_framework.authtoken',
+    'allauth',
+    'allauth.account',
+    # 'allauth.socialaccount',
     'corsheaders',
     'rest_auth',
     'rest_auth.registration',
-    'allauth',
-    'allauth.account',
+    'rest_framework',
+    'rest_framework.authtoken',
 
     'wishlist',
 
@@ -79,8 +82,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'config.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/3.0/ref/settings/#databases
+# Database (src: https://docs.djangoproject.com/en/3.0/ref/settings/#databases)
 
 DATABASES = {
     'default': {
@@ -90,41 +92,26 @@ DATABASES = {
 }
 
 
-# Password validation
-# https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
+# Password validation (src: https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators)
 
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+    { 'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator', },
+    # { 'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator', },
+    # { 'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator', },
+    { 'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator', },
 ]
 
 
-# Internationalization
-# https://docs.djangoproject.com/en/3.0/topics/i18n/
+# Internationalization (src: https://docs.djangoproject.com/en/3.0/topics/i18n/)
 
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.0/howto/static-files/
+# Static files [CSS, JavaScript, Images] (src: https://docs.djangoproject.com/en/3.0/howto/static-files/)
 
 STATIC_URL = '/static/'
 
@@ -132,3 +119,8 @@ CORS_ORIGIN_WHITELIST = (
     'http://localhost:3000',
     'http://localhost:3001',
 )
+
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_EMAIL_REQUIRED = False
+ACCOUNT_AUTHENTICATION_METHOD = 'username'
+ACCOUNT_EMAIL_VERIFICATION = 'none'

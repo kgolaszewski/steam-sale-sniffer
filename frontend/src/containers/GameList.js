@@ -3,7 +3,7 @@ import '../App.css';
 import CustomModal from  '../components/Modal';
 import axios from 'axios';
 
-import { withRouter } from 'react-router-dom'
+// import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import * as actions from '../store/actions/auth'
 
@@ -60,7 +60,7 @@ class App extends Component {
           <div className="row">
             <div className="offset-2 col-md-8">
               { this.state.games.map(game => (
-              <div className="row game">
+              <div className="row game" key={game.id}>
                 <button className="btn btn-success pad-r" id={"hello"+game.id} 
                   onClick={() => this.toggle(game.id) }
                 >
@@ -97,4 +97,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));
+export default connect(mapStateToProps, mapDispatchToProps)(App);

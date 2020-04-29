@@ -62,9 +62,7 @@ class RegistrationForm extends React.Component {
                     <Input />
                 </Form.Item>
 
-                <Form.Item name="password" label="Password" rules={[{required: true, message: "Input password",
-                    // validator: this.validateToNextPassword }
-                    }
+                <Form.Item name="password" label="Password" rules={[{required: true, message: "Input password",}
                 ]}>
                     <Input.Password />
                 </Form.Item>

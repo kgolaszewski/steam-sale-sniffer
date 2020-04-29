@@ -12,7 +12,10 @@ class Demo extends React.Component {
     onReset = () => { this.formRef.current.resetFields(); };
 
     handleSubmit = () => {
-        this.props.onAuth(this.formRef.current.getFieldsValue(['username', 'password']))
+        this.props.onAuth(
+            this.formRef.current.getFieldValue('username'), 
+            this.formRef.current.getFieldValue('password') 
+        )
         this.props.history.push('/')
     }
 

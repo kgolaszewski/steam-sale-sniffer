@@ -33,6 +33,7 @@ export const authLogin =  (username, password) => {
             localStorage.setItem('expirationDate', expirationDate)
             dispatch(authSuccess(token))
             dispatch(checkAuthTimeout(3600))
+            console.log(JSON.stringify(res))
         })
         .catch(err => {dispatch(authFail(err)); console.log(err) })
     }
@@ -41,14 +42,17 @@ export const authLogin =  (username, password) => {
 export const authCheckState = () => {
     return (dispatch) => {
         const token = localStorage.getItem('token')
-        if (token === undefined) { dispatch(logout())
+        if (token === undefined) { 
+            dispatch(logout())
         } else {
             const expirationDate = new Date(localStorage.getItem('expirationDate'))
             if ( expirationDate <= new Date() ) {
                 dispatch(logout)
             } else {
                 dispatch(authSuccess(token))
-                dispatch(checkAuthTimeout( (expirationDate.getTime() - new Date.getTime())/1000 ))
+                dispatch(checkAuthTimeout( 
+                    ( expirationDate.getTime()-new Date().getTime() ) / 1000 )
+                )
             }
         }
     }

@@ -1,6 +1,13 @@
 from rest_framework import serializers
 from .models import Game, WishListItem
+from rest_framework import serializers
+from rest_framework.authtoken.models import Token
 
+class TokenSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Token
+        fields = ('key', 'user')
+        
 class GameSerializer(serializers.ModelSerializer):
     class Meta:
         model  = Game 

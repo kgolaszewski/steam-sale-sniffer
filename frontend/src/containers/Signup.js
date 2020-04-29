@@ -6,9 +6,11 @@ import { NavLink }  from 'react-router-dom'
 import * as actions from '../store/actions/auth'
 
 
+
 class Demo extends React.Component {
     formRef = React.createRef();
 
+    onFinish = values => { console.log(values) };
     onReset = () => { this.formRef.current.resetFields(); };
 
     handleSubmit = () => {
@@ -20,17 +22,23 @@ class Demo extends React.Component {
     render() {
         return (
         <Form ref={this.formRef} name="control-ref" onFinish={this.handleSubmit}>
+            <Form.Item name="email" label="Email" rules={[{ required: true }]}>
+                <Input />
+            </Form.Item>
             <Form.Item name="username" label="Username" rules={[{ required: true }]}>
                 <Input />
             </Form.Item>
             <Form.Item name="password" label="Password" rules={[{ required: true }]}>
                 <Input.Password />
             </Form.Item>
+            <Form.Item name="confirmation" label="Confirmation" rules={[{ required: true }]}>
+                <Input.Password />
+            </Form.Item>
             <Form.Item>
                 <Button type="primary" htmlType="submit">
-                    Submit
+                    Sign Up
                 </Button> Or 
-                <NavLink style={{marginRight: '10px'}} to='/signup'> Sign Up</NavLink>
+                <NavLink style={{marginRight: '10px'}} to='/login'> Log In</NavLink>
             </Form.Item>
         </Form>
         );

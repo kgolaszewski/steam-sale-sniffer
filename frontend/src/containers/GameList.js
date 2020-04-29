@@ -3,7 +3,7 @@ import '../App.css';
 import CustomModal from  '../components/Modal';
 import axios from 'axios';
 
-import { Link, withRouter } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import * as actions from '../store/actions/auth'
 
@@ -66,7 +66,7 @@ class App extends Component {
                 >
                   <div className='plus'>+</div>
                 </button>
-                <img className="offset-0" height="55" 
+                <img className="offset-0" height="55" alt=""
                   src={`https://steamcdn-a.akamaihd.net/steam/apps/${game.steam_id}/capsule_184x69.jpg`} 
                 />
                 <div className="col-md-5 game-title text">{game.title}</div>

@@ -4,10 +4,12 @@ import Hoc from './hoc'
 
 import GameList from './containers/GameList'
 import Login from './containers/Login'
+import Signup from './containers/Signup3'
 
 const BaseRouter = () => (
     <Hoc>
         <Route exact path="/login" component={Login} />
+        <Route exact path="/signup" component={Signup} />
         <Route exact path="/" component={GameList} />
     </Hoc>
 )

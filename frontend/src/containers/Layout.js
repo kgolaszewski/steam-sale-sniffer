@@ -4,15 +4,20 @@ import { Link, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import * as actions from '../store/actions/auth'
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSteam } from '@fortawesome/free-brands-svg-icons'
+
 const { Header, Content, Footer } = Layout;
 
 class CustomLayout extends React.Component {
     render() {
         return (
             <Layout className='layout'>
-                <Header>
-                    <div className="logo" />
-                    <Menu theme="dark" mode="horizontal" style={{lineHeight: "64px"}}>
+                <Header style={{display: 'inline-block'}}>
+                    <Menu theme="dark" mode="horizontal" style={{lineHeight: "64px", width: '70%'}}>
+                        <Menu.Item key="0">
+                            <FontAwesomeIcon icon={faSteam} size='3x' style={{color: '#fff', display: 'inline-block'}}/>
+                        </Menu.Item>
                         <Menu.Item key="1">
                             <Link to="/">Home</Link>
                         </Menu.Item>

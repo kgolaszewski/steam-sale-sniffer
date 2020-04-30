@@ -21,6 +21,7 @@ from wishlist import views
 router = routers.DefaultRouter()
 router.register(r'games', views.GameView, 'game')
 router.register(r'wishlistitems', views.WishListItemView, 'wishlistitem')
+router.register(r'users', views.UserView, 'user')
 
 urlpatterns = [
     path('admin/', admin.site.urls),

@@ -14,23 +14,49 @@ class CustomLayout extends React.Component {
         return (
             <Layout className='layout'>
                 <Header style={{display: 'inline-block'}}>
-                    <Menu theme="dark" mode="horizontal" style={{lineHeight: "64px", width: '70%'}}>
-                        <Menu.Item key="0">
-                            <FontAwesomeIcon icon={faSteam} size='3x' style={{color: '#fff', display: 'inline-block'}}/>
-                        </Menu.Item>
-                        <Menu.Item key="1">
-                            <Link to="/">Home</Link>
-                        </Menu.Item>
-                        { !this.props.isAuthenticated ? (
+
+                    { this.props.isAuthenticated ? (
+                        <Menu theme="dark" mode="horizontal" style={{lineHeight: "64px", width: '70%'}}>
+                            <Menu.Item key="0">
+                                <FontAwesomeIcon icon={faSteam} size='3x' style={{color: '#fff'}}/>
+                            </Menu.Item>
+
+                            <Menu.Item key="1">
+                                <Link to="/">Home</Link>
+                            </Menu.Item>
+
+                            <Menu.Item key="2" onClick={this.props.logout}>
+                                Logout
+                            </Menu.Item>
+
+                            <Menu.Item key="3">
+                            <Link to="/wishlist">My Wishlist</Link>
+                            </Menu.Item>
+
+                            <Menu.Item key="4">
+                            User {localStorage.getItem('userId')}
+                            </Menu.Item>
+                        </Menu>
+                        ) : (
+                        <Menu theme="dark" mode="horizontal" style={{lineHeight: "64px", width: '70%'}}>
+                            <Menu.Item key="0">
+                                <FontAwesomeIcon icon={faSteam} size='3x' style={{color: '#fff'}}/>
+                            </Menu.Item>
+
+                            <Menu.Item key="1">
+                                <Link to="/">Home</Link>
+                            </Menu.Item>
+
                             <Menu.Item key="2">
                                 <Link to="/login">Login</Link>
                             </Menu.Item>
-                        ) : (
-                            <Menu.Item key="2" onClick={this.props.logout}>
-                            Logout
-                          </Menu.Item>
-                        )}
-                    </Menu>
+
+                            <Menu.Item key="3">
+                                <Link to="/signup">Sign Up</Link>
+                            </Menu.Item>
+                        </Menu>
+                        ) 
+                    }
                 </Header>
                 <Content>
                     {this.props.children}

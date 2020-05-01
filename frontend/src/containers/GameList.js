@@ -3,7 +3,6 @@ import '../App.css';
 import CustomModal from  '../components/Modal';
 import axios from 'axios';
 
-// import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import * as actions from '../store/actions/auth'
 
@@ -22,22 +21,45 @@ class App extends Component {
   }
 
   componentDidMount() {
+    console.log('Component mounted')
+    console.log(localStorage.getItem('userId'))
     axios
       .get('http://localhost:8001/api/games')
-      .then( res => {this.setState({games: res.data})} )
+      .then( res => {this.setState({ 
+        games: res.data.filter(game => !game.users.includes(+localStorage.getItem('userId'))),
+        activeItem: {
+          ...this.state.activeItem,
+          user: (localStorage.getItem('userId') === undefined ? 2 : localStorage.getItem('userId'))
+        }
+      }) } )
       .catch( err => console.log(err) )
   }
 
+  componentWillReceiveProps() {
+    let userId = localStorage.getItem('userId')
+    console.log('Received props')
+    this.setState({
+      activeItem: {
+        ...this.state.activeItem, 
+        user: userId
+      },
+      games: this.state.games.filter(game => !game.users.includes(userId) )
+    })
+  }
+
   handleSubmit = (item) => {
-    this.toggle();
     item = {
       ...item,
       target_price: parseFloat(item.target_price)
     }
-      axios
-        .post(`http://localhost:8001/api/wishlistitems/`, item)
-        .then(res => console.log(item))
-        .catch(err => {console.log(item); console.log(err);})
+    axios
+      .post(`http://localhost:8001/api/wishlistitems/`, item)
+      .then(res => { console.log(item) })
+      .catch(err => {console.log(item); console.log(err);})
+    this.setState({ 
+      games: this.state.games.filter(game => game.id !== item.game)
+    })
+    this.toggle();
   }
 
   toggle = (app_id) => { 
@@ -61,7 +83,7 @@ class App extends Component {
             <div className="offset-2 col-md-8">
               { this.state.games.map(game => (
               <div className="row game" key={game.id}>
-                <button className="btn btn-success pad-r" id={"hello"+game.id} 
+                <button className="btn btn-success pad-r" id={game.id} 
                   onClick={() => this.toggle(game.id) }
                 >
                   <div className='plus'>+</div>

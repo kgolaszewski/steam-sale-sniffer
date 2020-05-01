@@ -14,18 +14,12 @@ class App extends Component {
     this.props.onTryAutoSignup();
   }
 
-  test() {
-    const userId = localStorage.getItem('userId')
-    console.log(userId)
-  }
-
   render() {
     return (
       <Router>
         <CustomLayout {...this.props}>
           <BaseRouter />
         </CustomLayout>
-        <button onClick={() => this.test()}>Test</button>
       </Router>
     );
   }

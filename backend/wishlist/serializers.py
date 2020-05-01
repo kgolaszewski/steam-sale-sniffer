@@ -16,15 +16,15 @@ class GameSerializer(serializers.ModelSerializer):
     class Meta:
         model  = Game 
         fields = ('title', 'steam_id', 'base_price', 'curr_price', 'users', 'id') 
-        lookup_field = 'steam_id'
 
-class WishListItemSerializer(serializers.ModelSerializer):
+class ShortenedGameSerializer(serializers.ModelSerializer):
     class Meta:
-        model  = WishListItem 
-        fields = ('game', 'user', 'target_price')
+        model  = Game 
+        fields = ('title', 'steam_id', 'curr_price', 'id') 
 
 class UserSerializer(serializers.ModelSerializer):
     games = serializers.SlugRelatedField(many=True, read_only=True, slug_field='steam_id')
+
     def get_games(self, obj):
         serializer_data = GameSerializer(obj.game.filter(users__id__contains=id))
         games = serializer_data.get('steam_id')
@@ -34,8 +34,20 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = ('id', 'username', 'email', 'games')
 
-        # def get_games(self, obj):
-        #     serializer_data = GameSerializer(obj.game.filter(users__id__contains=id))
-        #     games = serializer_data.get('steam_id')
-        #     return {'games': games}
+class WishListItemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model  = WishListItem 
+        fields = ('game', 'user', 'target_price', 'id')
 
+
+class WishListSerializer(serializers.ModelSerializer):
+    game = ShortenedGameSerializer()
+
+    class Meta:
+        model  = WishListItem 
+        fields = ('game', 'target_price', 'id')
+
+        def get_game(self, obj):
+            serializer_data = GameSerializer(obj.game.filter(users__id__contains=id))
+            game = serializer_data.get('steam_id')
+            return {'game': game}

@@ -15,7 +15,7 @@ class RegistrationForm extends React.Component {
                 console.log(values)
                 console.log('No submission error detected.')
                 this.props.onAuth(values.username, values.email, values.password, values.confirm)
-                this.props.history.push("/");
+                // this.props.history.push("/");
             })
             .catch(err => console.log(err))
     }
@@ -23,13 +23,9 @@ class RegistrationForm extends React.Component {
     handleConfirmBlur = e => {
         const value = e.target.value;
         this.setState({ confirmDirty: this.state.confirmDirty || !!value });
-        // console.log('Blur detected.')
     };
 
     compareToFirstPassword = (rule, value) => {
-        // console.log(this)
-        // console.log('value: '+value)
-        // console.log('password field: '+this.formRef.current.getFieldValue('password'))
         if (value && value !== this.formRef.current.getFieldValue("password")) {
             return Promise.reject("Two passwords that you enter is inconsistent!")
         } else {
@@ -42,12 +38,6 @@ class RegistrationForm extends React.Component {
             .then(res => console.log(res))
             .catch(err => console.log(err))
     }
-
-    // validateToNextPassword = (rule, value) => {
-    //     if (value && this.state.confirmDirty) {
-    //         this.current.formRef.validateFields(["confirm"], { force: true });
-    //     }
-    // };
 
     render() {
         return (
@@ -67,16 +57,13 @@ class RegistrationForm extends React.Component {
                     <Input.Password />
                 </Form.Item>
 
-                <Form.Item name="confirm" label="Confirm" rules={[{required: true, message: "Confirm password",
+                <Form.Item name="confirm" label="Confirm" rules={[{required: true, message: "Your passwords do not match.",
                     validator: this.compareToFirstPassword }]} validateTrigger= {['onBlur']}
                 >
                     <Input.Password onBlur={this.handleConfirmBlur} />
                 </Form.Item>
 
                 <Form.Item>
-                    <Button type="danger" onClick={this.test} style={{ marginRight: "10px" }}>
-                        Test
-                    </Button>
                     <Button type="primary" htmlType="submit" style={{ marginRight: "10px" }}>
                         Signup
                     </Button>

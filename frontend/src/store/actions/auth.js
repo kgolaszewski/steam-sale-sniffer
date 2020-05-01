@@ -9,6 +9,7 @@ export const authFail    = (error) => { return { type: actionTypes.AUTH_FAIL, er
 export const logout = () => {
     localStorage.removeItem('token')
     localStorage.removeItem('expirationDate')
+    localStorage.removeItem('userId')
     return { type: actionTypes.AUTH_LOGOUT }
 }
 
@@ -35,7 +36,8 @@ export const authLogin =  (username, password) => {
             localStorage.setItem('userId', userId)
             dispatch(authSuccess(token))
             dispatch(checkAuthTimeout(3600))
-            console.log(JSON.stringify(res))
+            // console.log(JSON.stringify(res))
+            // this.props.history.push('/')
         })
         .catch(err => {dispatch(authFail(err)); console.log(err) })
     }

@@ -9,8 +9,6 @@ import * as actions from '../store/actions/auth'
 class Demo extends React.Component {
     formRef = React.createRef();
 
-    onReset = () => { this.formRef.current.resetFields(); };
-
     handleSubmit = () => {
         this.props.onAuth(
             this.formRef.current.getFieldValue('username'), 

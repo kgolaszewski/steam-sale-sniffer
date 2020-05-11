@@ -20,13 +20,13 @@ class CustomLayout extends React.Component {
                             <Menu.Item key="0">
                                 <FontAwesomeIcon icon={faSteam} size='3x' style={{color: '#fff'}}/>
                             </Menu.Item>
-
-                            <Menu.Item key="1">
-                                <Link to="/">Home</Link>
+                            
+                            <Menu.Item key="1" onClick={this.props.logout}>
+                                Logout
                             </Menu.Item>
 
-                            <Menu.Item key="2" onClick={this.props.logout}>
-                                Logout
+                            <Menu.Item key="2">
+                                <Link to="/">Home</Link>
                             </Menu.Item>
 
                             <Menu.Item key="3">

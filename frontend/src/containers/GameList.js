@@ -36,8 +36,8 @@ class App extends Component {
   }
 
   componentWillReceiveProps() {
-    let userId = localStorage.getItem('userId')
-    console.log('Received props')
+    let userId = +localStorage.getItem('userId')
+    console.log('Recieve props has identified userId: '+userId)
     this.setState({
       activeItem: {
         ...this.state.activeItem, 

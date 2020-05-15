@@ -34,25 +34,50 @@ class App extends Component {
     }
   }
 
-  handleInfiniteOnLoad = () => {
+  loadedRowsMap = {}
+
+  handleInfiniteOnLoad = ({ startIndex, stopIndex }) => {
     console.log("Handling infinite scroll...")
     let { next, max, games } = this.state 
     this.setState({ loading: true })
+
+    // 1 means loading
+    for (let i = startIndex; i <= stopIndex; i++) { this.loadedRowsMap[i] = 1 }
+
     if (!next) {
       this.setState({ hasMore: false, loading: false})
       return;
     }
-    console.log()
     axios.get(next)
       .then(res => {
         let updated_games = [...games, ...res.data.results]
         this.setState({ games: updated_games, next: res.data.next})
-        console.log('Post-Scroll Games:\n', games)
-        console.log('res.data.results:\n', res.data.results)
+        // console.log('Post-Scroll Games:\n', games)
+        // console.log('res.data.results:\n', res.data.results)
       })
       .then(res => {
         this.setState({ loading: false})
       })
+  }
+
+  isRowLoaded = ({ index }) => !!this.loadedRowsMap[index]
+
+  renderItem = ({ index, key }) => {
+    let btnStyle = "btn btn-success pad-r"
+    const { games } = this.state
+    const game = games[index]
+    return (
+      <div className="row game" key={key}>
+        <button className={btnStyle} id={game.id} onClick={() => this.toggle(game.id) }>
+          <div className='plus'>+</div>
+        </button>
+        <img className="offset-0" height="55" alt=""
+          src={`https://steamcdn-a.akamaihd.net/steam/apps/${game.steam_id}/capsule_184x69.jpg`} 
+        />
+        <div className="col-md-5 game-title text">{game.title}</div>
+        <div className="offset-1 col-md-3 game-price text">${game.base_price}</div>
+      </div>
+    )
   }
 
   componentDidMount() {
@@ -113,14 +138,38 @@ class App extends Component {
   }
 
   render() {
-    let btnStyle = "btn btn-success pad-r"
+    const { games } = this.state;
+    const vlist = ({ height, isScrolling, onChildScroll, scrollTop, onRowsRendered, width }) => (
+      <VList
+        height={height} isScrolling={isScrolling} onScroll={onChildScroll}
+        scrollTop={scrollTop} onRowsRendered={onRowsRendered} width={width}
+
+        autoHeight
+        rowHeight={11}
+        overscanRowCount={2}
+        rowCount={games.length}
+        rowRenderer={this.renderItem}
+      />
+    );
+
+    const autoSize = ({ height, isScrolling, onChildScroll, scrollTop, onRowsRendered }) => (
+      <AutoSizer disableHeight>
+        {({ width }) => vlist({ height, isScrolling, onChildScroll, scrollTop, onRowsRendered, width }) }
+      </AutoSizer>
+    );
+    const infiniteLoader = ({ height, isScrolling, onChildScroll, scrollTop }) => (
+      <InfiniteLoader isRowLoaded={this.isRowLoaded} loadMoreRows={this.handleInfiniteOnLoad} rowCount={games.length}>
+        { ({ onRowsRendered }) => autoSize({ height, isScrolling, onChildScroll, scrollTop, onRowsRendered }) }
+      </InfiniteLoader>
+    );
     return (
       <div className="App background">
         <h1>Recommended Steam Games</h1>
         <div className="container">
           <div className="row">
-            <div className="offset-2 col-md-8">
-              <InfiniteScroll initialLoad={false} pageStart={0}
+            <div className="offset-1 col-md-10">
+              {games.length > 0 && <WindowScroller>{infiniteLoader}</WindowScroller>}
+              {/* <InfiniteScroll initialLoad={false} pageStart={0}
                 hasMore={!this.state.loading && this.state.hasMore && this.state.initialLoadComplete}
                 loadMore={this.handleInfiniteOnLoad}
               >
@@ -138,7 +187,7 @@ class App extends Component {
                   </div>
                   )) : null }
                 </div>
-              </InfiniteScroll>
+              </InfiniteScroll> */}
             </div>
           </div>
         </div>

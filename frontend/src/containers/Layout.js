@@ -34,7 +34,7 @@ class CustomLayout extends React.Component {
                             </Menu.Item>
 
                             <Menu.Item key="4">
-                            <Link to="/wishlist">My Games</Link>
+                            <Link to="/collection">My Games</Link>
                             </Menu.Item>
 
                             <Menu.Item key="5">
@@ -65,9 +65,9 @@ class CustomLayout extends React.Component {
                 <Content>
                     {this.props.children}
                 </Content>
-                {/* <Footer style={{ textAlign: 'center' }}>
+                <Footer style={{ textAlign: 'center' }}>
                     Ant Design ©2016 Created by Ant UED
-                </Footer> */}
+                </Footer>
             </Layout>
         )
     }

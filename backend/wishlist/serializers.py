@@ -37,7 +37,7 @@ class UserSerializer(serializers.ModelSerializer):
 class WishListItemSerializer(serializers.ModelSerializer):
     class Meta:
         model  = WishListItem 
-        fields = ('game', 'user', 'target_price', 'id')
+        fields = ('game', 'user', 'target_price', 'purchased', 'id')
 
 
 class WishListSerializer(serializers.ModelSerializer):
@@ -45,7 +45,7 @@ class WishListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model  = WishListItem 
-        fields = ('game', 'target_price', 'id')
+        fields = ('game', 'target_price', 'purchased', 'id')
 
         def get_game(self, obj):
             serializer_data = GameSerializer(obj.game.filter(users__id__contains=id))

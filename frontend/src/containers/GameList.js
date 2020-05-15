@@ -4,7 +4,6 @@ import CustomModal from  '../components/Modal';
 import axios from 'axios';
 import { Spin } from 'antd'
 
-import InfiniteScroll from 'react-infinite-scroller';
 import WindowScroller from 'react-virtualized/dist/commonjs/WindowScroller';
 import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer';
 import VList from 'react-virtualized/dist/commonjs/List';
@@ -23,8 +22,9 @@ class App extends Component {
       modal: false,
       activeItem: {
         game: '',
-        user: 2,
+        user: 1,
         target_price: "",
+        purchased: false,
       },
       loading: false,
       hasMore: true,
@@ -41,19 +41,13 @@ class App extends Component {
     let { next, max, games } = this.state 
     this.setState({ loading: true })
 
-    // 1 means loading
-    for (let i = startIndex; i <= stopIndex; i++) { this.loadedRowsMap[i] = 1 }
+    for (let i = startIndex; i <= stopIndex; i++) { this.loadedRowsMap[i] = 1 } // 1: loading
+    if (!next) { this.setState({ hasMore: false, loading: false}); return; }
 
-    if (!next) {
-      this.setState({ hasMore: false, loading: false})
-      return;
-    }
     axios.get(next)
       .then(res => {
-        let updated_games = [...games, ...res.data.results]
+        let updated_games = [...games, ...res.data.results].filter(game => !game.users.includes(+localStorage.getItem('userId')))
         this.setState({ games: updated_games, next: res.data.next})
-        // console.log('Post-Scroll Games:\n', games)
-        // console.log('res.data.results:\n', res.data.results)
       })
       .then(res => {
         this.setState({ loading: false})
@@ -81,9 +75,8 @@ class App extends Component {
   }
 
   componentDidMount() {
-    console.log('Component mounted\n', localStorage.getItem('userId'))
+    // console.log('Component mounted\n', localStorage.getItem('userId'))
     axios
-      // .get('http://localhost:8001/api/games')
       .get('http://localhost:8001/api/games')
       .then( res => {this.setState({ 
         max: Math.ceil(res.count/pagination_size),
@@ -91,7 +84,7 @@ class App extends Component {
         initialLoadComplete: true,
         activeItem: {
           ...this.state.activeItem,
-          user: (localStorage.getItem('userId') === undefined ? 1 : localStorage.getItem('userId'))
+          user: (localStorage.getItem('userId') === undefined ? 1 : +localStorage.getItem('userId'))
         },
 
       }) } )
@@ -169,25 +162,6 @@ class App extends Component {
           <div className="row">
             <div className="offset-1 col-md-10">
               {games.length > 0 && <WindowScroller>{infiniteLoader}</WindowScroller>}
-              {/* <InfiniteScroll initialLoad={false} pageStart={0}
-                hasMore={!this.state.loading && this.state.hasMore && this.state.initialLoadComplete}
-                loadMore={this.handleInfiniteOnLoad}
-              >
-                <div>
-                  { !this.state.loading ? this.state.games.map(game => (
-                  <div className="row game" key={game.id}>
-                    <button className={btnStyle} id={game.id} onClick={() => this.toggle(game.id) }>
-                      <div className='plus'>+</div>
-                    </button>
-                    <img className="offset-0" height="55" alt=""
-                      src={`https://steamcdn-a.akamaihd.net/steam/apps/${game.steam_id}/capsule_184x69.jpg`} 
-                    />
-                    <div className="col-md-5 game-title text">{game.title}</div>
-                    <div className="offset-1 col-md-3 game-price text">${game.base_price}</div>
-                  </div>
-                  )) : null }
-                </div>
-              </InfiniteScroll> */}
             </div>
           </div>
         </div>

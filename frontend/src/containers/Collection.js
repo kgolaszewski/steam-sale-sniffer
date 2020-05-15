@@ -22,9 +22,7 @@ class App extends Component {
             modal: false,
             activeItem: {
                 game: '',
-                user: +localStorage.getItem('userId'),
-                target_price: "",
-                purchased: false,
+                user: localStorage.getItem('userId'),
                 id: '',
             },    
         }
@@ -35,8 +33,7 @@ class App extends Component {
         axios
             .get(`http://localhost:8001/api/wishlists/${this.state.activeItem.user}`)
             .then( res => {
-                // this.setState({wishlistitems: res.data})
-                this.setState({wishlistitems: res.data.filter(game => !game.purchased)})
+                this.setState({wishlistitems: res.data.filter(e => e.purchased)})
                 })
             .catch( err => console.log(err) )
     }
@@ -52,48 +49,16 @@ class App extends Component {
                 game: active_game,
             }
         }) 
+        console.log(this.state)
     }
 
     handleDelete = (item_id) => {
         axios
             .delete(`http://localhost:8001/api/wishlistitems/${item_id}`)
             .then(res => { console.log(res) })
-            .catch(err => { console.log(err);})
-        let updated_wishlist = this.state.wishlistitems.filter(e => e.id !== item_id && !e.purchased)
+            .catch(err => { console.log('State of item during error'); console.log(err);})
+        let updated_wishlist = this.state.wishlistitems.filter(e => e.id !== item_id && e.purchased)
         this.setState({ wishlistitems: updated_wishlist })
-    }
-
-    handleEdit = (item) => {
-        // item = { ...item, target_price: parseFloat(item.target_price) }
-        axios
-            .put(`http://localhost:8001/api/wishlistitems/${item.id}/`, item)
-            .then(res => { console.log(item) })
-            .catch(err => { console.log('State of item during error'); console.log(item); console.log(err);})
-        let updated_wishlist = this.state.wishlistitems.map(e => {
-            if (e.id === item.id) {
-                return {
-                    ...e, 
-                    target_price: item.target_price
-                }
-            } else { 
-                return e
-            }
-        })
-        this.setState({ wishlistitems: updated_wishlist })
-        this.toggle();
-    }
-
-    addToCollection = (item) => {
-        let purchased = { ...item, purchased: true, game: item.game.id, user: +this.state.activeItem.user }
-        axios
-            .put(`http://localhost:8001/api/wishlistitems/${item.id}/`, purchased)
-            .then(res => { console.log(res) })
-            .catch(err => { console.log(err);})
-        let updated_wishlist = this.state.wishlistitems.filter(e => e.id !== item.id && !e.purchased)
-        this.setState({ wishlistitems: updated_wishlist })
-        // console.log(item)
-        // console.log(purchased)
-        // console.log(this.state.wishlistitems)
     }
 
     render() {
@@ -108,13 +73,7 @@ class App extends Component {
                     let menu = (
                         <Menu>
                             <Menu.Item>
-                                <a onClick={() => this.toggle(item.id, game.id)}>Edit</a>
-                            </Menu.Item>
-                            <Menu.Item>
-                                <a id={game.id} onClick={() => this.handleDelete(item.id)}>Remove</a>
-                            </Menu.Item>
-                            <Menu.Item>
-                                <a id={game.id} onClick={() => this.addToCollection(item)}>Mark as Purchased</a>
+                                <a href="/" id={game.id} onClick={() => this.handleDelete(item.id)}>Remove</a>
                             </Menu.Item>
                         </Menu>
                     )
@@ -125,8 +84,7 @@ class App extends Component {
                         src={`https://steamcdn-a.akamaihd.net/steam/apps/${game.steam_id}/capsule_184x69.jpg`} 
                         />
                         <div className="col-md-5 game-title text">{game.title}</div>
-                        <div className="col-md-2 game-price text">${item.target_price}</div>
-                        <div className="col-md-2 game-price text">${game.curr_price}</div>
+                        <div className="offset-2 col-md-2 game-price text">${game.curr_price}</div>
                         <div className="col-md-1 text">
                             <Dropdown overlay={menu}>
                                 <a href="/" className="ant-dropdown-link" onClick={e => e.preventDefault()}>

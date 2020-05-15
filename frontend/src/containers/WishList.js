@@ -5,7 +5,7 @@ import CustomModal from  '../components/Modal';
 import axios from 'axios';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit, faTrashAlt, faEllipsisH } from '@fortawesome/free-solid-svg-icons';
+import { faCog } from '@fortawesome/free-solid-svg-icons';
 import { Menu, Dropdown } from 'antd';
 
 
@@ -18,14 +18,14 @@ class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-        wishlistitems: [],
-        modal: false,
-        activeItem: {
-            game: '',
-            user: localStorage.getItem('userId'),
-            target_price: "",
-            id: '',
-        }
+            wishlistitems: [],
+            modal: false,
+            activeItem: {
+                game: '',
+                user: localStorage.getItem('userId'),
+                target_price: "",
+                id: '',
+            },    
         }
     }
 
@@ -94,28 +94,16 @@ class App extends Component {
                     let menu = (
                         <Menu>
                             <Menu.Item>
-                                <a onClick={() => this.toggle(item.id, game.id)}>Edit</a>
+                                <a href="/" onClick={() => this.toggle(item.id, game.id)}>Edit</a>
                             </Menu.Item>
                             <Menu.Item>
-                                <a id={game.id} onClick={() => this.handleDelete(item.id)}>Remove</a>
+                                <a href="/" id={game.id} onClick={() => this.handleDelete(item.id)}>Remove</a>
                             </Menu.Item>
                         </Menu>
                     )
                     return (
                     <div>
                     <div className="row game" key={game.id}>
-                        {/* <button className="btn btn-success pad-r" id={game.id} 
-                            onClick={() => this.toggle(item.id, game.id)}>
-                            <FontAwesomeIcon icon={faEdit} size='1x' style={{color: '#fff'}}/>
-                        </button>
-                        <button className="btn btn-danger pad-r" id={game.id} 
-                            onClick={() => this.handleDelete(item.id)}>
-                            <FontAwesomeIcon icon={faTrashAlt} size='1x' style={{color: '#fff'}}/>
-                        </button> */}
-                        {/* <a id={game.id} onClick={() => this.handleDelete(item.id)}>
-                            Delete
-                        </a> */}
-
                         <img className="offset-0" height="55" alt=""
                         src={`https://steamcdn-a.akamaihd.net/steam/apps/${game.steam_id}/capsule_184x69.jpg`} 
                         />
@@ -124,8 +112,8 @@ class App extends Component {
                         <div className="col-md-2 game-price text">${game.curr_price}</div>
                         <div className="col-md-1 text">
                             <Dropdown overlay={menu}>
-                                <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
-                                <FontAwesomeIcon icon={faEllipsisH} size='1x' style={{color: '#fff'}} />
+                                <a href="/" className="ant-dropdown-link" onClick={e => e.preventDefault()}>
+                                <FontAwesomeIcon icon={faCog} size='1x' style={{color: '#fff'}} />
                                 </a>
                             </Dropdown>
                         </div>

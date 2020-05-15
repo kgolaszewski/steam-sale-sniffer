@@ -20,13 +20,13 @@ class CustomLayout extends React.Component {
                             <Menu.Item key="0">
                                 <FontAwesomeIcon icon={faSteam} size='3x' style={{color: '#fff'}}/>
                             </Menu.Item>
-                            
+
                             <Menu.Item key="1" onClick={this.props.logout}>
                                 Logout
                             </Menu.Item>
 
                             <Menu.Item key="2">
-                                <Link to="/">Home</Link>
+                                <Link to="/">Recommended</Link>
                             </Menu.Item>
 
                             <Menu.Item key="3">
@@ -34,6 +34,10 @@ class CustomLayout extends React.Component {
                             </Menu.Item>
 
                             <Menu.Item key="4">
+                            <Link to="/wishlist">My Games</Link>
+                            </Menu.Item>
+
+                            <Menu.Item key="5">
                             User {localStorage.getItem('userId')}
                             </Menu.Item>
                         </Menu>
@@ -61,9 +65,9 @@ class CustomLayout extends React.Component {
                 <Content>
                     {this.props.children}
                 </Content>
-                <Footer style={{ textAlign: 'center' }}>
+                {/* <Footer style={{ textAlign: 'center' }}>
                     Ant Design ©2016 Created by Ant UED
-                </Footer>
+                </Footer> */}
             </Layout>
         )
     }

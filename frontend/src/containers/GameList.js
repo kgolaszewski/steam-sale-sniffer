@@ -29,8 +29,6 @@ class App extends Component {
       loading: false,
       hasMore: true,
       next: "http://localhost:8001/api/games/?page=2",
-      max: "",
-      initialLoadComplete: false,
     }
   }
 
@@ -38,7 +36,7 @@ class App extends Component {
 
   handleInfiniteOnLoad = ({ startIndex, stopIndex }) => {
     console.log("Handling infinite scroll...")
-    let { next, max, games } = this.state 
+    let { next, games } = this.state 
     this.setState({ loading: true })
 
     for (let i = startIndex; i <= stopIndex; i++) { this.loadedRowsMap[i] = 1 } // 1: loading
@@ -56,12 +54,15 @@ class App extends Component {
 
   isRowLoaded = ({ index }) => !!this.loadedRowsMap[index]
 
-  renderItem = ({ index, key }) => {
+  renderItem = ({ style, index, key }) => {
     let btnStyle = "btn btn-success pad-r"
     const { games } = this.state
     const game = games[index]
     return (
-      <div className="row game" key={key}>
+      <div style={style}>
+      <div className="row game" key={key}
+        
+      >
         <button className={btnStyle} id={game.id} onClick={() => this.toggle(game.id) }>
           <div className='plus'>+</div>
         </button>
@@ -71,6 +72,8 @@ class App extends Component {
         <div className="col-md-5 game-title text">{game.title}</div>
         <div className="offset-1 col-md-3 game-price text">${game.base_price}</div>
       </div>
+      <div className='row divider'></div>
+      </div>
     )
   }
 
@@ -79,9 +82,7 @@ class App extends Component {
     axios
       .get('http://localhost:8001/api/games')
       .then( res => {this.setState({ 
-        max: Math.ceil(res.count/pagination_size),
         games: res.data.results.filter(game => !game.users.includes(+localStorage.getItem('userId'))),
-        initialLoadComplete: true,
         activeItem: {
           ...this.state.activeItem,
           user: (localStorage.getItem('userId') === undefined ? 1 : +localStorage.getItem('userId'))
@@ -134,19 +135,26 @@ class App extends Component {
     const { games } = this.state;
     const vlist = ({ height, isScrolling, onChildScroll, scrollTop, onRowsRendered, width }) => (
       <VList
-        height={height} isScrolling={isScrolling} onScroll={onChildScroll}
-        scrollTop={scrollTop} onRowsRendered={onRowsRendered} width={width}
+        height={height} 
+        isScrolling={isScrolling} 
+        // onScroll={onChildScroll}
+        scrollTop={scrollTop} 
+        onRowsRendered={onRowsRendered} 
+        width={width}
 
         autoHeight
-        rowHeight={11}
-        overscanRowCount={2}
+        rowHeight={77}
+        overscanRowCount={5}
         rowCount={games.length}
         rowRenderer={this.renderItem}
       />
     );
 
+
     const autoSize = ({ height, isScrolling, onChildScroll, scrollTop, onRowsRendered }) => (
-      <AutoSizer disableHeight>
+      <AutoSizer 
+        disableHeight 
+      >
         {({ width }) => vlist({ height, isScrolling, onChildScroll, scrollTop, onRowsRendered, width }) }
       </AutoSizer>
     );

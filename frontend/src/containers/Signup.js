@@ -5,6 +5,15 @@ import { connect } from "react-redux";
 import { NavLink } from "react-router-dom";
 import * as actions from '../store/actions/auth'
 
+const layout = {
+    labelCol: { span: 7 },
+    wrapperCol: { span: 10 },
+};
+
+const tailLayout = {
+    wrapperCol: { offset: 7, span: 10 },
+};
+
 class RegistrationForm extends React.Component {
     formRef = React.createRef();
     state = { confirmDirty: false };
@@ -41,7 +50,9 @@ class RegistrationForm extends React.Component {
 
     render() {
         return (
-            <Form ref={this.formRef} name="control-ref" onFinish={this.handleSubmit}>
+            <div>
+                <h1>Create an Account</h1>
+            <Form {...layout} ref={this.formRef} name="control-ref" onFinish={this.handleSubmit}>
                 <Form.Item name="username" label="Username" rules={[{ required: true, message: "Input username" }]}>
                     <Input />
                 </Form.Item>
@@ -63,14 +74,14 @@ class RegistrationForm extends React.Component {
                     <Input.Password onBlur={this.handleConfirmBlur} />
                 </Form.Item>
 
-                <Form.Item>
-                    <Button type="primary" htmlType="submit" style={{ marginRight: "10px" }}>
-                        Signup
+                <Form.Item {...tailLayout}>
+                    <Button type="primary" htmlType="submit" className="loginButton" style={{ marginRight: "10px" }}>
+                        Register
                     </Button>
-                    Or
-                    <NavLink style={{ marginRight: "10px" }} to="/login/">Log In</NavLink>
+                    Or <NavLink style={{ marginRight: "10px" }} to="/login/">Log In</NavLink>
                 </Form.Item>
             </Form>
+            </div>
         );
     }
 }

@@ -61,3 +61,18 @@ h1 {
   /* background-color: #ff0000; */
   height: 0.3em;
 }
+
+.fa-steam {
+  /* margin-bottom: 0.3em; */
+  /* padding-top: 0.5em; */
+  /* vertical-align: top; */
+  /* vertical-align: bottom; */
+}
+
+.ant-layout-header {
+  /* margin-bottom: 0.7em; */
+}
+
+.loginButton {
+  width: 100%;
+}

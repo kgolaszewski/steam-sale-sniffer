@@ -6,6 +6,15 @@ import { NavLink }  from 'react-router-dom'
 import * as actions from '../store/actions/auth'
 
 
+const layout = {
+    labelCol: { span: 7 },
+    wrapperCol: { span: 10 },
+};
+
+const tailLayout = {
+    wrapperCol: { offset: 7, span: 10 },
+};
+
 class Demo extends React.Component {
     formRef = React.createRef();
 
@@ -20,20 +29,23 @@ class Demo extends React.Component {
 
     render() {
         return (
-        <Form ref={this.formRef} name="control-ref" onFinish={this.handleSubmit}>
+        <div>
+            <h1 >Sign In</h1>
+        <Form {...layout} ref={this.formRef} name="control-ref" onFinish={this.handleSubmit}>
             <Form.Item name="username" label="Username" rules={[{ required: true }]}>
                 <Input />
             </Form.Item>
             <Form.Item name="password" label="Password" rules={[{ required: true }]}>
                 <Input.Password />
             </Form.Item>
-            <Form.Item>
-                <Button type="primary" htmlType="submit">
-                    Submit
-                </Button> Or 
-                <NavLink style={{marginRight: '10px'}} to='/signup'> Sign Up</NavLink>
+            <Form.Item {...tailLayout}>
+                <Button type="primary" htmlType="submit" className="loginButton">
+                    Sign In
+                </Button>
+                <br />Or <NavLink style={{marginRight: '10px'}} to='/signup'> Sign Up</NavLink>
             </Form.Item>
         </Form>
+        </div>
         );
     }
 }

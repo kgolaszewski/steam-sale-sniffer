@@ -12,8 +12,6 @@ import InfiniteLoader from 'react-virtualized/dist/commonjs/InfiniteLoader';
 import { connect } from 'react-redux'
 import * as actions from '../store/actions/auth'
 
-const pagination_size = 20
-
 class App extends Component {
   constructor(props) {
     super(props);

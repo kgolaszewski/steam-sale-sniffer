@@ -46,6 +46,7 @@ class WishListView(viewsets.ReadOnlyModelViewSet):
 class SearchResultsView(viewsets.ModelViewSet):
     serializer_class = GameSerializer
     queryset = Game.objects.all()
+    pagination_class = StandardResultsSetPagination 
 
     def get_queryset(self):
         query = self.request.GET.get('q')

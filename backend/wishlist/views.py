@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.db.models import Q
 from rest_framework import viewsets 
 from .serializers import GameSerializer, WishListSerializer, WishListItemSerializer, UserSerializer
 from .models import Game, WishListItem, User
@@ -41,3 +42,14 @@ class WishListView(viewsets.ReadOnlyModelViewSet):
         # serializer = WishListItemSerializer(queryset, many=True)
         serializer = WishListSerializer(queryset, many=True)
         return Response(serializer.data)
+
+class SearchResultsView(viewsets.ModelViewSet):
+    serializer_class = GameSerializer
+    queryset = Game.objects.all()
+
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+        object_list = Game.objects.filter(
+            Q(title__icontains=query)
+        )
+        return object_list

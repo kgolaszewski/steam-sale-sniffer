@@ -51,7 +51,7 @@ class RegistrationForm extends React.Component {
     render() {
         return (
             <div>
-                <h1>Create an Account</h1>
+            <h1>Create an Account</h1>
             <Form {...layout} ref={this.formRef} name="control-ref" onFinish={this.handleSubmit}>
                 <Form.Item name="username" label="Username" rules={[{ required: true, message: "Input username" }]}>
                     <Input />
@@ -68,9 +68,9 @@ class RegistrationForm extends React.Component {
                     <Input.Password />
                 </Form.Item>
 
-                <Form.Item name="confirm" label="Confirm" rules={[{required: true, message: "Your passwords do not match.",
-                    validator: this.compareToFirstPassword }]} validateTrigger= {['onBlur']}
-                >
+                <Form.Item name="confirm" label="Confirm" validateTrigger= {['onBlur']} rules={[{
+                    required: true, message: "Your passwords do not match.", validator: this.compareToFirstPassword 
+                }]}>
                     <Input.Password onBlur={this.handleConfirmBlur} />
                 </Form.Item>
 

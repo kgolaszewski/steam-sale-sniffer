@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import '../App.css';
 import CustomModal from  '../components/Modal';
 import axios from 'axios';
-import { Spin } from 'antd'
+import { Input, Spin } from 'antd'
 
 import WindowScroller from 'react-virtualized/dist/commonjs/WindowScroller';
 import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer';
@@ -12,6 +12,8 @@ import InfiniteLoader from 'react-virtualized/dist/commonjs/InfiniteLoader';
 import { connect } from 'react-redux'
 import * as actions from '../store/actions/auth'
 
+const { Search } = Input
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -19,10 +21,7 @@ class App extends Component {
       games: [],
       modal: false,
       activeItem: {
-        game: '',
-        user: 1,
-        target_price: "",
-        purchased: false,
+        game: '', user: 1, target_price: "", purchased: false,
       },
       loading: false,
       hasMore: true,
@@ -32,7 +31,7 @@ class App extends Component {
 
   loadedRowsMap = {}
 
-  handleInfiniteOnLoad = ({ startIndex, stopIndex }) => {
+  handleInfiniteLoad = ({ startIndex, stopIndex }) => {
     console.log("Handling infinite scroll...")
     let { next, games } = this.state 
     this.setState({ loading: true })
@@ -42,7 +41,9 @@ class App extends Component {
 
     axios.get(next)
       .then(res => {
-        let updated_games = [...games, ...res.data.results].filter(game => !game.users.includes(+localStorage.getItem('userId')))
+        let updated_games = [...games, ...res.data.results].filter(
+          game => !game.users.includes(+localStorage.getItem('userId'))
+        )
         this.setState({ games: updated_games, next: res.data.next})
       })
       .then(res => {
@@ -74,6 +75,8 @@ class App extends Component {
       </div>
     )
   }
+
+
 
   componentDidMount() {
     // console.log('Component mounted\n', localStorage.getItem('userId'))
@@ -129,6 +132,35 @@ class App extends Component {
     console.log(this.state)
   }
 
+  dynamicSearch = (value) => {
+    axios.get(`http://localhost:8001/api/search/?q=${value}`)
+      .then(res => {
+        let updated_games = [...res.data].filter(
+          game => !game.users.includes(+localStorage.getItem('userId'))
+        )
+        console.log(updated_games)
+        this.setState({
+          games: updated_games,
+          next: "http://localhost:8001/api/games/?page=2",
+        })
+      })
+  }
+
+  onChangeSearch = (e) => {
+    let { value } = e.target
+    axios.get(`http://localhost:8001/api/search/?q=${value}`)
+      .then(res => {
+        let updated_games = [...res.data].filter(
+          game => !game.users.includes(+localStorage.getItem('userId'))
+        )
+        console.log(updated_games)
+        this.setState({
+          games: updated_games,
+          next: "http://localhost:8001/api/games/?page=2",
+        })
+      })
+  }
+
   render() {
     const { games } = this.state;
     const vlist = ({ height, isScrolling, onChildScroll, scrollTop, onRowsRendered, width }) => (
@@ -157,7 +189,7 @@ class App extends Component {
       </AutoSizer>
     );
     const infiniteLoader = ({ height, isScrolling, onChildScroll, scrollTop }) => (
-      <InfiniteLoader isRowLoaded={this.isRowLoaded} loadMoreRows={this.handleInfiniteOnLoad} rowCount={games.length}>
+      <InfiniteLoader isRowLoaded={this.isRowLoaded} loadMoreRows={this.handleInfiniteLoad} rowCount={games.length}>
         { ({ onRowsRendered }) => autoSize({ height, isScrolling, onChildScroll, scrollTop, onRowsRendered }) }
       </InfiniteLoader>
     );
@@ -165,6 +197,12 @@ class App extends Component {
       <div className="App background">
         <h1>Recommended Steam Games</h1>
         <div className="container">
+          {/* <input type="text" list="games" /> */}
+          {/* <Input list="games" onChange={this.dynamicSearch}/> */}
+          <Search list="games" placeholder="" onSearch={value => this.dynamicSearch(value)} enterButton />
+          <datalist id="games">
+            {this.state.games.map(game => (<option>{game.title}</option> ))}
+          </datalist>
           <div className="row">
             <div className="offset-1 col-md-10">
               {games.length > 0 && <WindowScroller>{infiniteLoader}</WindowScroller>}

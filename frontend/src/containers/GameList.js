@@ -39,7 +39,7 @@ class App extends Component {
     this.setState({ loading: true })
 
     for (let i = startIndex; i <= stopIndex; i++) { this.loadedRowsMap[i] = 1 } // 1: loading
-    if (!next) { this.setState({ hasMore: false, loading: false}); return; console.log('Denied') }
+    if (!next) { this.setState({ hasMore: false, loading: false}); return; }
 
     axios.get(next)
       .then(res => {
@@ -127,29 +127,31 @@ class App extends Component {
     let new_id = !this.state.modal ? app_id : ''
     this.setState({ 
       modal: !this.state.modal, 
-      activeItem: {
-        ...this.state.activeItem, 
-        game: new_id
-      }
+      activeItem: { ...this.state.activeItem, game: new_id }
     }) 
     console.log(this.state)
   }
 
-  dynamicSearch = (value) => {
-    axios.get(`http://localhost:8001/api/search/?q=${value}`)
+  dynamicSearch = (value, page=1) => {
+    // axios.get(`http://localhost:8001/api/search/?q=${value}`)
+    this.loadedRowsMap = {}
+    axios.get(`http://localhost:8001/api/search/?q=${value}&page=${page}`)
       .then(res => {
         let { results, next } = res.data
-        let updated_games = [...results].filter(
+        let updated_games = results.filter(
           game => !game.users.includes(+localStorage.getItem('userId'))
         )
-        console.log('Dynamic search: ', updated_games)
-        console.log(this.loadedRowsMap)
+        updated_games = +page > 1 ? this.state.games.concat(updated_games) : updated_games
         this.setState({
           games: updated_games,
           next: next,
           search: value,
           prev: this.state.search,
         })
+        if (updated_games.length < 30 && next) { 
+          page = next.split("?")[1].split("&")[0].split("=")[1]
+          this.dynamicSearch(value, page)
+        }
       })
   }
 
@@ -165,6 +167,7 @@ class App extends Component {
         width={width}
         searchTerm={this.state.search}
         searchCleared={!this.state.search && !!this.state.prev}
+        needsMore={this.state.next}
 
         autoHeight
         rowHeight={77}
@@ -190,7 +193,7 @@ class App extends Component {
       <div className="App background">
         <h1>Recommended Steam Games</h1>
         <div className="container">
-          <button onClick={() => console.log(this.state.next)}>Test</button>
+          <button onClick={() => {console.log(this.state.games)}}>Test</button>
           <Search 
             list="games" 
             placeholder="Type to filter..." 

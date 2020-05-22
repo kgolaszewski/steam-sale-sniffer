@@ -27,6 +27,7 @@ class App extends Component {
       hasMore: true,
       next: "http://localhost:8001/api/games/?page=2",
       search: "",
+      prev: "",
     }
   }
 
@@ -137,15 +138,17 @@ class App extends Component {
   dynamicSearch = (value) => {
     axios.get(`http://localhost:8001/api/search/?q=${value}`)
       .then(res => {
-        let updated_games = [...res.data.results].filter(
+        let { results, next } = res.data
+        let updated_games = [...results].filter(
           game => !game.users.includes(+localStorage.getItem('userId'))
         )
         console.log('Dynamic search: ', updated_games)
         console.log(this.loadedRowsMap)
         this.setState({
           games: updated_games,
-          next: res.data.next,
+          next: next,
           search: value,
+          prev: this.state.search,
         })
       })
   }
@@ -161,6 +164,7 @@ class App extends Component {
         onRowsRendered={onRowsRendered} 
         width={width}
         searchTerm={this.state.search}
+        searchCleared={!this.state.search && !!this.state.prev}
 
         autoHeight
         rowHeight={77}
@@ -186,13 +190,14 @@ class App extends Component {
       <div className="App background">
         <h1>Recommended Steam Games</h1>
         <div className="container">
+          <button onClick={() => console.log(this.state.next)}>Test</button>
           <Search 
             list="games" 
             placeholder="Type to filter..." 
             onChange = { e => {
                 let { value } = e.target
                 clearTimeout(this.timer)
-                this.timer = setTimeout(() => this.dynamicSearch(value), 700)
+                this.timer = setTimeout(() => this.dynamicSearch(value), 400)
               }
             }
             enterButton 

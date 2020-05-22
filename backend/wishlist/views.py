@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.db.models import Q
+from django.db.models import Q, F
 from rest_framework import viewsets 
 from .serializers import GameSerializer, WishListSerializer, WishListItemSerializer, UserSerializer
 from .models import Game, WishListItem, User
@@ -35,11 +35,12 @@ class UserView(viewsets.ModelViewSet):
 
 class WishListView(viewsets.ReadOnlyModelViewSet):
     serializer_class = WishListSerializer 
-    queryset = WishListItem.objects.all()
+    queryset = WishListItem.objects.all()#.order_by('game__title')
 
     def retrieve(self, request, pk=None):
-        queryset = WishListItem.objects.filter(user_id=pk)
-        # serializer = WishListItemSerializer(queryset, many=True)
+        queryset = WishListItem.objects.filter(user_id=pk).order_by(
+            ((F('game__curr_price')-F('target_price'))/F('target_price'))
+        )
         serializer = WishListSerializer(queryset, many=True)
         return Response(serializer.data)
 

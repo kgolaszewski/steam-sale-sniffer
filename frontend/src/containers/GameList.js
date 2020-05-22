@@ -25,7 +25,7 @@ class App extends Component {
       },
       loading: false,
       hasMore: true,
-      next: "http://localhost:8001/api/games/?page=2",
+      next: "http://localhost:8001/api/search/?q=&page=2",
       search: "",
       prev: "",
     }
@@ -84,7 +84,7 @@ class App extends Component {
     // console.log('Component mounted\n', localStorage.getItem('userId'))
     window.scrollTo(0,0)
     axios
-      .get('http://localhost:8001/api/games')
+      .get('http://localhost:8001/api/search/?q=')
       .then( res => {this.setState({ 
         games: res.data.results.filter(game => !game.users.includes(+localStorage.getItem('userId'))),
         activeItem: {
@@ -134,7 +134,6 @@ class App extends Component {
   }
 
   dynamicSearch = (value, page=1) => {
-    // axios.get(`http://localhost:8001/api/search/?q=${value}`)
     this.loadedRowsMap = {}
     axios.get(`http://localhost:8001/api/search/?q=${value}&page=${page}`)
       .then(res => {
@@ -166,9 +165,9 @@ class App extends Component {
         scrollTop={scrollTop} 
         onRowsRendered={onRowsRendered} 
         width={width}
+
         searchTerm={this.state.search}
         searchCleared={!this.state.search && !!this.state.prev}
-        needsMore={this.state.next}
 
         autoHeight
         rowHeight={77}

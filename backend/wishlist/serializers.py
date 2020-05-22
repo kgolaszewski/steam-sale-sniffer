@@ -47,7 +47,7 @@ class WishListSerializer(serializers.ModelSerializer):
         model  = WishListItem 
         fields = ('game', 'target_price', 'purchased', 'id')
 
-        def get_game(self, obj):
-            serializer_data = GameSerializer(obj.game.filter(users__id__contains=id))
-            game = serializer_data.get('steam_id')
-            return {'game': game}
+        # def get_game(self, obj):
+        #     serializer_data = GameSerializer(obj.game.filter(users__id__contains=id))
+        #     game = serializer_data.get('steam_id')
+        #     return {'game': game}

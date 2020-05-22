@@ -82,6 +82,7 @@ class App extends Component {
 
   componentDidMount() {
     // console.log('Component mounted\n', localStorage.getItem('userId'))
+    window.scrollTo(0,0)
     axios
       .get('http://localhost:8001/api/games')
       .then( res => {this.setState({ 

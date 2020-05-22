@@ -38,8 +38,19 @@ class WishListView(viewsets.ReadOnlyModelViewSet):
     queryset = WishListItem.objects.all()#.order_by('game__title')
 
     def retrieve(self, request, pk=None):
-        queryset = WishListItem.objects.filter(user_id=pk).order_by(
-            ((F('game__curr_price')-F('target_price'))/F('target_price'))
+        queryset = WishListItem.objects.filter(user_id=pk).filter(purchased=False).order_by(
+            (F('game__curr_price')-F('target_price'))/F('target_price'), 'game__title'
+        )
+        serializer = WishListSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+class CollectionView(viewsets.ReadOnlyModelViewSet):
+    serializer_class = WishListSerializer 
+    queryset = WishListItem.objects.all()
+
+    def retrieve(self, request, pk=None):
+        queryset = WishListItem.objects.filter(user_id=pk).filter(purchased=True).order_by(
+            F('target_price')/F('game__curr_price'), 'game__title'
         )
         serializer = WishListSerializer(queryset, many=True)
         return Response(serializer.data)

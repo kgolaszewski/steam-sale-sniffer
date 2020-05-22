@@ -31,7 +31,7 @@ class App extends Component {
     componentDidMount() {
         
         axios
-            .get(`http://localhost:8001/api/wishlists/${this.state.activeItem.user}`)
+            .get(`http://localhost:8001/api/collections/${this.state.activeItem.user}`)
             .then( res => {
                 this.setState({wishlistitems: res.data.filter(e => e.purchased)})
                 })

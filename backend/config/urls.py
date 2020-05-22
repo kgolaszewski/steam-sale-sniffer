@@ -22,6 +22,7 @@ router = routers.DefaultRouter()
 router.register(r'games', views.GameView, 'game')
 router.register(r'wishlistitems', views.WishListItemView, 'wishlistitem')
 router.register(r'wishlists', views.WishListView, 'wishlist')
+router.register(r'collections', views.CollectionView, 'collection')
 router.register(r'users', views.UserView, 'user')
 router.register(r'search', views.SearchResultsView, 'search')
 

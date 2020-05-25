@@ -8,25 +8,33 @@ body {
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
 .text {
   font-size: 1em;
-  padding-top: 0.6em;
+  /* margin-bottom: 0.5em; */
+  margin-top: 0.7em;
   color: #fff;
+  text-align: top;
 }
 
-.game-title {
-  font-size: 1em;
-  padding-top: 0.6em;
+.xs-text {
+  font-size: 0.7em;
+  /* margin-top: 0.7em; */
   color: #fff;
+  text-align: top; 
 }
 
 h1 {
   color: #fff;
   text-align: center;
+}
+
+.game-title {
+  /* font-size: 1em; */
+  /* padding-top: 0.6em; */
+  color: #fff;
 }
 
 .game-price {
@@ -76,3 +84,25 @@ h1 {
 .loginButton {
   width: 100%;
 }
+
+.on_sale {
+  /* background-color: #4c6b22; */
+  color: #90b90c;
+}
+
+.on_sale > div {
+  margin-bottom: 0.5em;
+}
+
+
+/* div.game {
+  display: table;
+  height: 100%;
+  width: 100%;
+}
+
+div.game > div {
+  display: table-cell;
+  vertical-align: middle;
+  margin-bottom: 0.5em;
+} */

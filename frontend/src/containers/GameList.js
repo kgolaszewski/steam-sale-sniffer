@@ -12,6 +12,9 @@ import InfiniteLoader from 'react-virtualized/dist/commonjs/InfiniteLoader';
 import { connect } from 'react-redux'
 import * as actions from '../store/actions/auth'
 
+const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
+// const vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
+
 const { Search } = Input
 
 class App extends Component {
@@ -57,21 +60,40 @@ class App extends Component {
 
   renderItem = ({ style, index, key }) => {
     let btnStyle = "btn btn-success pad-r"
+
+    let btn         = vw > 500 ? btnStyle   : 'col-1'
+    let text        = vw > 500 ? 'text'     : 'xs-text'
+    let gameImg     = vw > 500 ? ''         : 'col-4'
+    let priceOffset = vw > 500 ? 'offset-1' : 'offset-0' 
+
     const { games } = this.state
     const game = games[index]
+
+    let gameTitle = (vw > 500 || game.title.length <= 28) ? game.title : 
+      game.title.slice(0,28).split(" ").slice(0, -1).join(" ")+"..."
+
     return (
-      <div style={style}>
+      <div style={style} key={key}>
       <div className="row game" key={key}
         
       >
-        <button className={btnStyle} id={game.id} onClick={() => this.toggle(game.id) }>
+        <button className={`${btn}`} id={game.id} onClick={() => this.toggle(game.id) }>
           <div className='plus'>+</div>
         </button>
-        <img className="offset-0" height="55" alt=""
-          src={`https://steamcdn-a.akamaihd.net/steam/apps/${game.steam_id}/capsule_184x69.jpg`} 
+        { console.log(vw) }
+        <img className={`offset-0 ${gameImg}`} alt=""
+            height= {vw > 500 ? "55" : '45' }
+            src={ vw > 500 ? 
+              `https://steamcdn-a.akamaihd.net/steam/apps/${game.steam_id}/capsule_184x69.jpg` :
+              `https://steamcdn-a.akamaihd.net/steam/apps/${game.steam_id}/capsule_sm_120.jpg`
+            } 
         />
-        <div className="col-md-5 game-title text">{game.title}</div>
-        <div className="offset-1 col-md-3 game-price text">${game.base_price}</div>
+        <div className={`offset-0 col-md-5 col-sm-4 col-4 game-title ${text}`}>
+          {/* {game.title} */}
+          {gameTitle}
+        </div>
+        <div className={`${priceOffset} col-md-3 col-sm-3 col-2 game-price ${text}`}>
+          ${game.base_price}</div>
       </div>
       <div className='row divider'></div>
       </div>
@@ -97,7 +119,7 @@ class App extends Component {
     this.timer = null;
   }
 
-  componentWillReceiveProps() {
+  UNSAFE_componentWillReceiveProps() {
     let userId = +localStorage.getItem('userId')
     console.log('Recieve props has identified userId: '+userId)
     this.setState({
@@ -206,7 +228,7 @@ class App extends Component {
             enterButton 
           />
           <div className="row">
-            <div className="offset-1 col-md-10">
+            <div className="offset-md-1 col-md-10 col-sm-12 col-xs-12">
               {games.length > 0 && <WindowScroller>{infiniteLoader}</WindowScroller>}
             </div>
           </div>

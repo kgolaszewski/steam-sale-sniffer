@@ -5,14 +5,15 @@ import CustomModal from  '../components/Modal';
 import axios from 'axios';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCog } from '@fortawesome/free-solid-svg-icons';
+import { faCog, faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import { Menu, Dropdown } from 'antd';
 
 
 import { connect } from 'react-redux';
 import * as actions from '../store/actions/auth';
 
-
+// const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
+// const vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
 
 class App extends Component {
     constructor(props) {
@@ -108,25 +109,39 @@ class App extends Component {
                     let menu = (
                         <Menu>
                             <Menu.Item>
-                                <a onClick={() => this.toggle(item.id, game.id)}>Edit</a>
+                                <a href="/" 
+                                    onClick={(e) => {e.preventDefault(); this.toggle(item.id, game.id)} }
+                                >Edit</a>
                             </Menu.Item>
                             <Menu.Item>
-                                <a id={game.id} onClick={() => this.handleDelete(item.id)}>Remove</a>
+                                <a href="/" id={game.id} 
+                                    onClick={(e) => {e.preventDefault(); this.handleDelete(item.id)}}
+                                >Remove</a>
                             </Menu.Item>
                             <Menu.Item>
-                                <a id={game.id} onClick={() => this.addToCollection(item)}>Mark as Purchased</a>
+                                <a href="/" id={game.id} 
+                                    onClick={(e) => {e.preventDefault(); this.addToCollection(item)}}
+                                >Mark as Purchased</a>
                             </Menu.Item>
                         </Menu>
                     )
+                    let saleIndicator = +game.curr_price <= +item.target_price ? 'on_sale' : ''
+                    let checkCircle   = +game.curr_price <= +item.target_price ? 
+                                (<FontAwesomeIcon icon={faCheckCircle} size='2x' style={{color: '#90b90c'}} />) : 
+                                null
                     return (
-                    <div>
-                    <div className="row game" key={game.id}>
+                    <div key={game.id}>
+                    <div className={`row game`} key={game.id}>
                         <img className="offset-0" height="55" alt=""
                         src={`https://steamcdn-a.akamaihd.net/steam/apps/${game.steam_id}/capsule_184x69.jpg`} 
                         />
-                        <div className="col-md-5 game-title text">{game.title}</div>
-                        <div className="col-md-2 game-price text">${item.target_price}</div>
-                        <div className="col-md-2 game-price text">${game.curr_price}</div>
+                        <div className="col-md-5 game-title text ">{game.title}</div>
+                        <div className={`col-md-2 game-price text`}>
+                            ${item.target_price}
+                        </div>
+                        <div className={`offset-0 col-md-2 game-price text ${saleIndicator}`}> 
+                            <div>{checkCircle} ${game.curr_price}</div>
+                        </div>
                         <div className="col-md-1 text">
                             <Dropdown overlay={menu}>
                                 <a href="/" className="ant-dropdown-link" onClick={e => e.preventDefault()}>

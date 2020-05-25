@@ -16,7 +16,7 @@ class CustomLayout extends React.Component {
                 <Header style={{display: 'inline-block'}}>
 
                     { this.props.isAuthenticated ? (
-                        <Menu theme="dark" mode="horizontal" style={{lineHeight: "64px", width: '70%'}}>
+                        <Menu theme="dark" selectedKeys={[]} mode="horizontal" style={{lineHeight: "64px", width: '70%'}}>
                             <Menu.Item key="0">
                                 <FontAwesomeIcon icon={faSteam} size='3x' style={{color: '#fff'}}/>
                             </Menu.Item>
@@ -42,7 +42,7 @@ class CustomLayout extends React.Component {
                             </Menu.Item>
                         </Menu>
                         ) : (
-                        <Menu theme="dark" mode="horizontal" style={{lineHeight: "64px", width: '70%'}}>
+                        <Menu theme="dark" selectedKeys={[]} mode="horizontal" style={{lineHeight: "64px", width: '70%'}}>
                             <Menu.Item key="0">
                                 <FontAwesomeIcon icon={faSteam} size='3x' style={{color: '#fff'}}/>
                             </Menu.Item>

@@ -4,6 +4,7 @@ More information:    https://docs.djangoproject.com/en/3.0/topics/settings/
 Settings and values: https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
+# import django_heroku
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -35,6 +36,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # 'whitenoise.runserver_nostatic',
 
     'django.contrib.sites',
     'allauth',
@@ -48,6 +50,8 @@ INSTALLED_APPS = [
 
     'wishlist',
 
+
+
 ]
 
 MIDDLEWARE = [
@@ -59,6 +63,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -128,3 +133,6 @@ ACCOUNT_EMAIL_VERIFICATION = 'none'
 REST_AUTH_SERIALIZERS = {
     'TOKEN_SERIALIZER': 'wishlist.serializers.TokenSerializer'
 }
+
+# Activate Django-Heroku.
+# django_heroku.settings(locals())

@@ -61,7 +61,7 @@ class App extends Component {
   renderItem = ({ style, index, key }) => {
     let btnStyle = "btn btn-success pad-r"
 
-    let btn         = vw > 500 ? btnStyle   : 'col-1'
+    let btn         = vw > 500 ? btnStyle   : 'col-1 btn btn-success pad-mobile'
     let text        = vw > 500 ? 'text'     : 'xs-text'
     let gameImg     = vw > 500 ? ''         : 'col-4'
     let priceOffset = vw > 500 ? 'offset-1' : 'offset-0' 

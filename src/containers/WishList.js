@@ -34,7 +34,7 @@ class App extends Component {
     componentDidMount() {
         
         axios
-            .get(`http://localhost:8001/api/wishlists/${this.state.activeItem.user}`)
+            .get(`http://localhost:8000/api/wishlists/${this.state.activeItem.user}`)
             .then( res => {
                 // this.setState({wishlistitems: res.data})
                 this.setState({wishlistitems: res.data.filter(game => !game.purchased)})
@@ -57,7 +57,7 @@ class App extends Component {
 
     handleDelete = (item_id) => {
         axios
-            .delete(`http://localhost:8001/api/wishlistitems/${item_id}`)
+            .delete(`http://localhost:8000/api/wishlistitems/${item_id}`)
             .then(res => { console.log(res) })
             .catch(err => { console.log(err);})
         let updated_wishlist = this.state.wishlistitems.filter(e => e.id !== item_id && !e.purchased)
@@ -67,7 +67,7 @@ class App extends Component {
     handleEdit = (item) => {
         // item = { ...item, target_price: parseFloat(item.target_price) }
         axios
-            .put(`http://localhost:8001/api/wishlistitems/${item.id}/`, item)
+            .put(`http://localhost:8000/api/wishlistitems/${item.id}/`, item)
             .then(res => { console.log(item) })
             .catch(err => { console.log('State of item during error'); console.log(item); console.log(err);})
         let updated_wishlist = this.state.wishlistitems.map(e => {
@@ -87,7 +87,7 @@ class App extends Component {
     addToCollection = (item) => {
         let purchased = { ...item, purchased: true, game: item.game.id, user: +this.state.activeItem.user }
         axios
-            .put(`http://localhost:8001/api/wishlistitems/${item.id}/`, purchased)
+            .put(`http://localhost:8000/api/wishlistitems/${item.id}/`, purchased)
             .then(res => { console.log(res) })
             .catch(err => { console.log(err);})
         let updated_wishlist = this.state.wishlistitems.filter(e => e.id !== item.id && !e.purchased)

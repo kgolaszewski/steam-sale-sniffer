@@ -31,7 +31,7 @@ class App extends Component {
     componentDidMount() {
         
         axios
-            .get(`http://localhost:8001/api/collections/${this.state.activeItem.user}`)
+            .get(`http://localhost:8000/api/collections/${this.state.activeItem.user}`)
             .then( res => {
                 this.setState({wishlistitems: res.data.filter(e => e.purchased)})
                 })
@@ -54,7 +54,7 @@ class App extends Component {
 
     handleDelete = (item_id) => {
         axios
-            .delete(`http://localhost:8001/api/wishlistitems/${item_id}`)
+            .delete(`http://localhost:8000/api/wishlistitems/${item_id}`)
             .then(res => { console.log(res) })
             .catch(err => { console.log('State of item during error'); console.log(err);})
         let updated_wishlist = this.state.wishlistitems.filter(e => e.id !== item_id && e.purchased)

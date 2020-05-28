@@ -28,7 +28,7 @@ class App extends Component {
       },
       loading: false,
       hasMore: true,
-      next: "http://localhost:8001/api/search/?q=&page=2",
+      next: "http://localhost:8000/api/search/?q=&page=2",
       search: "",
       prev: "",
     }
@@ -106,7 +106,7 @@ class App extends Component {
     // console.log('Component mounted\n', localStorage.getItem('userId'))
     window.scrollTo(0,0)
     axios
-      .get('http://localhost:8001/api/search/?q=')
+      .get('http://localhost:8000/api/search/?q=')
       .then( res => {this.setState({ 
         games: res.data.results.filter(game => !game.users.includes(+localStorage.getItem('userId'))),
         activeItem: {
@@ -137,7 +137,7 @@ class App extends Component {
       target_price: parseFloat(item.target_price)
     }
     axios
-      .post(`http://localhost:8001/api/wishlistitems/`, item)
+      .post(`http://localhost:8000/api/wishlistitems/`, item)
       .then(res => { console.log(item) })
       .catch(err => {console.log(item); console.log(err);})
     this.setState({ 
@@ -157,7 +157,7 @@ class App extends Component {
 
   dynamicSearch = (value, page=1) => {
     this.loadedRowsMap = {}
-    axios.get(`http://localhost:8001/api/search/?q=${value}&page=${page}`)
+    axios.get(`http://localhost:8000/api/search/?q=${value}&page=${page}`)
       .then(res => {
         let { results, next } = res.data
         let updated_games = results.filter(

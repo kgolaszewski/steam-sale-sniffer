@@ -4,7 +4,7 @@ More information:    https://docs.djangoproject.com/en/3.0/topics/settings/
 Settings and values: https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
-# import django_heroku
+import django_heroku
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -35,8 +35,8 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'whitenoise.runserver_nostatic',
     'django.contrib.staticfiles',
-    # 'whitenoise.runserver_nostatic',
 
     'django.contrib.sites',
     'allauth',
@@ -71,7 +71,7 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'build')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -116,9 +116,6 @@ USE_L10N = True
 USE_TZ = True
 
 
-# Static files [CSS, JavaScript, Images] (src: https://docs.djangoproject.com/en/3.0/howto/static-files/)
-
-STATIC_URL = '/static/'
 
 CORS_ORIGIN_WHITELIST = (
     'http://localhost:3000',
@@ -135,4 +132,14 @@ REST_AUTH_SERIALIZERS = {
 }
 
 # Activate Django-Heroku.
-# django_heroku.settings(locals())
+django_heroku.settings(locals())
+
+
+# Static files [CSS, JavaScript, Images] (src: https://docs.djangoproject.com/en/3.0/howto/static-files/)
+STATIC_URL = '/static/'
+# Place static in same location as webpack build files 
+STATIC_ROOT = os.path.join(BASE_DIR, 'build', 'static')
+STATICFILES_DIRS = []
+
+
+

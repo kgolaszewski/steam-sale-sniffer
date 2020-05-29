@@ -29,12 +29,13 @@ class App extends Component {
     }
 
     componentDidMount() {
-        
         axios
-            .get(`http://localhost:8000/api/collections/${this.state.activeItem.user}`)
+            .get(`http://localhost:8000/api/collections/${this.state.activeItem.user}/`)
             .then( res => {
-                this.setState({wishlistitems: res.data.filter(e => e.purchased)})
-                })
+                console.log(res)
+                console.log(res.data.filter(game => game.purchased))
+                this.setState({wishlistitems: res.data.filter(game => game.purchased)})
+            })
             .catch( err => console.log(err) )
     }
 

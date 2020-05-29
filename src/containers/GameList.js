@@ -37,7 +37,6 @@ class App extends Component {
   loadedRowsMap = {}
 
   handleInfiniteLoad = ({ startIndex, stopIndex }) => {
-    console.log("Handling infinite scroll...")
     let { next, games } = this.state 
     this.setState({ loading: true })
 
@@ -46,6 +45,7 @@ class App extends Component {
 
     axios.get(next)
       .then(res => {
+        console.log(res)
         let updated_games = [...games, ...res.data.results].filter(
           game => !game.users.includes(+localStorage.getItem('userId'))
         )
@@ -80,7 +80,6 @@ class App extends Component {
         <button className={`${btn}`} id={game.id} onClick={() => this.toggle(game.id) }>
           <div className='plus'>+</div>
         </button>
-        { console.log(vw) }
         <img className={`offset-0 ${gameImg}`} alt=""
             height= {vw > 500 ? "55" : '45' }
             src={ vw > 500 ? 
@@ -103,11 +102,10 @@ class App extends Component {
 
 
   componentDidMount() {
-    // console.log('Component mounted\n', localStorage.getItem('userId'))
     window.scrollTo(0,0)
     axios
       .get('http://localhost:8000/api/search/?q=')
-      .then( res => {this.setState({ 
+      .then( res => { console.log(res); this.setState({ 
         games: res.data.results.filter(game => !game.users.includes(+localStorage.getItem('userId'))),
         activeItem: {
           ...this.state.activeItem,
@@ -152,13 +150,13 @@ class App extends Component {
       modal: !this.state.modal, 
       activeItem: { ...this.state.activeItem, game: new_id }
     }) 
-    console.log(this.state)
   }
 
   dynamicSearch = (value, page=1) => {
     this.loadedRowsMap = {}
     axios.get(`http://localhost:8000/api/search/?q=${value}&page=${page}`)
       .then(res => {
+        console.log(res)
         let { results, next } = res.data
         let updated_games = results.filter(
           game => !game.users.includes(+localStorage.getItem('userId'))
@@ -215,7 +213,6 @@ class App extends Component {
       <div className="App background">
         <h1>Recommended Steam Games</h1>
         <div className="container">
-          <button onClick={() => {console.log(this.state.games)}}>Test</button>
           <Search 
             list="games" 
             placeholder="Type to filter..." 

@@ -34,11 +34,12 @@ class App extends Component {
     componentDidMount() {
         
         axios
-            .get(`http://localhost:8000/api/wishlists/${this.state.activeItem.user}`)
+            .get(`http://localhost:8000/api/wishlists/${this.state.activeItem.user}/`)
             .then( res => {
-                // this.setState({wishlistitems: res.data})
+                console.log(res)
+                console.log(res.data.filter(game => !game.purchased))
                 this.setState({wishlistitems: res.data.filter(game => !game.purchased)})
-                })
+            })
             .catch( err => console.log(err) )
     }
 

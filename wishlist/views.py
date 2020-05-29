@@ -33,9 +33,11 @@ class UserView(viewsets.ModelViewSet):
     serializer_class = UserSerializer
     queryset = User.objects.all()
 
-class WishListView(viewsets.ReadOnlyModelViewSet):
+# class WishListView(viewsets.ReadOnlyModelViewSet):
+class WishListView(viewsets.ModelViewSet):
     serializer_class = WishListSerializer 
     queryset = WishListItem.objects.all()#.order_by('game__title')
+    pagination_class = StandardResultsSetPagination 
 
     def retrieve(self, request, pk=None):
         queryset = WishListItem.objects.filter(user_id=pk).filter(purchased=False).order_by(
@@ -44,9 +46,11 @@ class WishListView(viewsets.ReadOnlyModelViewSet):
         serializer = WishListSerializer(queryset, many=True)
         return Response(serializer.data)
 
-class CollectionView(viewsets.ReadOnlyModelViewSet):
+# class CollectionView(viewsets.ReadOnlyModelViewSet):
+class CollectionView(viewsets.ModelViewSet):
     serializer_class = WishListSerializer 
     queryset = WishListItem.objects.all()
+    pagination_class = StandardResultsSetPagination 
 
     def retrieve(self, request, pk=None):
         queryset = WishListItem.objects.filter(user_id=pk).filter(purchased=True).order_by(

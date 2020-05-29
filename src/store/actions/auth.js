@@ -39,7 +39,7 @@ export const authLogin =  (username, password) => {
             // console.log(JSON.stringify(res))
             // this.props.history.push('/')
         })
-        .catch(err => {dispatch(authFail(err)); console.log(err) })
+        .catch(err => {dispatch(authFail(err)); console.log(err); console.log('Axios failed') })
     }
 }
 

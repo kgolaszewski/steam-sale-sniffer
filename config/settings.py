@@ -21,7 +21,7 @@ SECRET_KEY = '%dps-6&vtsci3--ccjp*x67g9a7m!4#rixah6*4kiz498g9n0)'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost']
+ALLOWED_HOSTS = ['localhost', 'steam-sale-sniffer.herokuapp.com', 'localhost:8000']
 
 AUTH_USER_MODEL = 'wishlist.User'
 
@@ -120,6 +120,9 @@ USE_TZ = True
 CORS_ORIGIN_WHITELIST = (
     'http://localhost:3000',
     'http://localhost:3001',
+    'http://localhost:8000',
+    'http://127.0.0.1:8000',
+    'http://127.0.0.1:3000',
 )
 
 ACCOUNT_UNIQUE_EMAIL = True
@@ -131,6 +134,12 @@ REST_AUTH_SERIALIZERS = {
     'TOKEN_SERIALIZER': 'wishlist.serializers.TokenSerializer'
 }
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ]
+}
+
 # Activate Django-Heroku.
 django_heroku.settings(locals())
 
@@ -139,7 +148,7 @@ django_heroku.settings(locals())
 STATIC_URL = '/static/'
 # Place static in same location as webpack build files 
 STATIC_ROOT = os.path.join(BASE_DIR, 'build', 'static')
-STATICFILES_DIRS = []
+STATICFILES_DIRS = [ ]
 
 
 

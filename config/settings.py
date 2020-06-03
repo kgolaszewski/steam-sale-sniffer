@@ -5,6 +5,7 @@ Settings and values: https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import django_heroku
+import dj_database_url
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -91,21 +92,24 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
+#         'ENGINE': 'django.db.backends.sqlite3'
 #         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
 #     }
 # }
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'steamsale',
-        'USER': 'groot',
-        'PASSWORD': '6566',
-        'HOST': 'localhost',
-        'PORT': '',
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'steamsale',
+#         'USER': 'groot',
+#         'PASSWORD': '6566',
+#         'HOST': 'localhost',
+#         'PORT': '',
+#     }
+# }
 
+DATABASES = {
+    'default': dj_database_url.config()
+}
 
 # Password validation (src: https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators)
 
@@ -161,4 +165,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'build', 'static')
 STATICFILES_DIRS = [ ]
 
 
-
+try:
+    from .dev import *
+except ImportError:
+    pass

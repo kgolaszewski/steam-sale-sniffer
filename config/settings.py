@@ -166,6 +166,6 @@ STATICFILES_DIRS = [ ]
 
 
 try:
-    from .dev import *
+    from .local import *
 except ImportError:
     pass

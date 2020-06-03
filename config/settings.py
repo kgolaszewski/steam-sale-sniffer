@@ -108,8 +108,18 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # }
 
 DATABASES = {
-    'default': dj_database_url.config()
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'steamsale',
+        'USER': 'groot',
+        'PASSWORD': '6566',
+        'HOST': 'localhost',
+        'PORT': '',
+    }
 }
+
+db_from_env = dj_database_url.config()
+DATABASES['default'].update(db_from_env)
 
 # Password validation (src: https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators)
 
@@ -154,9 +164,6 @@ REST_FRAMEWORK = {
     ]
 }
 
-# Activate Django-Heroku.
-django_heroku.settings(locals())
-
 
 # Static files [CSS, JavaScript, Images] (src: https://docs.djangoproject.com/en/3.0/howto/static-files/)
 STATIC_URL = '/static/'
@@ -165,7 +172,8 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'build', 'static')
 STATICFILES_DIRS = [ ]
 
 
+# Activate Django-Heroku.
 try:
     from .local import *
 except ImportError:
-    pass
+    django_heroku.settings(locals())

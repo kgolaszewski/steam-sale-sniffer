@@ -10,7 +10,6 @@ import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
 CORS_ORIGIN_ALLOW_ALL = True
 
 # Quick-start development settings - unsuitable for production
@@ -88,45 +87,11 @@ TEMPLATES = [
 WSGI_APPLICATION = 'config.wsgi.application'
 
 
-# Database (src: https://docs.djangoproject.com/en/3.0/ref/settings/#databases)
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3'
-#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#     }
-# }
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'steamsale',
-#         'USER': 'groot',
-#         'PASSWORD': '6566',
-#         'HOST': 'localhost',
-#         'PORT': '',
-#     }
-# }
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'steamsale',
-#         'USER': 'groot',
-#         'PASSWORD': '6566',
-#         'HOST': 'localhost',
-#         'PORT': '',
-#     }
-# }
-
 DATABASES = {
     'default': dj_database_url.config()
 }
 
-# db_from_env = dj_database_url.config()
-# DATABASES['default'].update(db_from_env)
-
 # Password validation (src: https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators)
-
 AUTH_PASSWORD_VALIDATORS = [
     { 'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator', },
     # { 'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator', },
@@ -136,13 +101,11 @@ AUTH_PASSWORD_VALIDATORS = [
 
 
 # Internationalization (src: https://docs.djangoproject.com/en/3.0/topics/i18n/)
-
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
-
 
 
 CORS_ORIGIN_WHITELIST = (
@@ -151,6 +114,7 @@ CORS_ORIGIN_WHITELIST = (
     'http://localhost:8000',
     'http://127.0.0.1:8000',
     'http://127.0.0.1:3000',
+    'steam-sale-sniffer.herokuapp.com',
 )
 
 ACCOUNT_UNIQUE_EMAIL = True
@@ -168,18 +132,10 @@ REST_FRAMEWORK = {
     ]
 }
 
-
 # Static files [CSS, JavaScript, Images] (src: https://docs.djangoproject.com/en/3.0/howto/static-files/)
 STATIC_URL = '/static/'
 # Place static in same location as webpack build files 
 STATIC_ROOT = os.path.join(BASE_DIR, 'build', 'static')
 STATICFILES_DIRS = [ ]
 
-
-# Activate Django-Heroku.
-try:
-    from .local import *
-except ImportError:
-    pass
-
-# django_heroku.settings(locals())
+django_heroku.settings(locals())

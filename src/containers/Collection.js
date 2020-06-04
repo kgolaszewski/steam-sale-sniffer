@@ -30,7 +30,7 @@ class App extends Component {
 
     componentDidMount() {
         axios
-            .get(`http://localhost:8000/api/collections/${this.state.activeItem.user}/`)
+            .get(`http://steam-sale-sniffer.herokuapp.com/api/collections/${this.state.activeItem.user}/`)
             .then( res => {
                 console.log(res)
                 console.log(res.data.filter(game => game.purchased))
@@ -55,7 +55,7 @@ class App extends Component {
 
     handleDelete = (item_id) => {
         axios
-            .delete(`http://localhost:8000/api/wishlistitems/${item_id}`)
+            .delete(`http://steam-sale-sniffer.herokuapp.com/api/wishlistitems/${item_id}/`)
             .then(res => { console.log(res) })
             .catch(err => { console.log('State of item during error'); console.log(err);})
         let updated_wishlist = this.state.wishlistitems.filter(e => e.id !== item_id && e.purchased)

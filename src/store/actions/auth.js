@@ -26,7 +26,7 @@ export const authLogin =  (username, password) => {
             username: username, 
             password: password
         }
-        axios.post('http://localhost:8000/rest-auth/login/', user)
+        axios.post('http://steam-sale-sniffer.herokuapp.com/rest-auth/login/', user)
         .then(res => {
             const token = res.data.key
             const expirationDate = new Date(new Date().getTime() + 3600 * 1000)
@@ -71,7 +71,7 @@ export const authSignup = (username, email, password1, password2) => {
             password1: password1,
             password2: password2,
         }
-        axios.post('http://localhost:8000/rest-auth/registration/', user)
+        axios.post('http://steam-sale-sniffer.herokuapp.com/rest-auth/registration/', user)
         .then(res => {
             console.log('User POSTED to /rest-auth/registration')
             const token = res.data.key

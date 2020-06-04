@@ -76,8 +76,10 @@ export const authSignup = (username, email, password1, password2) => {
             console.log('User POSTED to /rest-auth/registration')
             const token = res.data.key
             const expirationDate = new Date(new Date().getTime() + 3600 * 1000)
+            const userId = res.data.user
             localStorage.setItem('token',          token)
             localStorage.setItem('expirationDate', expirationDate)
+            localStorage.setItem('userId', userId)
             dispatch(authSuccess(token))
             dispatch(checkAuthTimeout(3600))
         })

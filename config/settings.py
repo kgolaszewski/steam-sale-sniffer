@@ -86,9 +86,10 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
-
 DATABASES = {
-    'default': dj_database_url.config()
+    "default": {
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
+    }
 }
 
 # Password validation (src: https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators)
@@ -114,7 +115,7 @@ CORS_ORIGIN_WHITELIST = (
     'http://localhost:8000',
     'http://127.0.0.1:8000',
     'http://127.0.0.1:3000',
-    'steam-sale-sniffer.herokuapp.com',
+    'http://steam-sale-sniffer.herokuapp.com',
 )
 
 ACCOUNT_UNIQUE_EMAIL = True
@@ -137,5 +138,7 @@ STATIC_URL = '/static/'
 # Place static in same location as webpack build files 
 STATIC_ROOT = os.path.join(BASE_DIR, 'build', 'static')
 STATICFILES_DIRS = [ ]
+
+DATABASES = { 'default': dj_database_url.config() }
 
 django_heroku.settings(locals())

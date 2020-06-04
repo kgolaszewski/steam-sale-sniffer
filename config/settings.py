@@ -107,19 +107,23 @@ WSGI_APPLICATION = 'config.wsgi.application'
 #     }
 # }
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'steamsale',
+#         'USER': 'groot',
+#         'PASSWORD': '6566',
+#         'HOST': 'localhost',
+#         'PORT': '',
+#     }
+# }
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'steamsale',
-        'USER': 'groot',
-        'PASSWORD': '6566',
-        'HOST': 'localhost',
-        'PORT': '',
-    }
+    'default': dj_database_url.config()
 }
 
-db_from_env = dj_database_url.config()
-DATABASES['default'].update(db_from_env)
+# db_from_env = dj_database_url.config()
+# DATABASES['default'].update(db_from_env)
 
 # Password validation (src: https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators)
 
@@ -178,4 +182,4 @@ try:
 except ImportError:
     pass
 
-django_heroku.settings(locals())
+# django_heroku.settings(locals())

@@ -19,7 +19,8 @@ CORS_ORIGIN_ALLOW_ALL = True
 SECRET_KEY = '%dps-6&vtsci3--ccjp*x67g9a7m!4#rixah6*4kiz498g9n0)'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['localhost', 'steam-sale-sniffer.herokuapp.com', 'localhost:8000']
 
@@ -86,9 +87,31 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.postgresql_psycopg2",
+#     }
+# }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'steam-sale-sniffer',
+#         'USER': 'kamil.golaszewski.ncf@gmail.com',
+#         'PASSWORD': '',
+#         'HOST': 'localhost',
+#         'PORT': '',
+#     }
+# }
+
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql_psycopg2",
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'steamsale',
+        'USER': 'groot',
+        'PASSWORD': '6566',
+        'HOST': 'localhost',
+        'PORT': '',
     }
 }
 
@@ -139,6 +162,7 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'build', 'static')
 STATICFILES_DIRS = [ ]
 
-DATABASES = { 'default': dj_database_url.config() }
+db_from_env = dj_database_url.config(conn_max_age=500)
+DATABASES['default'].update(db_from_env)
 
-django_heroku.settings(locals())
+# django_heroku.settings(locals())

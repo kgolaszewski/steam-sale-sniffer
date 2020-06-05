@@ -7,6 +7,7 @@ import * as actions from '../store/actions/auth'
 
 
 const layout = {
+    // labelCol: {xs: { span: 4 }, sm: { span: 7 }, },
     labelCol: { span: 7 },
     wrapperCol: { span: 10 },
 };

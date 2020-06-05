@@ -12,7 +12,7 @@ import { Menu, Dropdown } from 'antd';
 import { connect } from 'react-redux';
 import * as actions from '../store/actions/auth';
 
-
+const BASE_URL = process.env.NODE_ENV === 'production' ? 'steam-sale-sniffer.herokuapp.com' : 'localhost:8000'
 
 class App extends Component {
     constructor(props) {
@@ -30,9 +30,8 @@ class App extends Component {
 
     componentDidMount() {
         axios
-            .get(`http://steam-sale-sniffer.herokuapp.com/api/collections/${this.state.activeItem.user}/`)
+            .get(`http://${BASE_URL}/api/collections/${this.state.activeItem.user}/`)
             .then( res => {
-                console.log(res)
                 console.log(res.data.filter(game => game.purchased))
                 this.setState({wishlistitems: res.data.filter(game => game.purchased)})
             })
@@ -55,8 +54,8 @@ class App extends Component {
 
     handleDelete = (item_id) => {
         axios
-            .delete(`http://steam-sale-sniffer.herokuapp.com/api/wishlistitems/${item_id}/`)
-            .then(res => { console.log(res) })
+            .delete(`http://${BASE_URL}/api/wishlistitems/${item_id}/`)
+            .then(res => { console.log() })
             .catch(err => { console.log('State of item during error'); console.log(err);})
         let updated_wishlist = this.state.wishlistitems.filter(e => e.id !== item_id && e.purchased)
         this.setState({ wishlistitems: updated_wishlist })

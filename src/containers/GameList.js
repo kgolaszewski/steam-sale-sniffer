@@ -17,6 +17,8 @@ const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth
 
 const { Search } = Input
 
+const BASE_URL = process.env.NODE_ENV === 'production' ? 'steam-sale-sniffer.herokuapp.com' : 'localhost:8000'
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -28,7 +30,7 @@ class App extends Component {
       },
       loading: false,
       hasMore: true,
-      next: "http://steam-sale-sniffer.herokuapp.com/api/search/?q=&page=2",
+      next: `http://${BASE_URL}/api/search/?q=&page=2`,
       search: "",
       prev: "",
     }
@@ -44,7 +46,6 @@ class App extends Component {
 
     axios.get(next)
       .then(res => {
-        console.log(res)
         let updated_games = [...games, ...res.data.results].filter(
           game => !game.users.includes(+localStorage.getItem('userId'))
         )
@@ -103,8 +104,8 @@ class App extends Component {
   componentDidMount() {
     window.scrollTo(0,0)
     axios
-      .get('http://steam-sale-sniffer.herokuapp.com/api/search/?q=')
-      .then( res => { console.log(res); this.setState({ 
+      .get(`http://${BASE_URL}/api/search/?q=`)
+      .then( res => { this.setState({ 
         games: res.data.results.filter(game => !game.users.includes(+localStorage.getItem('userId'))),
         activeItem: {
           ...this.state.activeItem,
@@ -114,6 +115,7 @@ class App extends Component {
       }) } )
       .catch( err => console.log(err) )
     this.timer = null;
+    console.log(this.state.next)
   }
 
   UNSAFE_componentWillReceiveProps() {
@@ -134,7 +136,7 @@ class App extends Component {
       target_price: parseFloat(item.target_price)
     }
     axios
-      .post(`http://steam-sale-sniffer.herokuapp.com/api/wishlistitems/`, item)
+      .post(`http://${BASE_URL}/api/wishlistitems/`, item)
       .then(res => { console.log(item) })
       .catch(err => {console.log(item); console.log(err);})
     this.setState({ 
@@ -153,9 +155,8 @@ class App extends Component {
 
   dynamicSearch = (value, page=1) => {
     this.loadedRowsMap = {}
-    axios.get(`http://steam-sale-sniffer.herokuapp.com/api/search/?q=${value}&page=${page}`)
+    axios.get(`http://${BASE_URL}/api/search/?q=${value}&page=${page}`)
       .then(res => {
-        console.log(res)
         let { results, next } = res.data
         let updated_games = results.filter(
           game => !game.users.includes(+localStorage.getItem('userId'))

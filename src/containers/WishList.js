@@ -12,6 +12,8 @@ import { Menu, Dropdown } from 'antd';
 import { connect } from 'react-redux';
 import * as actions from '../store/actions/auth';
 
+const BASE_URL = process.env.NODE_ENV === 'production' ? 'steam-sale-sniffer.herokuapp.com' : 'localhost:8000'
+
 // const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
 // const vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
 
@@ -34,9 +36,8 @@ class App extends Component {
     componentDidMount() {
         
         axios
-            .get(`http://steam-sale-sniffer.herokuapp.com/api/wishlists/${this.state.activeItem.user}/`)
+            .get(`http://${BASE_URL}/api/wishlists/${this.state.activeItem.user}/`)
             .then( res => {
-                console.log(res)
                 console.log(res.data.filter(game => !game.purchased))
                 this.setState({wishlistitems: res.data.filter(game => !game.purchased)})
             })
@@ -58,8 +59,8 @@ class App extends Component {
 
     handleDelete = (item_id) => {
         axios
-            .delete(`http://steam-sale-sniffer.herokuapp.com/api/wishlistitems/${item_id}/`)
-            .then(res => { console.log(res) })
+            .delete(`http://${BASE_URL}/api/wishlistitems/${item_id}/`)
+            .then(res => { console.log() })
             .catch(err => { console.log(err);})
         let updated_wishlist = this.state.wishlistitems.filter(e => e.id !== item_id && !e.purchased)
         this.setState({ wishlistitems: updated_wishlist })
@@ -68,7 +69,7 @@ class App extends Component {
     handleEdit = (item) => {
         // item = { ...item, target_price: parseFloat(item.target_price) }
         axios
-            .put(`http://steam-sale-sniffer.herokuapp.com/api/wishlistitems/${item.id}/`, item)
+            .put(`http://${BASE_URL}/api/wishlistitems/${item.id}/`, item)
             .then(res => { console.log(item) })
             .catch(err => { console.log('State of item during error'); console.log(item); console.log(err);})
         let updated_wishlist = this.state.wishlistitems.map(e => {
@@ -88,8 +89,8 @@ class App extends Component {
     addToCollection = (item) => {
         let purchased = { ...item, purchased: true, game: item.game.id, user: +this.state.activeItem.user }
         axios
-            .put(`http://steam-sale-sniffer.herokuapp.com/api/wishlistitems/${item.id}/`, purchased)
-            .then(res => { console.log(res) })
+            .put(`http://${BASE_URL}/api/wishlistitems/${item.id}/`, purchased)
+            .then(res => { console.log() })
             .catch(err => { console.log(err);})
         let updated_wishlist = this.state.wishlistitems.filter(e => e.id !== item.id && !e.purchased)
         this.setState({ wishlistitems: updated_wishlist })

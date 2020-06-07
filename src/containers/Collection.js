@@ -78,7 +78,7 @@ class App extends Component {
                         </Menu>
                     )
                     return (
-                    <div>
+                    <div key={game.id}>
                     <div className="row game" key={game.id}>
                         <img className="offset-0" height="55" alt=""
                         src={`https://steamcdn-a.akamaihd.net/steam/apps/${game.steam_id}/capsule_184x69.jpg`} 

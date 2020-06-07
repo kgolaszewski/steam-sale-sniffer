@@ -5,15 +5,15 @@ import { connect }  from 'react-redux'
 import { NavLink }  from 'react-router-dom'
 import * as actions from '../store/actions/auth'
 
+// wrapperCol:   { xs: { span: 2 }, sm: { span: 15 }, md: { span: 15 }, lg: { span: 15 } },
 
 const layout = {
-    // labelCol: {xs: { span: 4 }, sm: { span: 7 }, },
-    labelCol: { span: 7 },
-    wrapperCol: { span: 10 },
+    labelCol:   { xs: { span: 2 }, sm: { span: 1 }, md: { span: 7 }},
+    wrapperCol: { xs: { span: 2 }, sm: { span: 1 }, md: { span: 10 }},
 };
 
 const tailLayout = {
-    wrapperCol: { offset: 7, span: 10 },
+    wrapperCol: {xs: { offset: 0, span: 2 }, sm: { offset: 8, span: 8 }}
 };
 
 class Demo extends React.Component {
@@ -32,11 +32,22 @@ class Demo extends React.Component {
         return (
         <div>
             <h1 >Sign In</h1>
-        <Form {...layout} ref={this.formRef} name="control-ref" onFinish={this.handleSubmit}>
-            <Form.Item name="username" label="Username" rules={[{ required: true }]}>
+        <Form 
+            // {...layout} 
+            layout={'horizontal'}
+            ref={this.formRef} name="control-ref" onFinish={this.handleSubmit} 
+            // style={{ overflow: 'hidden'}}
+        >
+            <Form.Item 
+                {...layout} 
+                name="username" label="Username" rules={[{ required: true }]}
+            >
                 <Input />
             </Form.Item>
-            <Form.Item name="password" label="Password" rules={[{ required: true }]}>
+            <Form.Item 
+                {...layout} 
+                name="password" label="Password" rules={[{ required: true }]}
+            >
                 <Input.Password />
             </Form.Item>
             <Form.Item {...tailLayout}>

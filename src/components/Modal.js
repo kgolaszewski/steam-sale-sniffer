@@ -13,14 +13,21 @@ export default class CustomModal extends Component {
         this.setState({activeItem})
     }
 
+    // handleEnter = (e) => {
+    //     if (e.key === 'Enter') {
+    //         e.preventDefault()
+    //         onSave(this.state.activeItem)
+    //     }
+    // }
+
     
     render() {
         const { toggle, onSave } = this.props;
         return (
             <Modal isOpen={true} toggle={toggle}>
                 <ModalHeader toggle={toggle}>Add Game to Watch List</ModalHeader>
-                <ModalBody>
-                    <Form>
+                <Form onSubmit={() => onSave(this.state.activeItem)}>
+                    <ModalBody>
                         <FormGroup>
                             <Label for="target_price">Target Price</Label>
                             <Input 
@@ -28,16 +35,16 @@ export default class CustomModal extends Component {
                                 onChange={this.handleChange}
                             />
                         </FormGroup>
-                    </Form>
-                </ModalBody>
-                <ModalFooter>
-                    <Button color="success" onClick={() => onSave(this.state.activeItem)}>
-                        Save
-                    </Button>
-                    <Button color="danger" onClick={() => toggle()}>
-                        Cancel
-                    </Button>
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button color="success" type="submit" onClick={() => onSave(this.state.activeItem)}>
+                            Save
+                        </Button>
+                        <Button color="danger" onClick={() => toggle()}>
+                            Cancel
+                        </Button>
                 </ModalFooter>
+                </Form>
             </Modal>
         )
     }

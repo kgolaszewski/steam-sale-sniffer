@@ -2,10 +2,8 @@ import { Form, Input, Button } from 'antd';
 
 import React        from 'react'
 import { connect }  from 'react-redux'
-import { NavLink }  from 'react-router-dom'
+import { NavLink, Redirect }  from 'react-router-dom'
 import * as actions from '../store/actions/auth'
-
-// wrapperCol:   { xs: { span: 2 }, sm: { span: 15 }, md: { span: 15 }, lg: { span: 15 } },
 
 const layout = {
     labelCol:   { xs: { span: 2 }, sm: { span: 1 }, md: { span: 7 }},
@@ -18,20 +16,26 @@ const tailLayout = {
 
 class Demo extends React.Component {
     formRef = React.createRef();
+    state = { submitted: false }
 
     handleSubmit = () => {
         this.props.onAuth(
             this.formRef.current.getFieldValue('username'), 
             this.formRef.current.getFieldValue('password') 
         )
-        this.props.history.push('/')
+        this.setState({ submitted: true })
     }
 
 
     render() {
+        const { token, error } = this.props
+        if (token) { return <Redirect to="/" /> }
         return (
         <div>
             <h1 >Sign In</h1>
+            {this.state.submitted && error && 
+                <p id='login-error'>{'The account name or password that you have entered is incorrect.'}</p>
+            }
         <Form 
             // {...layout} 
             layout={'horizontal'}
@@ -66,8 +70,9 @@ const WrappedNormalLoginForm = Demo
 
 const mapStateToProps = (state) => {
     return {
-        loading: state.loading,
-        error: state.error
+        loading: state.auth.loading,
+        error: state.auth.error,
+        token: state.auth.token,
     }
 }
 

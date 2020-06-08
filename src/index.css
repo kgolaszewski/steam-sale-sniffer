@@ -76,23 +76,11 @@ h1 {
   height: 0.3em;
 }
 
-.fa-steam {
-  /* margin-bottom: 0.3em; */
-  /* padding-top: 0.5em; */
-  /* vertical-align: top; */
-  /* vertical-align: bottom; */
-}
-
-.ant-layout-header {
-  /* margin-bottom: 0.7em; */
-}
-
 .loginButton {
   width: 100%;
 }
 
 .on_sale {
-  /* background-color: #4c6b22; */
   color: #90b90c;
 }
 
@@ -113,6 +101,34 @@ div.game > div {
   margin-bottom: 0.5em;
 } */
 
-.ant-form-item {
-  /* display: inline !important; */
+
+
+.ant-layout-header {
+  padding: 0px !important;
+}
+
+/* 
+CREATE MEDIA QUERY FOR GAMELIST.JS TEXT CSS 
+.text {
+  font-size: 1em;
+  margin-top: 0.7em;
+  color: #fff;
+  text-align: top;
+}
+
+.xs-text {
+  font-size: 0.7em;
+  color: #fff;
+  text-align: top; 
+} 
+*/
+
+.navbar-item {
+  /* vertical-align: middle; */
+}
+
+#login-error {
+  color: #f00;
+  text-align: center;
+  /* background-color: #f00; */
 }

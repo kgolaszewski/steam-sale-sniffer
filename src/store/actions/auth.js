@@ -38,8 +38,6 @@ export const authLogin =  (username, password) => {
             localStorage.setItem('userId', userId)
             dispatch(authSuccess(token))
             dispatch(checkAuthTimeout(3600))
-            // console.log(JSON.stringify(res))
-            // this.props.history.push('/')
         })
         .catch(err => {dispatch(authFail(err)); console.log(err); console.log('Axios failed') })
     }

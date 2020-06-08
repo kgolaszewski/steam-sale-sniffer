@@ -59,12 +59,13 @@ class App extends Component {
   isRowLoaded = ({ index }) => !!this.loadedRowsMap[index]
 
   renderItem = ({ style, index, key }) => {
-    let btnStyle = "btn btn-success pad-r"
+    let threshold = 1000
 
-    let btn         = vw > 500 ? btnStyle   : 'col-1 btn btn-success pad-mobile'
-    let text        = vw > 500 ? 'text'     : 'xs-text'
-    let gameImg     = vw > 500 ? ''         : 'col-4'
-    let priceOffset = vw > 500 ? 'offset-1' : 'offset-0' 
+    let btn         = vw > threshold ? "btn btn-success pad-r col-0" : 'col-1 btn btn-success pad-mobile'
+    let text        = vw > threshold ? 'text'     : 'xs-text'
+    // let gameImg     = vw > 500       ? 'col-0'    : 'col-4'
+    let gameImg     = 'col-xl-2 col-lg-2 col-md-3 col-sm-4 col-4'
+    let priceOffset = vw > threshold ? 'offset-1' : 'offset-0' 
 
     const { games } = this.state
     const game = games[index]
@@ -88,10 +89,9 @@ class App extends Component {
             } 
         />
         <div className={`offset-0 col-md-5 col-sm-4 col-4 game-title ${text}`}>
-          {/* {game.title} */}
           {gameTitle}
         </div>
-        <div className={`${priceOffset} col-md-3 col-sm-3 col-2 game-price ${text}`}>
+        <div className={`${priceOffset} col-md-3 col-sm-2 col-2 game-price ${text}`}>
           ${game.base_price}</div>
       </div>
       <div className='row divider'></div>
@@ -214,6 +214,7 @@ class App extends Component {
         <h1>Recommended Steam Games</h1>
         <div className="container">
           <Search 
+            className="searchbar"
             list="games" 
             placeholder="Type to filter..." 
             onChange = { e => {

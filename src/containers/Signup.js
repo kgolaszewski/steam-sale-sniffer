@@ -2,7 +2,7 @@ import React from "react";
 
 import { Form, Input, Button } from "antd";
 import { connect } from "react-redux";
-import { NavLink } from "react-router-dom";
+import { NavLink, Redirect }  from 'react-router-dom'
 import * as actions from '../store/actions/auth'
 
 const layout = {
@@ -21,10 +21,7 @@ class RegistrationForm extends React.Component {
     handleSubmit = () => {
         this.formRef.current.validateFields(['username', 'email', 'password', 'confirm'])
             .then( values => {
-                console.log(values)
-                console.log('No submission error detected.')
                 this.props.onAuth(values.username, values.email, values.password, values.confirm)
-                // this.props.history.push("/");
             })
             .catch(err => console.log(err))
     }
@@ -36,7 +33,7 @@ class RegistrationForm extends React.Component {
 
     compareToFirstPassword = (rule, value) => {
         if (value && value !== this.formRef.current.getFieldValue("password")) {
-            return Promise.reject("Two passwords that you enter is inconsistent!")
+            return Promise.reject("The two passwords you entered do not match!")
         } else {
             return Promise.resolve()
         }
@@ -49,6 +46,8 @@ class RegistrationForm extends React.Component {
     }
 
     render() {
+        const { token } = this.props
+        if (token) { return <Redirect to="/" /> }
         return (
             <div>
             <h1>Create an Account</h1>
@@ -89,7 +88,8 @@ class RegistrationForm extends React.Component {
 const mapStateToProps = state => {
     return {
         loading: state.auth.loading,
-        error: state.auth.error
+        error: state.auth.error,
+        token: state.auth.token,
     };
 };
 

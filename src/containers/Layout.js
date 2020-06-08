@@ -16,9 +16,12 @@ class CustomLayout extends React.Component {
                 <Header style={{display: 'inline-block'}}>
 
                     { this.props.isAuthenticated ? (
-                        <Menu theme="dark" selectedKeys={[]} mode="horizontal" style={{lineHeight: "64px", width: '70%'}}>
+                        <Menu theme="dark" selectedKeys={[]} mode="horizontal" style={{lineHeight: "4em", width: '100%'}}>
                             <Menu.Item key="0">
-                                <FontAwesomeIcon icon={faSteam} size='3x' style={{color: '#fff'}}/>
+                                <FontAwesomeIcon icon={faSteam} size='3x' style={{
+                                color: '#fff', 
+                                verticalAlign: 'middle'
+                            }}/>
                             </Menu.Item>
 
                             <Menu.Item key="1" onClick={this.props.logout}>
@@ -26,11 +29,11 @@ class CustomLayout extends React.Component {
                             </Menu.Item>
 
                             <Menu.Item key="2">
-                                <Link to="/">Recommended</Link>
+                                <Link to="/">Browse</Link>
                             </Menu.Item>
 
                             <Menu.Item key="3">
-                            <Link to="/wishlist">My Wishlist</Link>
+                            <Link to="/wishlist">Wishlist</Link>
                             </Menu.Item>
 
                             <Menu.Item key="4">
@@ -42,9 +45,12 @@ class CustomLayout extends React.Component {
                             </Menu.Item>
                         </Menu>
                         ) : (
-                        <Menu theme="dark" selectedKeys={[]} mode="horizontal" style={{lineHeight: "64px", width: '70%'}}>
+                        <Menu theme="dark" selectedKeys={[]} mode="horizontal" style={{lineHeight: "4em", width: '100%'}}>
                             <Menu.Item key="0">
-                                <FontAwesomeIcon icon={faSteam} size='3x' style={{color: '#fff'}}/>
+                                <FontAwesomeIcon icon={faSteam} size='3x' style={{
+                                color: '#fff', 
+                                verticalAlign: 'middle'
+                            }}/>
                             </Menu.Item>
 
                             <Menu.Item key="1">

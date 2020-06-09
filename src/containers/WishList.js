@@ -14,7 +14,7 @@ import * as actions from '../store/actions/auth';
 
 const BASE_URL = process.env.NODE_ENV === 'production' ? 'steam-sale-sniffer.herokuapp.com' : 'localhost:8000'
 
-// const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
+const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
 // const vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
 
 class App extends Component {
@@ -66,8 +66,10 @@ class App extends Component {
         this.setState({ wishlistitems: updated_wishlist })
     }
 
-    handleEdit = (item) => {
+    handleEdit = (e, item) => {
         // item = { ...item, target_price: parseFloat(item.target_price) }
+        e.preventDefault()
+        console.log(item)
         axios
             .put(`http://${BASE_URL}/api/wishlistitems/${item.id}/`, item)
             .then(res => { console.log(item) })
@@ -108,6 +110,7 @@ class App extends Component {
                 <div className="offset-1 col-md-10">
                 { this.state.wishlistitems.map(item => {
                     let { game } = item
+                    let imgSrc = (id) => `https://steamcdn-a.akamaihd.net/steam/apps/${id}/capsule_184x69.jpg`
                     let menu = (
                         <Menu>
                             <Menu.Item>
@@ -127,33 +130,39 @@ class App extends Component {
                             </Menu.Item>
                         </Menu>
                     )
+
+                    let gameTitle = (vw > 500 || game.title.length <= 35) ? game.title : game.title.slice=(0,35).split(" ").slice(0, -1).join(" ")+"..."
+                    let steamUrl = `https://store.steampowered.com/app/${game.steam_id}/`
                     let saleIndicator = +game.curr_price <= +item.target_price ? 'on_sale' : ''
                     let checkCircle   = +game.curr_price <= +item.target_price ? 
                                 (<FontAwesomeIcon icon={faCheckCircle} size='2x' style={{color: '#90b90c'}} />) : 
                                 null
                     return (
-                    <div key={game.id}>
-                    <div className={`row game`} key={game.id}>
-                        <img className="offset-0" height="55" alt=""
-                        src={`https://steamcdn-a.akamaihd.net/steam/apps/${game.steam_id}/capsule_184x69.jpg`} 
-                        />
-                        <div className="col-md-5 game-title text ">{game.title}</div>
-                        <div className={`col-md-2 game-price text`}>
-                            ${item.target_price}
+                        <div key={game.id}>
+                        <div className="row game" key={game.id}>
+                            <img className='game-img' alt={game.title} height={55} width={149} src={imgSrc(game.steam_id)} />
+
+                            <div className={`col-lg-5 col-md-4 col-3 game-title text`}>
+                                <a href={steamUrl}>{gameTitle}</a>
+                            </div>
+
+                            <div className={`col-sm-2 col-1 game-price text`} id='price1'>
+                                ${item.target_price}
+                            </div>
+
+                            <div className={`col-2 game-price text`} id='price2'>
+                                <div className={`${saleIndicator}`}>{checkCircle} ${game.curr_price}</div>
+                            </div>
+
+                            <div className="col-0 text">
+                                <Dropdown overlay={menu}>
+                                    <a href="/" className="ant-dropdown-link" onClick={e => e.preventDefault()}>
+                                        <FontAwesomeIcon icon={faCog} size='1x' style={{color: '#fff'}} />
+                                    </a>
+                                </Dropdown>
+                            </div>
                         </div>
-                        <div className={`offset-0 col-md-2 game-price text ${saleIndicator}`}> 
-                            <div>{checkCircle} ${game.curr_price}</div>
                         </div>
-                        <div className="col-md-1 text">
-                            <Dropdown overlay={menu}>
-                                <a href="/" className="ant-dropdown-link" onClick={e => e.preventDefault()}>
-                                <FontAwesomeIcon icon={faCog} size='1x' style={{color: '#fff'}} />
-                                </a>
-                            </Dropdown>
-                        </div>
-                        {/* <div>{item.id}</div> */}
-                    </div>
-                    </div>
                     )
                 })}
                 </div>

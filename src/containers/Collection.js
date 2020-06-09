@@ -64,7 +64,7 @@ class App extends Component {
     render() {
         return (
         <div className="App background">
-            <h1>My Wishlist</h1>
+            <h1>My Collection</h1>
             <div className="container">
             <div className="row">
                 <div className="offset-1 col-md-10">

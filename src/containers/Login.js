@@ -31,10 +31,10 @@ class Demo extends React.Component {
         const { token, error } = this.props
         if (token) { return <Redirect to="/" /> }
         return (
-        <div>
+        <div className='background'>
             <h1 >Sign In</h1>
             {this.state.submitted && error && 
-                <p id='login-error'>{'The account name or password that you have entered is incorrect.'}</p>
+                <p className='error'>{'The account name or password that you have entered is incorrect.'}</p>
             }
         <Form 
             // {...layout} 
@@ -58,7 +58,10 @@ class Demo extends React.Component {
                 <Button type="primary" htmlType="submit" className="loginButton">
                     Sign In
                 </Button>
-                <br />Or <NavLink style={{marginRight: '10px'}} to='/signup'> Sign Up</NavLink>
+                <br />
+                <p className='form-redirect'>
+                or <NavLink style={{marginRight: '10px'}} to='/signup'> Sign Up</NavLink>
+                </p>
             </Form.Item>
         </Form>
         </div>

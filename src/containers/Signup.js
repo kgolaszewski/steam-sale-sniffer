@@ -49,7 +49,7 @@ class RegistrationForm extends React.Component {
         const { token } = this.props
         if (token) { return <Redirect to="/" /> }
         return (
-            <div>
+            <div className='background'>
             <h1>Create an Account</h1>
             <Form {...layout} ref={this.formRef} name="control-ref" onFinish={this.handleSubmit}>
                 <Form.Item name="username" label="Username" rules={[{ required: true, message: "Input username" }]}>
@@ -77,7 +77,9 @@ class RegistrationForm extends React.Component {
                     <Button type="primary" htmlType="submit" className="loginButton" style={{ marginRight: "10px" }}>
                         Register
                     </Button>
-                    Or <NavLink style={{ marginRight: "10px" }} to="/login/">Log In</NavLink>
+                    <p className='form-redirect'>
+                    or <NavLink style={{ marginRight: "10px" }} to="/login/">Log In</NavLink>
+                    </p>
                 </Form.Item>
             </Form>
             </div>

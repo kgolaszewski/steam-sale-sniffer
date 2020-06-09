@@ -4,7 +4,7 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, In
 export default class CustomModal extends Component {
     constructor(props) {
         super(props);
-        this.state = { activeItem: this.props.activeItem }
+        this.state = { activeItem: this.props.activeItem, modalerror: false }
     }
 
     handleChange = (e) => {
@@ -13,20 +13,22 @@ export default class CustomModal extends Component {
         this.setState({activeItem})
     }
 
-    // handleEnter = (e) => {
-    //     if (e.key === 'Enter') {
-    //         e.preventDefault()
-    //         onSave(this.state.activeItem)
-    //     }
-    // }
-
+    handleSubmit = (onSave, e, item) => {
+        if (parseFloat(item.target_price)) {
+            onSave(e, item)
+        } else {
+            e.preventDefault()
+            this.setState({ modalerror: true })
+        }
+    }
     
     render() {
         const { toggle, onSave } = this.props;
+        const ERROR_MESSAGE = 'Please enter a valid price!'
         return (
             <Modal isOpen={true} toggle={toggle}>
                 <ModalHeader toggle={toggle}>Add Game to Watch List</ModalHeader>
-                <Form onSubmit={() => onSave(this.state.activeItem)}>
+                <Form onSubmit={(e) => this.handleSubmit(onSave, e, this.state.activeItem)}>
                     <ModalBody>
                         <FormGroup>
                             <Label for="target_price">Target Price</Label>
@@ -35,9 +37,12 @@ export default class CustomModal extends Component {
                                 onChange={this.handleChange}
                             />
                         </FormGroup>
+                        { this.state.modalerror && 
+                            <p className='error modal-error'>{ERROR_MESSAGE}</p>
+                        }
                     </ModalBody>
                     <ModalFooter>
-                        <Button color="success" type="submit" onClick={() => onSave(this.state.activeItem)}>
+                        <Button color="success" type="submit" onClick={(e) => this.handleSubmit(onSave, e, this.state.activeItem)}>
                             Save
                         </Button>
                         <Button color="danger" onClick={() => toggle()}>

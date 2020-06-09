@@ -11,29 +11,21 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
-.text {
-  font-size: 1em;
-  /* margin-bottom: 0.5em; */
-  margin-top: 0.7em;
-  color: #fff;
-  text-align: top;
-}
-
-.xs-text {
-  font-size: 0.7em;
-  /* margin-top: 0.7em; */
-  color: #fff;
-  text-align: top; 
-}
-
-h1 {
+.background > h1 {
   color: #fff;
   text-align: center;
+  padding-top: 0.3em;
+  padding-bottom: 0.3em;
 }
 
 .game-title {
   /* font-size: 1em; */
   /* padding-top: 0.6em; */
+  padding-left: 1em !important;
+}
+
+
+div.game-title > a {
   color: #fff;
 }
 
@@ -57,24 +49,14 @@ h1 {
   padding-left: 0.3em;
 }
 
-.pad-r {
-  margin-left: 0.8em;
-  margin-right: 0.3em;
-}
-
-.pad-mobile {
-  margin-left: 0.8em;
-}
-
 .plus {
   font-size: 1.3em;
 }
 
-.divider {
+/* .divider {
   background-color: #1b2838;
-  /* background-color: #ff0000; */
   height: 0.3em;
-}
+} */
 
 .loginButton {
   width: 100%;
@@ -107,28 +89,146 @@ div.game > div {
   padding: 0px !important;
 }
 
-/* 
-CREATE MEDIA QUERY FOR GAMELIST.JS TEXT CSS 
-.text {
-  font-size: 1em;
-  margin-top: 0.7em;
-  color: #fff;
-  text-align: top;
-}
 
-.xs-text {
-  font-size: 0.7em;
-  color: #fff;
-  text-align: top; 
-} 
-*/
-
-.navbar-item {
-  /* vertical-align: middle; */
-}
-
-#login-error {
+.error {
   color: #f00;
   text-align: center;
-  /* background-color: #f00; */
 }
+
+.modal-error {
+  font-size: 0.88em;
+  vertical-align: bottom;
+  margin-bottom: 0px;
+}
+
+.ant-form-item-required {
+  color: #fff !important;
+}
+
+.form-redirect {
+  color: #fff;
+  text-align: center;
+}
+
+@media all and (min-width: 1000px) {
+  .text {
+    font-size: 0.9em;
+    margin-top: 0.5em;
+  
+    color: #fff;
+    text-align: top;
+  }
+}
+
+@media all and (max-width: 999px) {
+  .text {
+    font-size: 0.7em;
+  
+    color: #fff;
+    text-align: top; 
+  } 
+}
+
+.fa-check-circle {
+  vertical-align: middle;
+}
+
+.fa-cog {
+  text-align: center;
+}
+
+.ant-menu-item {
+  font-size: 1em;
+  padding: 0 1.2em !important;
+}
+
+.searchbar {
+  padding-bottom: 1em;
+}
+
+
+@media all and (max-width: 500px) {
+  .divider {
+    background-color: #1b2838;
+    /* background-color: #ff0000; */
+    height: 5em;
+  }
+}
+
+@media all and (min-width: 501px) {
+  .divider {
+    background-color: #1b2838;
+    /* background-color: #ff0000; */
+    height: 0px;
+  }
+}
+
+
+.pad-r {
+  margin-left: 0.8em;
+  margin-right: 0em;
+}
+
+
+@media all {
+  .btn {
+    background-color: #ff0;
+    padding: .375rem .6rem !important;
+  }
+}
+
+@media all and (min-width: 381) {
+  .btn {
+    background-color: #f00 !important;
+    padding: .375rem .675rem !important;
+  }
+}
+.pad-mobile {
+  margin-left: 0.8em;
+}
+
+/* @media all and (min-width: 1001) {
+  .pad {
+    margin-left: 0.8em;
+    margin-right: 0.3em;
+  }
+}
+
+@media all and (max-width: 1000) {
+  .pad {
+    margin-left: 0.8em;
+  }
+} */
+
+.game-img {
+  padding-left:  0.5em;
+  /* padding-right: 0.5em; */
+}
+
+@media all and (min-width: 768px) and (max-width: 1199px) {
+  #price2 {
+    padding-right: 25px;
+  }
+}
+
+@media all and (max-width: 474px) {
+  #price2 {
+    padding-left: 35px;
+  }
+}
+
+@media all and (min-width: 475px) and (max-width: 575px) {
+  #price1 {
+    padding-left: 40px;
+  }
+
+  #price2 {
+    margin-left: 20px;
+  }
+}
+
+
+
+/* 472 (bad)
+475 (good)
+474 (bad) */

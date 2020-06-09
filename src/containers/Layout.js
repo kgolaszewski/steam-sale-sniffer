@@ -16,11 +16,13 @@ class CustomLayout extends React.Component {
                 <Header style={{display: 'inline-block'}}>
 
                     { this.props.isAuthenticated ? (
-                        <Menu theme="dark" selectedKeys={[]} mode="horizontal" style={{lineHeight: "4em", width: '100%'}}>
+                        <Menu theme="dark" selectedKeys={[]} mode="horizontal" 
+                            style={{lineHeight: "4em", width: '100%'}}
+                        >
                             <Menu.Item key="0">
                                 <FontAwesomeIcon icon={faSteam} size='3x' style={{
-                                color: '#fff', 
-                                verticalAlign: 'middle'
+                                    color: '#fff', 
+                                    verticalAlign: 'middle'
                             }}/>
                             </Menu.Item>
 
@@ -40,12 +42,14 @@ class CustomLayout extends React.Component {
                             <Link to="/collection">My Games</Link>
                             </Menu.Item>
 
-                            <Menu.Item key="5">
+                            {/* <Menu.Item key="5">
                             User {localStorage.getItem('userId')}
-                            </Menu.Item>
+                            </Menu.Item> */}
                         </Menu>
                         ) : (
-                        <Menu theme="dark" selectedKeys={[]} mode="horizontal" style={{lineHeight: "4em", width: '100%'}}>
+                        <Menu theme="dark" selectedKeys={[]} mode="horizontal" 
+                            style={{lineHeight: "4em", width: '100%'}}
+                        >
                             <Menu.Item key="0">
                                 <FontAwesomeIcon icon={faSteam} size='3x' style={{
                                 color: '#fff', 

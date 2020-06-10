@@ -25,9 +25,7 @@ class App extends Component {
     this.state = {
       games: [],
       modal: false,
-      activeItem: {
-        game: '', user: 1, target_price: "", purchased: false,
-      },
+      activeItem: { game: '', user: 1, target_price: "", purchased: false, },
       loading: false,
       hasMore: true,
       next: `http://${BASE_URL}/api/search/?q=&page=2`,
@@ -46,25 +44,13 @@ class App extends Component {
         games: res.data.results.filter(game => !game.users.includes(+localStorage.getItem('userId'))),
         activeItem: {
           ...this.state.activeItem,
-          user: (localStorage.getItem('userId') === undefined ? 1 : +localStorage.getItem('userId'))
+          user: (localStorage.getItem('userId') === undefined ? 1 : +localStorage.getItem('userId')),
         },
 
       }) } )
       .catch( err => console.log(err) )
     this.timer = null;
     console.log(this.state.next)
-  }
-
-  UNSAFE_componentWillReceiveProps() {
-    let userId = +localStorage.getItem('userId')
-    console.log('Recieve props has identified userId: '+userId)
-    this.setState({
-      activeItem: {
-        ...this.state.activeItem, 
-        user: userId
-      },
-      games: this.state.games.filter(game => !game.users.includes(userId) )
-    })
   }
 
   handleInfiniteLoad = ({ startIndex, stopIndex }) => {
@@ -88,13 +74,22 @@ class App extends Component {
 
   isRowLoaded = ({ index }) => !!this.loadedRowsMap[index]
 
+  toggle = (app_id) => { 
+    let new_id = !this.state.modal ? app_id : ''
+    this.setState({ 
+      modal: !this.state.modal, 
+      activeItem: { ...this.state.activeItem, game: new_id },
+      modalerror: false,
+    }) 
+  }
+
   handleSubmit = (e, item) => {
     item = {
       ...item,
       target_price: parseFloat(item.target_price)
     }
+    e.preventDefault()
     if (item.target_price) {
-      e.preventDefault()
       axios
         .post(`http://${BASE_URL}/api/wishlistitems/`, item)
         .then(res => { console.log(item) })
@@ -104,19 +99,9 @@ class App extends Component {
       })
       this.toggle()
     } else {
-      e.preventDefault()
       this.setState({ modalerror: true })
       console.log( this.state.modalerror)
     }
-  }
-
-  toggle = (app_id) => { 
-    let new_id = !this.state.modal ? app_id : ''
-    this.setState({ 
-      modal: !this.state.modal, 
-      activeItem: { ...this.state.activeItem, game: new_id },
-      modalerror: false,
-    }) 
   }
 
   dynamicSearch = (value, page=1) => {
@@ -143,7 +128,7 @@ class App extends Component {
 
   renderItem = ({ style, index, key }) => {
 
-    let btn    = "col-sm-0 btn btn-success pad-r"
+    let btn    = "col-sm-0 btn btn-success btn-pad"
     let imgSrc = (id) => `https://steamcdn-a.akamaihd.net/steam/apps/${id}/capsule_184x69.jpg`
 
     const { games } = this.state
@@ -165,7 +150,7 @@ class App extends Component {
             <a href={steamUrl}>{gameTitle}</a>
           </div>
           <div className={`col-sm-2 col-1 game-price text`} id='price1'>
-            ${game.base_price}
+            ${game.curr_price}
           </div>
           <div className={`col-2 game-price text`} id='price2'>
             ${game.base_price}
@@ -244,6 +229,7 @@ class App extends Component {
             toggle={this.toggle} 
             onSave={this.handleSubmit} 
             error={this.state.modalerror}
+            is_unauthenticated={!this.props.token}
           />
         ) : null }
         { this.state.loading && this.state.hasMore && (<div><Spin /></div>)}

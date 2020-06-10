@@ -6,8 +6,8 @@ import { NavLink, Redirect }  from 'react-router-dom'
 import * as actions from '../store/actions/auth'
 
 const layout = {
-    labelCol:   { xs: { span: 2 }, sm: { span: 1 }, md: { span: 7 }},
-    wrapperCol: { xs: { span: 2 }, sm: { span: 1 }, md: { span: 10 }},
+    labelCol:   { xs: { span: 2 }, sm: { span: 7 }},
+    wrapperCol: { xs: { span: 2 }, sm: { span: 10 }},
 };
 
 const tailLayout = {
@@ -54,7 +54,7 @@ class Demo extends React.Component {
             >
                 <Input.Password />
             </Form.Item>
-            <Form.Item {...tailLayout}>
+            <Form.Item {...tailLayout} className='submit-btn'>
                 <Button type="primary" htmlType="submit" className="loginButton">
                     Sign In
                 </Button>

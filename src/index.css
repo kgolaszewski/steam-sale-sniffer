@@ -22,8 +22,6 @@ code {
 }
 
 .game-title {
-  /* font-size: 1em; */
-  /* padding-top: 0.6em; */
   padding-left: 1em !important;
 }
 
@@ -39,9 +37,7 @@ div.game-title > a {
 
 .background {
   background-color: #1b2838;
-  /* height: 100%; */
   min-height: 35em;
-  /* background-color: #ff0; */
 }
 
 .game {
@@ -56,11 +52,6 @@ div.game-title > a {
   font-size: 1.3em;
 }
 
-/* .divider {
-  background-color: #1b2838;
-  height: 0.3em;
-} */
-
 .loginButton {
   width: 100%;
 }
@@ -73,25 +64,9 @@ div.game-title > a {
   margin-bottom: 0.5em;
 }
 
-
-/* div.game {
-  display: table;
-  height: 100%;
-  width: 100%;
-}
-
-div.game > div {
-  display: table-cell;
-  vertical-align: middle;
-  margin-bottom: 0.5em;
-} */
-
-
-
 .ant-layout-header {
   padding: 0px !important;
 }
-
 
 .error {
   color: #f00;
@@ -161,17 +136,14 @@ div.game > div {
 @media all and (min-width: 501px) {
   .divider {
     background-color: #1b2838;
-    /* background-color: #ff0000; */
     height: 0px;
   }
 }
 
-
-.pad-r {
+.btn-pad {
   margin-left: 0.8em;
   margin-right: 0em;
 }
-
 
 @media all {
   .btn {
@@ -180,32 +152,8 @@ div.game > div {
   }
 }
 
-@media all and (min-width: 381) {
-  .btn {
-    background-color: #f00 !important;
-    padding: .375rem .675rem !important;
-  }
-}
-.pad-mobile {
-  margin-left: 0.8em;
-}
-
-/* @media all and (min-width: 1001) {
-  .pad {
-    margin-left: 0.8em;
-    margin-right: 0.3em;
-  }
-}
-
-@media all and (max-width: 1000) {
-  .pad {
-    margin-left: 0.8em;
-  }
-} */
-
 .game-img {
   padding-left:  0.5em;
-  /* padding-right: 0.5em; */
 }
 
 @media all and (min-width: 768px) and (max-width: 1199px) {
@@ -270,7 +218,47 @@ div.game > div {
   border-color: #16202d;
   border: 2px solid #16202d;
 } */
-
 /* .anticon-search svg  */
-
 /* div.container span.ant-input-group-addon button path */
+
+.login-prompt {
+  text-align: center;
+}
+
+#login-prompt .btn a {
+  color: #fff;
+  margin-right: 0px !important;
+}
+
+/* Both of the below are necessary for 100% login-modal buttons */
+#login-prompt .btn { width: 100%; }
+#login-prompt a    { width: 100% }
+
+
+@media all and (max-width: 575px) {
+  .ant-form-item-label {
+    flex: 0 0 20% !important;
+    right: 0px;
+  }
+
+  .ant-form-item-control {
+    flex: 0 0 80% !important;
+  }
+
+  .submit-btn .ant-form-item-control {
+    padding-left: 10%;
+    padding-right: 10%;
+    flex: 0 0 100% !important;
+  }
+
+  .ant-form-item {
+    padding-left: 5% !important;
+    padding-right: 5% !important;
+    flex: 0 0 100% !important;
+  }
+
+  label {
+    float: right;
+    padding-right: 0.5em;
+  }
+}

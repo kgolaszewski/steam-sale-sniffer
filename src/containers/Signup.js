@@ -6,12 +6,12 @@ import { NavLink, Redirect }  from 'react-router-dom'
 import * as actions from '../store/actions/auth'
 
 const layout = {
-    labelCol: { span: 7 },
-    wrapperCol: { span: 10 },
+    labelCol:   { xs: { span: 2 }, sm: { span: 7 }},
+    wrapperCol: { xs: { span: 2 }, sm: { span: 10 }},
 };
 
 const tailLayout = {
-    wrapperCol: { offset: 7, span: 10 },
+    wrapperCol: {xs: { offset: 0, span: 2 }, sm: { offset: 8, span: 8 }}
 };
 
 class RegistrationForm extends React.Component {
@@ -73,7 +73,7 @@ class RegistrationForm extends React.Component {
                     <Input.Password onBlur={this.handleConfirmBlur} />
                 </Form.Item>
 
-                <Form.Item {...tailLayout}>
+                <Form.Item {...tailLayout} className='submit-btn'>
                     <Button type="primary" htmlType="submit" className="loginButton" style={{ marginRight: "10px" }}>
                         Register
                     </Button>

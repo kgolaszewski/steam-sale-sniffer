@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Input, Label } from 'reactstrap';
+import {Link, NavLink }  from 'react-router-dom'
 
 export default class CustomModal extends Component {
     constructor(props) {
@@ -23,8 +24,29 @@ export default class CustomModal extends Component {
     }
     
     render() {
-        const { toggle, onSave } = this.props;
+        const { toggle, onSave, is_unauthenticated } = this.props;
         const ERROR_MESSAGE = 'Please enter a valid price!'
+        if (is_unauthenticated) {
+            return (
+                <Modal isOpen={true} toggle={toggle} id='login-prompt'>
+                <ModalHeader className='login-modal-header' cssModule={{'modal-title': 'w-100 text-center'}} toggle={toggle}>Buy Great Games on the Cheap!</ModalHeader>
+                    <ModalBody className='login-prompt'>
+                            Join Steam Sale Sniffer to start tracking games. <br />Receive 
+                            notifications when they're at the price <strong>you</strong> want.
+                    </ModalBody>
+                    <ModalFooter>
+                        <NavLink to='/login'>
+                            <Button color="primary" className='mr-auto'>Log In</Button>
+                        </NavLink>
+
+                        <NavLink to='/signup'>
+                            <Button color="secondary" onClick={() => toggle()}>Sign Up</Button>
+                        </NavLink>
+                </ModalFooter>
+            </Modal>                
+            )
+        }
+
         return (
             <Modal isOpen={true} toggle={toggle}>
                 <ModalHeader toggle={toggle}>Add Game to Watch List</ModalHeader>

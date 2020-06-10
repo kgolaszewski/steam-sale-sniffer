@@ -107,7 +107,7 @@ class App extends Component {
             <h1>My Wishlist</h1>
             <div className="container">
             <div className="row">
-                <div className="offset-1 col-md-10">
+                <div className="offset-md-1 col-md-10 col-12">
                 { this.state.wishlistitems.map(item => {
                     let { game } = item
                     let imgSrc = (id) => `https://steamcdn-a.akamaihd.net/steam/apps/${id}/capsule_184x69.jpg`
@@ -131,18 +131,19 @@ class App extends Component {
                         </Menu>
                     )
 
-                    let gameTitle = (vw > 500 || game.title.length <= 35) ? game.title : game.title.slice=(0,35).split(" ").slice(0, -1).join(" ")+"..."
+                    let gameTitle = (vw > 500 || game.title.length <= 35) ? game.title : 
+                                        game.title.slice(0,35).split(" ").slice(0, -1).join(" ")+"..."
                     let steamUrl = `https://store.steampowered.com/app/${game.steam_id}/`
                     let saleIndicator = +game.curr_price <= +item.target_price ? 'on_sale' : ''
                     let checkCircle   = +game.curr_price <= +item.target_price ? 
                                 (<FontAwesomeIcon icon={faCheckCircle} size='2x' style={{color: '#90b90c'}} />) : 
                                 null
                     return (
-                        <div key={game.id}>
+                        <div key={game.id} id='wishlist'>
                         <div className="row game" key={game.id}>
                             <img className='game-img' alt={game.title} height={55} width={149} src={imgSrc(game.steam_id)} />
 
-                            <div className={`col-lg-5 col-md-4 col-3 game-title text`}>
+                            <div className={`col-lg-5 col-md-3 col-3 game-title text`}>
                                 <a href={steamUrl}>{gameTitle}</a>
                             </div>
 
@@ -150,7 +151,7 @@ class App extends Component {
                                 ${item.target_price}
                             </div>
 
-                            <div className={`col-2 game-price text`} id='price2'>
+                            <div className={`col-lg-2 col-md-3 col-sm-3 col-3 game-price text`} id='price2'>
                                 <div className={`${saleIndicator}`}>{checkCircle} ${game.curr_price}</div>
                             </div>
 

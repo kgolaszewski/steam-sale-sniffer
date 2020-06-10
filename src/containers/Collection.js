@@ -13,6 +13,7 @@ import { connect } from 'react-redux';
 import * as actions from '../store/actions/auth';
 
 const BASE_URL = process.env.NODE_ENV === 'production' ? 'steam-sale-sniffer.herokuapp.com' : 'localhost:8000'
+const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
 
 class App extends Component {
     constructor(props) {
@@ -67,7 +68,7 @@ class App extends Component {
             <h1>My Collection</h1>
             <div className="container">
             <div className="row">
-                <div className="offset-1 col-md-10">
+                <div className="offset-md-1 col-md-10 col-12">
                 { this.state.wishlistitems.map(item => {
                     let { game } = item
                     let menu = (
@@ -77,21 +78,45 @@ class App extends Component {
                             </Menu.Item>
                         </Menu>
                     )
+                    let imgSrc = (id) => `https://steamcdn-a.akamaihd.net/steam/apps/${id}/capsule_184x69.jpg`
+                    let gameTitle = (vw > 500 || game.title.length <= 35) ? game.title : 
+                                        game.title.slice(0,35).split(" ").slice(0, -1).join(" ")+"..."
+                    let steamUrl = `https://store.steampowered.com/app/${game.steam_id}/`
                     return (
-                    <div key={game.id}>
+                    <div key={game.id} id='collection'>
                     <div className="row game" key={game.id}>
-                        <img className="offset-0" height="55" alt=""
-                        src={`https://steamcdn-a.akamaihd.net/steam/apps/${game.steam_id}/capsule_184x69.jpg`} 
-                        />
-                        <div className="col-md-5 game-title text">{game.title}</div>
+                        <img className='game-img' alt={game.title} height={55} width={149} src={imgSrc(game.steam_id)} />
+                        <div className={`col-lg-5 col-md-3 col-3 game-title text`}>
+                                <a href={steamUrl}>{gameTitle}</a>
+                            </div>
+
+                            <div className={`col-sm-2 col-1 game-price text`} id='price1'>
+                                ${item.target_price}
+                            </div>
+
+                            <div className={`col-lg-2 col-md-3 col-sm-3 col-3 game-price text`} id='price2'>
+                                ${game.curr_price}
+                            </div>
+
+                            <div className="col-0 text">
+                                <Dropdown overlay={menu}>
+                                    <a href="/" className="ant-dropdown-link" onClick={e => e.preventDefault()}>
+                                        <FontAwesomeIcon icon={faCog} size='1x' style={{color: '#fff'}} />
+                                    </a>
+                                </Dropdown>
+                            </div>
+                        {/* <img className="offset-0" height="55" alt="" src={`https://steamcdn-a.akamaihd.net/steam/apps/${game.steam_id}/capsule_184x69.jpg`} /> */}
+                        {/* <div className="col-md-5 game-title text">{game.title}</div>
                         <div className="offset-2 col-md-2 game-price text">${game.curr_price}</div>
+                        
                         <div className="col-md-1 text">
                             <Dropdown overlay={menu}>
                                 <a href="/" className="ant-dropdown-link" onClick={e => e.preventDefault()}>
                                 <FontAwesomeIcon icon={faCog} size='1x' style={{color: '#fff'}} />
                                 </a>
                             </Dropdown>
-                        </div>
+                        </div> */}
+
                         {/* <div>{item.id}</div> */}
                     </div>
                     </div>

@@ -39,8 +39,8 @@ class Demo extends React.Component {
         <Form 
             // {...layout} 
             layout={'horizontal'}
-            ref={this.formRef} name="control-ref" onFinish={this.handleSubmit} 
-            // style={{ overflow: 'hidden'}}
+            ref={this.formRef} name="control-ref" onFinish={this.handleSubmit}
+            className='form-bkg' 
         >
             <Form.Item 
                 {...layout} 

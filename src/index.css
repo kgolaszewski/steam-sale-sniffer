@@ -25,7 +25,6 @@ code {
   padding-left: 1em !important;
 }
 
-
 div.game-title > a {
   color: #fff;
 }
@@ -115,10 +114,28 @@ div.game-title > a {
   text-align: center;
 }
 
-.ant-menu-item {
-  font-size: 1em;
-  padding: 0 1.2em !important;
+
+@media all and (min-width: 420px) {
+  .ant-menu-item {
+    font-size: 1em;
+    padding: 0 1.2em !important;
+  }
 }
+
+@media all and (min-width: 362px) and (max-width: 419px) {
+  .ant-menu-item {
+    font-size: 1em;
+    padding: 0 3vw !important;
+  }
+}
+
+@media all and (max-width: 360px) {
+  .ant-menu-item {
+    font-size: 1em;
+    padding: 0 0.7em !important;
+  }
+}
+
 
 .searchbar {
   padding-bottom: 1em;
@@ -128,7 +145,6 @@ div.game-title > a {
 @media all and (max-width: 500px) {
   .divider {
     background-color: #1b2838;
-    /* background-color: #ff0000; */
     height: 5em;
   }
 }
@@ -145,9 +161,8 @@ div.game-title > a {
   margin-right: 0em;
 }
 
-@media all {
+@media all and (min-width: 400px) {
   .btn {
-    background-color: #ff0;
     padding: .375rem .6rem !important;
   }
 }
@@ -260,5 +275,61 @@ div.game-title > a {
   label {
     float: right;
     padding-right: 0.5em;
+  }
+}
+
+/* .form-bkg {
+  background-color: #16202d;
+}
+.ant-form {
+  padding-top: 1.3em !important;
+} */
+
+/* div.ReactVirtualized__Grid__innerScrollContainer div {
+} */
+
+/* @media all and (max-width: 399px) { */
+@media all and (max-width: 420px) {
+
+  div.row div#gamelist {
+    padding-left: 5px !important;
+    padding-right: 5px !important;
+  }
+
+  .btn {
+    padding: .375rem .4rem !important;
+  }
+
+  .game-img {
+    padding-left: 0.3em;
+    width: 130px;
+  }
+
+  .game-title {
+    padding-right: 5px !important;
+  }
+
+  #price1 {
+    padding-left: 5px;
+  }
+
+  #price2 {
+    padding-left: 20px;
+  }
+
+  .fa-check-circle {
+    font-size: 1.2em;
+  }
+}
+
+@media all and (max-width: 410px) {
+  .ant-form-item-label > label {
+    font-size: 12px !important;
+  }
+}
+
+@media all and (max-width: 361px) {
+  .ant-form-item-label > label {
+    font-size: 10px;
   }
 }

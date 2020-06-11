@@ -67,7 +67,6 @@ class App extends Component {
     }
 
     handleEdit = (e, item) => {
-        // item = { ...item, target_price: parseFloat(item.target_price) }
         e.preventDefault()
         console.log(item)
         axios
@@ -96,9 +95,6 @@ class App extends Component {
             .catch(err => { console.log(err);})
         let updated_wishlist = this.state.wishlistitems.filter(e => e.id !== item.id && !e.purchased)
         this.setState({ wishlistitems: updated_wishlist })
-        // console.log(item)
-        // console.log(purchased)
-        // console.log(this.state.wishlistitems)
     }
 
     render() {
@@ -138,6 +134,7 @@ class App extends Component {
                     let checkCircle   = +game.curr_price <= +item.target_price ? 
                                 (<FontAwesomeIcon icon={faCheckCircle} size='2x' style={{color: '#90b90c'}} />) : 
                                 null
+
                     return (
                         <div key={game.id} id='wishlist'>
                         <div className="row game" key={game.id}>
@@ -152,7 +149,9 @@ class App extends Component {
                             </div>
 
                             <div className={`col-lg-2 col-md-3 col-sm-3 col-3 game-price text`} id='price2'>
-                                <div className={`${saleIndicator}`}>{checkCircle} ${game.curr_price}</div>
+                                <div className={`${saleIndicator}`}>
+                                    {checkCircle} ${game.curr_price}  
+                                </div>
                             </div>
 
                             <div className="col-0 text">

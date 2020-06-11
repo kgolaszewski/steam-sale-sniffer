@@ -200,7 +200,9 @@ class App extends Component {
     return (
       <div className="App background">
         <h1>Recommended Steam Games</h1>
-        <div className="container">
+        <div className="container"
+          // id='gamelist'
+        >
           <div className="row">
             <div className="offset-lg-1 col-lg-10 col-12">
               <Search 
@@ -218,7 +220,7 @@ class App extends Component {
             </div>
         </div>
           <div className="row">
-            <div className="offset-lg-1 col-lg-10 col-12">
+            <div className="offset-lg-1 col-lg-10 col-12" id='gamelist'>
               {games.length > 0 && <WindowScroller>{infiniteLoader}</WindowScroller>}
             </div>
           </div>

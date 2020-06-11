@@ -51,7 +51,7 @@ class RegistrationForm extends React.Component {
         return (
             <div className='background'>
             <h1>Create an Account</h1>
-            <Form {...layout} ref={this.formRef} name="control-ref" onFinish={this.handleSubmit}>
+            <Form {...layout} ref={this.formRef} name="control-ref" onFinish={this.handleSubmit} className='form-bkg' >
                 <Form.Item name="username" label="Username" rules={[{ required: true, message: "Input username" }]}>
                     <Input />
                 </Form.Item>

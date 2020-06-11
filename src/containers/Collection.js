@@ -84,41 +84,28 @@ class App extends Component {
                     let steamUrl = `https://store.steampowered.com/app/${game.steam_id}/`
                     return (
                     <div key={game.id} id='collection'>
-                    <div className="row game" key={game.id}>
-                        <img className='game-img' alt={game.title} height={55} width={149} src={imgSrc(game.steam_id)} />
-                        <div className={`col-lg-5 col-md-3 col-3 game-title text`}>
-                                <a href={steamUrl}>{gameTitle}</a>
-                            </div>
+                        <div className="row game" key={game.id}>
+                            <img className='game-img' alt={game.title} height={55} width={149} src={imgSrc(game.steam_id)} />
+                            <div className={`col-lg-5 col-md-3 col-3 game-title text`}>
+                                    <a href={steamUrl}>{gameTitle}</a>
+                                </div>
 
-                            <div className={`col-sm-2 col-1 game-price text`} id='price1'>
-                                ${item.target_price}
-                            </div>
+                                <div className={`col-sm-2 col-1 game-price text`} id='price1'>
+                                    ${item.target_price}
+                                </div>
 
-                            <div className={`col-lg-2 col-md-3 col-sm-3 col-3 game-price text`} id='price2'>
-                                ${game.curr_price}
-                            </div>
+                                <div className={`col-lg-2 col-md-3 col-sm-3 col-3 game-price text`} id='price2'>
+                                    ${game.curr_price}
+                                </div>
 
-                            <div className="col-0 text">
-                                <Dropdown overlay={menu}>
-                                    <a href="/" className="ant-dropdown-link" onClick={e => e.preventDefault()}>
-                                        <FontAwesomeIcon icon={faCog} size='1x' style={{color: '#fff'}} />
-                                    </a>
-                                </Dropdown>
-                            </div>
-                        {/* <img className="offset-0" height="55" alt="" src={`https://steamcdn-a.akamaihd.net/steam/apps/${game.steam_id}/capsule_184x69.jpg`} /> */}
-                        {/* <div className="col-md-5 game-title text">{game.title}</div>
-                        <div className="offset-2 col-md-2 game-price text">${game.curr_price}</div>
-                        
-                        <div className="col-md-1 text">
-                            <Dropdown overlay={menu}>
-                                <a href="/" className="ant-dropdown-link" onClick={e => e.preventDefault()}>
-                                <FontAwesomeIcon icon={faCog} size='1x' style={{color: '#fff'}} />
-                                </a>
-                            </Dropdown>
-                        </div> */}
-
-                        {/* <div>{item.id}</div> */}
-                    </div>
+                                <div className="col-0 text">
+                                    <Dropdown overlay={menu}>
+                                        <a href="/" className="ant-dropdown-link" onClick={e => e.preventDefault()}>
+                                            <FontAwesomeIcon icon={faCog} size='1x' style={{color: '#fff'}} />
+                                        </a>
+                                    </Dropdown>
+                                </div>
+                        </div>
                     </div>
                     )
                 })}

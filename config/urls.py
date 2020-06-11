@@ -23,3 +23,7 @@ urlpatterns = [
     re_path(r'^.*', index, name='index'),
 ]
 
+urlpatterns += [
+    path('django-rq/', include('django_rq.urls'))
+]
+

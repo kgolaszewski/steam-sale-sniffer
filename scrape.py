@@ -26,8 +26,11 @@ def scrape():
         try:
             price = float(soup.find_element_by_class_name('discount_final_price').text.strip()[1:])
         except NoSuchElementException:
-            price = float(soup.find_element_by_class_name('game_purchase_price').text.strip()[1:])
-        game = Game.objects.get(id=app_id)
+            try: 
+                price = float(soup.find_element_by_class_name('game_purchase_price').text.strip()[1:])
+            except NoSuchElementException:
+                price = game.curr_price
+        game = Game.objects.get(steam_id=app_id)
         game.curr_price = price
         game.save()
     driver.quit()

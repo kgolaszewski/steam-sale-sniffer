@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Input, Label } from 'reactstrap';
-import {Link, NavLink }  from 'react-router-dom'
+import { NavLink }  from 'react-router-dom'
 
 export default class CustomModal extends Component {
     constructor(props) {

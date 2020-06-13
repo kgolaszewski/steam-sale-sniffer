@@ -1,3 +1,5 @@
+from django.core.management.base import BaseCommand
+
 from selenium import webdriver
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.support.ui import WebDriverWait
@@ -11,7 +13,6 @@ def scrape():
     options.add_argument("--headless")
     driver = webdriver.Firefox(options=options)
     steam_ids = [game.steam_id for game in Game.objects.all()]
-    driver = webdriver.Firefox(options=options)
     for app_id in steam_ids:
         url = f"https://store.steampowered.com/app/{app_id}/"
         driver.get(url)
@@ -28,9 +29,18 @@ def scrape():
         except NoSuchElementException:
             try: 
                 price = float(soup.find_element_by_class_name('game_purchase_price').text.strip()[1:])
-            except NoSuchElementException:
+            except:
                 price = game.curr_price
         game = Game.objects.get(steam_id=app_id)
         game.curr_price = price
         game.save()
     driver.quit()
+
+
+
+class Command(BaseCommand):
+    help = "update game curr_price"    
+    # define logic of command
+    def handle(self, *args, **options):
+        scrape()
+        self.stdout.write( 'job complete' )

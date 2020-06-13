@@ -162,6 +162,20 @@ class App extends Component {
   }
 
   render() {
+    let tableHeaders = (
+      <div className="row">
+        <div className="offset-lg-1 col-lg-10 col-12">
+          <div className='row'>
+          <div className='col-lg-5 col-md-4 col-3 game-title title-header table-header text'>
+            <strong>Game Title</strong>
+          </div>
+          <div className={`col-sm-2 col-1 game-price table-header curr-header text`} id='price1'><strong>Current Price</strong></div>
+          <div className={`col-2 game-price table-header base-header text`} id='price2'><strong>Base Price</strong></div>
+          </div>
+        </div>
+      </div>
+    )
+
     const { games } = this.state;
     const vlist = ({ height, isScrolling, onChildScroll, scrollTop, onRowsRendered, width }) => (
       <VList
@@ -219,6 +233,7 @@ class App extends Component {
               />
             </div>
         </div>
+          {tableHeaders}
           <div className="row">
             <div className="offset-lg-1 col-lg-10 col-12" id='gamelist'>
               {games.length > 0 && <WindowScroller>{infiniteLoader}</WindowScroller>}

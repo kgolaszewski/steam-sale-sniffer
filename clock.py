@@ -12,7 +12,7 @@ from scrape import scrape
 q = django_rq.get_queue('high')
 sched = BlockingScheduler()
 
-@sched.scheduled_job('cron', day_of_week='thu', hour=13, minute=55)
+@sched.scheduled_job('cron', day_of_week='thu', hour=14, minute=10)
 def scheduled_job():
     q.enqueue(scrape)
 

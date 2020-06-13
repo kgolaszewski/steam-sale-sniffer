@@ -288,8 +288,31 @@ div.game-title > a {
 /* div.ReactVirtualized__Grid__innerScrollContainer div {
 } */
 
-/* @media all and (max-width: 399px) { */
+
+.table-header {
+  vertical-align: bottom;
+  float: bottom;
+}
+
+@media all and (min-width: 421px){
+  .title-header {
+    margin-left: 199px;
+  }
+}
+
 @media all and (max-width: 420px) {
+
+  /* .curr-header {
+    margin-left: -10px !important;
+  }
+
+  .base-header {
+    margin-left: 20px;
+  } */
+
+  .title-header {
+    margin-left: 170px;
+  }
 
   div.row div#gamelist {
     padding-left: 5px !important;
@@ -332,4 +355,4 @@ div.game-title > a {
   .ant-form-item-label > label {
     font-size: 10px;
   }
-}
+} 

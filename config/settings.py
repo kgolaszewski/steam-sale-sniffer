@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
 
+    'guardian',
     'wishlist',
 
 
@@ -155,6 +156,11 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
     ]
 }
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend', # default
+    'guardian.backends.ObjectPermissionBackend',
+)
 
 # Static files [CSS, JavaScript, Images] (src: https://docs.djangoproject.com/en/3.0/howto/static-files/)
 STATIC_URL = '/static/'

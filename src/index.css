@@ -193,6 +193,16 @@ div.game-title > a {
   }
 }
 
+@media all and (max-width: 474px) {
+  .collection-price1 {
+    padding-left: 23px !important;
+  }
+
+  .collection-price2 {
+    margin-left: 15px !important;
+  }
+}
+
 
 @media all and (max-width: 575px) {
   #wishlist div.row {
@@ -298,6 +308,16 @@ div.game-title > a {
   .title-header {
     margin-left: 199px;
   }
+
+  .collection-header {
+    margin-left: 150px;
+  }
+}
+
+@media all and (max-width: 475px) {
+  .cog {
+    padding-left: 7px !important;
+  }
 }
 
 @media all and (max-width: 420px) {
@@ -312,6 +332,10 @@ div.game-title > a {
 
   .title-header {
     margin-left: 170px;
+  }
+
+  .collection-header {
+    margin-left: 131px;
   }
 
   div.row div#gamelist {

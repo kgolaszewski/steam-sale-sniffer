@@ -8,6 +8,8 @@ package-lock.json
 **/dev.py
 **/local*
 
+geckodriver.log
+
 # dependencies
 /.pnp
 .pnp.js

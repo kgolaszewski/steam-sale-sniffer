@@ -98,12 +98,27 @@ class App extends Component {
     }
 
     render() {
+        let tableHeaders = (
+            <div className="row">
+              <div className="offset-lg-1 col-lg-10 col-12">
+                <div className='row'>
+                <div className='col-lg-5 col-md-5 col-sm-4 col-3 game-title collection-header table-header text'>
+                  <strong>Game Title</strong>
+                </div>
+                <div className={`col-sm-2 col-1 game-price table-header curr-header text collection-price1`} id='price1'><strong>Current Price</strong></div>
+                <div className={`col-2 game-price table-header base-header text collection-price2`} id='price2'><strong>Base Price</strong></div>
+                </div>
+              </div>
+            </div>
+        )
+
         return (
         <div className="App background">
             <h1>My Wishlist</h1>
             <div className="container">
+            { tableHeaders }
             <div className="row">
-                <div className="offset-md-1 col-md-10 col-12">
+                <div className="offset-lg-1 col-lg-10 col-12">
                 { this.state.wishlistitems.map(item => {
                     let { game } = item
                     let imgSrc = (id) => `https://steamcdn-a.akamaihd.net/steam/apps/${id}/capsule_184x69.jpg`
@@ -140,21 +155,21 @@ class App extends Component {
                         <div className="row game" key={game.id}>
                             <img className='game-img' alt={game.title} height={55} width={149} src={imgSrc(game.steam_id)} />
 
-                            <div className={`col-lg-5 col-md-3 col-3 game-title text`}>
+                            <div className={`col-lg-5 col-md-5 col-sm-4 col-3 game-title text`}>
                                 <a href={steamUrl}>{gameTitle}</a>
                             </div>
 
-                            <div className={`col-sm-2 col-1 game-price text`} id='price1'>
+                            <div className={`col-sm-2 col-1 game-price text collection-price1`} id='price1'>
                                 ${item.target_price}
                             </div>
 
-                            <div className={`col-lg-2 col-md-3 col-sm-3 col-3 game-price text`} id='price2'>
+                            <div className={`col-2 game-price text collection-price2`} id='price2'>
                                 <div className={`${saleIndicator}`}>
                                     {checkCircle} ${game.curr_price}  
                                 </div>
                             </div>
 
-                            <div className="col-0 text">
+                            <div className="col-0 text cog">
                                 <Dropdown overlay={menu}>
                                     <a href="/" className="ant-dropdown-link" onClick={e => e.preventDefault()}>
                                         <FontAwesomeIcon icon={faCog} size='1x' style={{color: '#fff'}} />

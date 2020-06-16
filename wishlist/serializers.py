@@ -1,11 +1,9 @@
 from rest_framework import serializers
-from .models import Game, WishListItem, User
-from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 
-# from allauth.account.adapter import get_adapter
-# from rest_auth.registration.serializers import RegisterSerializer
-# from rest_framework.authtoken.models import Token
+# from rest_framework_guardian.serializers import ObjectPermissionsAssignmentMixin
+
+from .models import Game, WishListItem, User
 
 class TokenSerializer(serializers.ModelSerializer):
     class Meta:
@@ -34,10 +32,20 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = ('id', 'username', 'email', 'games')
 
+# class WishListItemSerializer(ObjectPermissionsAssignmentMixin, serializers.ModelSerializer):
 class WishListItemSerializer(serializers.ModelSerializer):
     class Meta:
         model  = WishListItem 
         fields = ('game', 'user', 'target_price', 'purchased', 'id')
+    
+    # def get_permissions_map(self, created):
+    #     current_user = self.context['user'].user
+
+    #     return {
+    #         'view_wishlistitem':   [current_user],
+    #         'change_wishlistitem': [current_user],
+    #         'delete_wishlistitem': [current_user],
+    #     }
 
 
 class WishListSerializer(serializers.ModelSerializer):
@@ -46,8 +54,3 @@ class WishListSerializer(serializers.ModelSerializer):
     class Meta:
         model  = WishListItem 
         fields = ('game', 'target_price', 'purchased', 'id')
-
-        # def get_game(self, obj):
-        #     serializer_data = GameSerializer(obj.game.filter(users__id__contains=id))
-        #     game = serializer_data.get('steam_id')
-        #     return {'game': game}

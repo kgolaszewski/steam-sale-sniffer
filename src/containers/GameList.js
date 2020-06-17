@@ -90,10 +90,18 @@ class App extends Component {
     }
     e.preventDefault()
     if (item.target_price) {
+      axios.defaults.headers = {
+        "Content-Type": "application/json",
+        "Authorization": `Token ${this.props.token}`
+      }
       axios
         .post(`http://${BASE_URL}/api/wishlistitems/`, item)
         .then(res => { console.log(item) })
-        .catch(err => {console.log(item); console.log(err);})
+        // .catch(err => {console.log(item); console.log(err);})
+        .catch(err => { 
+          console.log('ERROR\n', item, '\n', JSON.stringify(err), '\n', axios.defaults.headers);
+          console.log(err.response)
+        })
       this.setState({ 
         games: this.state.games.filter(game => game.id !== item.game)
       })

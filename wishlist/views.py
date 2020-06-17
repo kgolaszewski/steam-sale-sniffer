@@ -5,8 +5,10 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.pagination import PageNumberPagination, CursorPagination 
 
-# from guardian.mixins import PermisionRequiredMixin
-# from rest_framework_guardians import filters
+from rest_framework.permissions import IsAuthenticated
+
+# from guardian.mixins import PermisionRequiredMixin -- not necessary with rest_framework_guardian
+from rest_framework_guardian import filters
 
 from .serializers import GameSerializer, WishListSerializer, WishListItemSerializer, UserSerializer
 from .models import Game, WishListItem, User
@@ -19,38 +21,31 @@ class StandardResultsSetPagination(PageNumberPagination):
 
 
 # Writable ModelViewSets
-
 class UserView(viewsets.ModelViewSet):
     serializer_class = UserSerializer
     queryset = User.objects.all()
+    permission_classes = [IsAuthenticated]
 
-class GameView(viewsets.ModelViewSet):
+class GameView(viewsets.ReadOnlyModelViewSet):
     serializer_class = GameSerializer
     queryset = Game.objects.all()
     pagination_class = StandardResultsSetPagination 
 
-# class WishListItemView(PermissionRequiredMixin, viewsets.ModelViewSet):
 class WishListItemView(viewsets.ModelViewSet):
     serializer_class = WishListItemSerializer
     queryset = WishListItem.objects.all()
-    # permission_classes = [CustomObjectPermissions]
-    # filter_backends = [filters.ObjectPermissionsFilter]
 
-
+    permission_classes = [IsAuthenticated, CustomObjectPermissions]
+    filter_backends = [filters.ObjectPermissionsFilter]
 
 # ReadOnlyModelViewSets 
-
-# Less certain that PermissionRequiredMixin will work in these shortened Serializer contexts 
-# No reference points in documentation
-
-# class WishListView(PermissionRequiredMixin, viewsets.ReadOnlyModelViewSet):
 class WishListView(viewsets.ReadOnlyModelViewSet):
     serializer_class = WishListSerializer 
     queryset = WishListItem.objects.all()
     pagination_class = StandardResultsSetPagination 
 
-    # permission_classes = [CustomObjectPermissions]
-    # filter_backends = [filters.ObjectPermissionsFilter]
+    permission_classes = [IsAuthenticated, CustomObjectPermissions]
+    filter_backends = [filters.ObjectPermissionsFilter]
 
     def retrieve(self, request, pk=None):
         queryset = WishListItem.objects.filter(user_id=pk).filter(purchased=False).order_by(
@@ -59,13 +54,12 @@ class WishListView(viewsets.ReadOnlyModelViewSet):
         serializer = WishListSerializer(queryset, many=True)
         return Response(serializer.data)
 
-# class CollectionView(PermissionRequiredMixin, viewsets.ReadOnlyModelViewSet):
 class CollectionView(viewsets.ReadOnlyModelViewSet):
     serializer_class = WishListSerializer 
     queryset = WishListItem.objects.all()
     pagination_class = StandardResultsSetPagination 
 
-    # permission_classes = [CustomObjectPermissions]
+    permission_classes = [IsAuthenticated, CustomObjectPermissions]
     # filter_backends = [filters.ObjectPermissionsFilter]
 
     def retrieve(self, request, pk=None):

@@ -3,8 +3,14 @@ from django.contrib.auth.models import AbstractUser
 
 # Create your models here.
 class User(AbstractUser):
+    class Meta:
+        pass
+        # permissions = (
+        #     ('add_wishlistitems', 'Add WishListItems'),
+        # )
     def __str__(self):
         return self.username 
+
 
 class Game(models.Model):
     title = models.CharField(max_length=128)
@@ -24,3 +30,6 @@ class WishListItem(models.Model):
 
     def __str__(self):
         return f"{self.user}: {self.game} (${self.target_price if not self.purchased else 'OWNED'})"
+    
+    # class Meta:
+    #     app_label = 'wishlists'

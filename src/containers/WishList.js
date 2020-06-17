@@ -34,9 +34,14 @@ class App extends Component {
     }
 
     componentDidMount() {
-        
+        axios.defaults.headers = {
+            "Content-Type": "application/json",
+            'Authorization': `Token ${this.props.token}`
+        }
         axios
             .get(`http://${BASE_URL}/api/wishlists/${this.state.activeItem.user}/`)
+            // .get(`http://${BASE_URL}/api/wishlists/6/`)
+            // .get(`http://${BASE_URL}/api/wishlistitems/`)
             .then( res => {
                 console.log(res.data.filter(game => !game.purchased))
                 this.setState({wishlistitems: res.data.filter(game => !game.purchased)})
@@ -58,6 +63,10 @@ class App extends Component {
     }
 
     handleDelete = (item_id) => {
+        axios.defaults.headers = {
+            "Content-Type": "application/json",
+            'Authorization': `Token ${this.props.token}`
+        }
         axios
             .delete(`http://${BASE_URL}/api/wishlistitems/${item_id}/`)
             .then(res => { console.log() })
@@ -69,10 +78,17 @@ class App extends Component {
     handleEdit = (e, item) => {
         e.preventDefault()
         console.log(item)
+        axios.defaults.headers = {
+            "Content-Type": "application/json",
+            "Authorization": `Token ${this.props.token}`
+        }
         axios
             .put(`http://${BASE_URL}/api/wishlistitems/${item.id}/`, item)
-            .then(res => { console.log(item) })
-            .catch(err => { console.log('State of item during error'); console.log(item); console.log(err);})
+            .then(res => { console.log(res); console.log(axios.defaults.headers) })
+            .catch(err => { 
+                console.log('ERROR', '\n', item, '\n', JSON.stringify(err), '\n', axios.defaults.headers);
+                console.log(err.response)
+            })
         let updated_wishlist = this.state.wishlistitems.map(e => {
             if (e.id === item.id) {
                 return {
@@ -85,6 +101,69 @@ class App extends Component {
         })
         this.setState({ wishlistitems: updated_wishlist })
         this.toggle();
+    }
+
+    guardianTest = () => {
+        let item = { game: 179, user: 6, target_price: parseFloat("8.99"), purchased: false, id: 159 }
+        axios.defaults.headers = {
+            "Content-Type": "application/json",
+            "Authorization": `Token ${this.props.token}`
+        }
+        axios
+            .put(`http://${BASE_URL}/api/wishlistitems/159/`, item)
+            .then(res => { console.log(res); console.log(axios.defaults.headers) })
+            .catch(err => { 
+                console.log('ERROR', '\n', item, '\n', JSON.stringify(err), '\n', axios.defaults.headers);
+                console.log(err.response)
+            })        
+    }
+
+    guardianTest2 = () => {
+        let item = { game: 179, user: 6, target_price: parseFloat("9.99"), purchased: false, id: 159 }
+        axios.defaults.headers = {
+            "Content-Type": "application/json",
+            "Authorization": `Token ${this.props.token}`
+        }
+        axios
+            .put(`http://${BASE_URL}/api/wishlistitems/159/`, item)
+            .then(res => { console.log(res); console.log(axios.defaults.headers) })
+            .catch(err => { 
+                console.log('ERROR', '\n', item, '\n', JSON.stringify(err), '\n', axios.defaults.headers);
+                console.log(err.response)
+            })        
+    }
+
+    guardianTest3 = () => {
+        axios.defaults.headers = {
+            "Content-Type": "application/json",
+            "Authorization": `Token ${this.props.token}`
+        }
+        axios
+            .get(`http://${BASE_URL}/api/wishlistitems/`)
+            .then(res => { console.log(res.data) })
+            .catch(err => { console.log(err.response) })        
+    }
+
+    guardianTest4 = () => {
+        axios.defaults.headers = {
+            "Content-Type": "application/json",
+            "Authorization": `Token ${this.props.token}`
+        }
+        axios
+            .get(`http://${BASE_URL}/api/wishlists/6/`)
+            .then(res => { console.log(res.data) })
+            .catch(err => { console.log(err.response) })        
+    }
+
+    guardianTest5 = () => {
+        axios.defaults.headers = {
+            "Content-Type": "application/json",
+            "Authorization": `Token ${this.props.token}`
+        }
+        axios
+            .get(`http://${BASE_URL}/api/wishlists/17/`)
+            .then(res => { console.log(res.data) })
+            .catch(err => { console.log(err.response) })        
     }
 
     addToCollection = (item) => {
@@ -119,6 +198,11 @@ class App extends Component {
             { tableHeaders }
             <div className="row">
                 <div className="offset-lg-1 col-lg-10 col-12">
+                    <button onClick={() => this.guardianTest()}>$8.99</button>
+                    <button onClick={() => this.guardianTest2()}>$9.99</button>
+                    <button onClick={() => this.guardianTest3()}>GET WishListItems</button>
+                    <button onClick={() => this.guardianTest4()}>GET WishList 6</button>
+                    <button onClick={() => this.guardianTest5()}>GET WishList 17</button>
                 { this.state.wishlistitems.map(item => {
                     let { game } = item
                     let imgSrc = (id) => `https://steamcdn-a.akamaihd.net/steam/apps/${id}/capsule_184x69.jpg`

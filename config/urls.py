@@ -7,8 +7,8 @@ from .views import index
 router = routers.DefaultRouter()
 router.register(r'games', views.GameView, 'game')
 router.register(r'wishlistitems', views.WishListItemView, 'wishlistitem')
-router.register(r'wishlists', views.WishListView)
-router.register(r'collections', views.CollectionView)
+router.register(r'wishlists', views.WishListView, basename='wishlist')
+router.register(r'collections', views.CollectionView, basename='collections')
 # router.register(r'users', views.UserView, 'user')
 router.register(r'search', views.SearchResultsView, 'search')
 

@@ -38,36 +38,32 @@ class WishListItemView(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated, CustomObjectPermissions]
     filter_backends = [filters.ObjectPermissionsFilter]
 
-# ReadOnlyModelViewSets 
-class WishListView(viewsets.ReadOnlyModelViewSet):
-    serializer_class = WishListSerializer 
-    queryset = WishListItem.objects.all()
-    pagination_class = StandardResultsSetPagination 
 
-    permission_classes = [IsAuthenticated, CustomObjectPermissions]
-    filter_backends = [filters.ObjectPermissionsFilter]
-
+class WishListView(viewsets.ViewSet):
     def retrieve(self, request, pk=None):
-        queryset = WishListItem.objects.filter(user_id=pk).filter(purchased=False).order_by(
-            (F('game__curr_price')-F('target_price'))/F('target_price'), 'game__title'
-        )
-        serializer = WishListSerializer(queryset, many=True)
-        return Response(serializer.data)
+        user = request.user 
+        if user == User.objects.get(id=pk):
+            queryset = WishListItem.objects.filter(user_id=pk).filter(purchased=False).order_by(
+                (F('game__curr_price')-F('target_price'))/F('target_price'), 'game__title'
+            )
+            serializer = WishListSerializer(queryset, many=True)
+            return Response(serializer.data)
+        else: 
+            return Response({'response': "You don't have permission to view this page."})
 
-class CollectionView(viewsets.ReadOnlyModelViewSet):
-    serializer_class = WishListSerializer 
-    queryset = WishListItem.objects.all()
-    pagination_class = StandardResultsSetPagination 
 
-    permission_classes = [IsAuthenticated, CustomObjectPermissions]
-    # filter_backends = [filters.ObjectPermissionsFilter]
-
+class CollectionView(viewsets.ViewSet):
     def retrieve(self, request, pk=None):
-        queryset = WishListItem.objects.filter(user_id=pk).filter(purchased=True).order_by(
-            F('target_price')/F('game__base_price'), 'game__title'
-        )
-        serializer = WishListSerializer(queryset, many=True)
-        return Response(serializer.data)
+        user = request.user 
+        if user == User.objects.get(id=pk):
+            queryset = WishListItem.objects.filter(user_id=pk).filter(purchased=True).order_by(
+                F('target_price')/F('game__base_price'), 'game__title'
+            )
+            serializer = WishListSerializer(queryset, many=True)
+            return Response(serializer.data)
+        else: 
+            return Response({'response': "You don't have permission to view this page."})
+
 
 class SearchResultsView(viewsets.ReadOnlyModelViewSet):
     serializer_class = GameSerializer

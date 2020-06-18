@@ -9,11 +9,11 @@ from selenium.webdriver.firefox.options import Options as FirefoxOptions
 from wishlist.models import Game
 
 def scrape():
-    options = FirefoxOptions()
-    options.add_argument("--headless")
-    driver = webdriver.Firefox(options=options)
-    # steam_ids = [game.steam_id for game in Game.objects.all()]
-    steam_ids = [game.steam_id for game in Game.objects.filter(id=265)]
+    # options = FirefoxOptions()
+    # options.add_argument("--headless")
+    # driver = webdriver.Firefox(options=options)
+    driver = webdriver.Firefox()
+    steam_ids = [game.steam_id for game in Game.objects.all()]
     for app_id in steam_ids:
         # Handle games with non-standard purchase options
         edge_cases_btn_1 = [728740]
@@ -28,7 +28,7 @@ def scrape():
 
         url = f"https://store.steampowered.com/app/{app_id}/"
         driver.get(url)
-        # Wait up to 30 seconds, but continue if you find the element
+        # Wait up to 60 seconds, but continue if you find the element
         driver.implicitly_wait(60)
 
         if "agecheck" in driver.current_url:

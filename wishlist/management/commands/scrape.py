@@ -9,10 +9,10 @@ from selenium.webdriver.firefox.options import Options as FirefoxOptions
 from wishlist.models import Game
 
 def scrape():
-    # options = FirefoxOptions()
-    # options.add_argument("--headless")
-    # driver = webdriver.Firefox(options=options)
-    driver = webdriver.Firefox()
+    options = FirefoxOptions()
+    options.add_argument("--headless")
+    driver = webdriver.Firefox(options=options)
+    # driver = webdriver.Firefox()
     steam_ids = [game.steam_id for game in Game.objects.all()]
     for app_id in steam_ids:
         # Handle games with non-standard purchase options

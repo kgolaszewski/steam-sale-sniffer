@@ -11,7 +11,6 @@ import InfiniteLoader from 'react-virtualized/dist/commonjs/InfiniteLoader';
 
 import { connect } from 'react-redux'
 import * as actions from '../store/actions/auth'
-import { nonsense } from 'antd-mobile/lib/picker';
 
 const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
 // const vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);

@@ -11,6 +11,7 @@ import InfiniteLoader from 'react-virtualized/dist/commonjs/InfiniteLoader';
 
 import { connect } from 'react-redux'
 import * as actions from '../store/actions/auth'
+import { nonsense } from 'antd-mobile/lib/picker';
 
 const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
 // const vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
@@ -134,6 +135,20 @@ class App extends Component {
       })
   }
 
+  renderHeaders = (len) => (
+    <div className="row" key={len ? {} : { 'display': 'none' }}>
+      <div className="offset-lg-1 col-lg-10 col-12">
+        <div className='row'>
+        <div className='col-lg-5 col-md-4 col-3 game-title title-header table-header text'>
+          <strong>Game Title</strong>
+        </div>
+        <div className={`col-sm-2 col-1 game-price table-header curr-header text`} id='price1'><strong>Current Price</strong></div>
+        <div className={`col-2 game-price table-header base-header text`} id='price2'><strong>Base Price</strong></div>
+        </div>
+      </div>
+    </div>
+  )
+
   renderItem = ({ style, index, key }) => {
 
     let btn    = "col-sm-0 btn btn-success btn-pad"
@@ -171,7 +186,7 @@ class App extends Component {
 
   render() {
     let tableHeaders = (
-      <div className="row">
+      <div className="row" key={this.state.games ? {} : { 'display': 'none' }}>
         <div className="offset-lg-1 col-lg-10 col-12">
           <div className='row'>
           <div className='col-lg-5 col-md-4 col-3 game-title title-header table-header text'>
@@ -241,10 +256,16 @@ class App extends Component {
               />
             </div>
         </div>
-          {tableHeaders}
+          { games.length && tableHeaders }
+          {/* { this.renderHeaders(this.state.games)} */}
           <div className="row">
             <div className="offset-lg-1 col-lg-10 col-12" id='gamelist'>
               {games.length > 0 && <WindowScroller>{infiniteLoader}</WindowScroller>}
+              {games.length === 0 && 
+              <div className='row game blank-search'>
+                No results match your search.
+              </div>  
+              }
             </div>
           </div>
         </div>

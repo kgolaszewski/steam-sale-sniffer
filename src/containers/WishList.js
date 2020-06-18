@@ -103,69 +103,6 @@ class App extends Component {
         this.toggle();
     }
 
-    guardianTest = () => {
-        let item = { game: 179, user: 6, target_price: parseFloat("8.99"), purchased: false, id: 159 }
-        axios.defaults.headers = {
-            "Content-Type": "application/json",
-            "Authorization": `Token ${this.props.token}`
-        }
-        axios
-            .put(`http://${BASE_URL}/api/wishlistitems/159/`, item)
-            .then(res => { console.log(res); console.log(axios.defaults.headers) })
-            .catch(err => { 
-                console.log('ERROR', '\n', item, '\n', JSON.stringify(err), '\n', axios.defaults.headers);
-                console.log(err.response)
-            })        
-    }
-
-    guardianTest2 = () => {
-        let item = { game: 179, user: 6, target_price: parseFloat("9.99"), purchased: false, id: 159 }
-        axios.defaults.headers = {
-            "Content-Type": "application/json",
-            "Authorization": `Token ${this.props.token}`
-        }
-        axios
-            .put(`http://${BASE_URL}/api/wishlistitems/159/`, item)
-            .then(res => { console.log(res); console.log(axios.defaults.headers) })
-            .catch(err => { 
-                console.log('ERROR', '\n', item, '\n', JSON.stringify(err), '\n', axios.defaults.headers);
-                console.log(err.response)
-            })        
-    }
-
-    guardianTest3 = () => {
-        axios.defaults.headers = {
-            "Content-Type": "application/json",
-            "Authorization": `Token ${this.props.token}`
-        }
-        axios
-            .get(`http://${BASE_URL}/api/wishlistitems/`)
-            .then(res => { console.log(res.data) })
-            .catch(err => { console.log(err.response) })        
-    }
-
-    guardianTest4 = () => {
-        axios.defaults.headers = {
-            "Content-Type": "application/json",
-            "Authorization": `Token ${this.props.token}`
-        }
-        axios
-            .get(`http://${BASE_URL}/api/wishlists/6/`)
-            .then(res => { console.log(res.data) })
-            .catch(err => { console.log(err.response) })        
-    }
-
-    guardianTest5 = () => {
-        axios.defaults.headers = {
-            "Content-Type": "application/json",
-            "Authorization": `Token ${this.props.token}`
-        }
-        axios
-            .get(`http://${BASE_URL}/api/wishlists/17/`)
-            .then(res => { console.log(res.data) })
-            .catch(err => { console.log(err.response) })        
-    }
-
     addToCollection = (item) => {
         let purchased = { ...item, purchased: true, game: item.game.id, user: +this.state.activeItem.user }
         axios
@@ -177,6 +114,8 @@ class App extends Component {
     }
 
     render() {
+        const { wishlistitems } = this.state;
+
         let tableHeaders = (
             <div className="row">
               <div className="offset-lg-1 col-lg-10 col-12">
@@ -195,14 +134,10 @@ class App extends Component {
         <div className="App background">
             <h1>My Wishlist</h1>
             <div className="container">
-            { tableHeaders }
+
+            { wishlistitems.length && tableHeaders }
             <div className="row">
                 <div className="offset-lg-1 col-lg-10 col-12">
-                    <button onClick={() => this.guardianTest()}>$8.99</button>
-                    <button onClick={() => this.guardianTest2()}>$9.99</button>
-                    <button onClick={() => this.guardianTest3()}>GET WishListItems</button>
-                    <button onClick={() => this.guardianTest4()}>GET WishList 6</button>
-                    <button onClick={() => this.guardianTest5()}>GET WishList 17</button>
                 { this.state.wishlistitems.map(item => {
                     let { game } = item
                     let imgSrc = (id) => `https://steamcdn-a.akamaihd.net/steam/apps/${id}/capsule_184x69.jpg`
@@ -266,6 +201,14 @@ class App extends Component {
                 })}
                 </div>
             </div>
+
+            { this.state.wishlistitems.length === 0 && 
+                <div className='row game blank-search text'>
+                    You haven't added any games to your Wish List!
+                </div>  
+            }
+
+
             </div>
             { this.state.modal ? (
             <CustomModal activeItem={this.state.activeItem} toggle={this.toggle} onSave={this.handleEdit} />

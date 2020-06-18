@@ -63,6 +63,8 @@ class App extends Component {
     }
 
     render() {
+        const { wishlistitems } = this.state;
+
         let tableHeaders = (
             <div className="row">
               <div className="offset-lg-1 col-lg-10 col-12">
@@ -81,7 +83,7 @@ class App extends Component {
         <div className="App background">
             <h1>My Collection</h1>
             <div className="container">
-            { tableHeaders }
+            { wishlistitems.length && tableHeaders }
             <div className="row">
                 <div className="offset-lg-1 col-lg-10 col-12">
                 { this.state.wishlistitems.map(item => {
@@ -126,6 +128,13 @@ class App extends Component {
                 })}
                 </div>
             </div>
+
+            { this.state.wishlistitems.length === 0 && 
+                <div className='row game blank-search text'>
+                    <div>You haven't add any games to your Collection!</div>
+                </div>  
+            }
+
             </div>
             { this.state.modal ? (
             <CustomModal activeItem={this.state.activeItem} toggle={this.toggle} onSave={this.handleEdit} />

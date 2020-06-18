@@ -19,7 +19,6 @@ CORS_ORIGIN_ALLOW_ALL = True
 SECRET_KEY = '%dps-6&vtsci3--ccjp*x67g9a7m!4#rixah6*4kiz498g9n0)'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = True
 DEBUG = False
 
 ALLOWED_HOSTS = ['localhost', 'steam-sale-sniffer.herokuapp.com', 'localhost:8000']
@@ -28,7 +27,6 @@ AUTH_USER_MODEL = 'wishlist.User'
 
 SITE_ID = 1
 
-# Application definition
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -51,9 +49,6 @@ INSTALLED_APPS = [
 
     'guardian',
     'wishlist',
-
-
-
 ]
 
 MIDDLEWARE = [
@@ -88,23 +83,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.postgresql_psycopg2",
-#     }
-# }
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'steam-sale-sniffer',
-#         'USER': 'kamil.golaszewski.ncf@gmail.com',
-#         'PASSWORD': '',
-#         'HOST': 'localhost',
-#         'PORT': '',
-#     }
-# }
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -119,8 +97,8 @@ DATABASES = {
 # Password validation (src: https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators)
 AUTH_PASSWORD_VALIDATORS = [
     { 'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator', },
-    # { 'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator', },
-    # { 'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator', },
+    { 'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator', },
+    { 'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator', },
     { 'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator', },
 ]
 

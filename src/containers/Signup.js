@@ -2,8 +2,12 @@ import React from "react";
 
 import { Form, Input, Button } from "antd";
 import { connect } from "react-redux";
-import { NavLink, Redirect }  from 'react-router-dom'
-import * as actions from '../store/actions/auth'
+import { NavLink, Redirect }  from 'react-router-dom';
+import bad_passwords from '../bad_passwords';
+
+import * as actions from '../store/actions/auth';
+
+const password_list = bad_passwords()
 
 const layout = {
     labelCol:   { xs: { span: 2 }, sm: { span: 7 }},
@@ -39,11 +43,21 @@ class RegistrationForm extends React.Component {
         }
     };
 
-    test = () => {
-        this.formRef.current.validateFields(['username', 'email', 'password', 'confirm'])
-            .then(res => console.log(res))
-            .catch(err => console.log(err))
-    }
+    checkLength = (rule, value) => {
+        if (value && value.length < 8) {
+            return Promise.reject("Your password must be at least 8 characters!")
+        } else {
+            return Promise.resolve()
+        }
+    };
+
+    compareToBadPasswords = (rule, value) => {
+        if (value && password_list.includes(value)) {
+            return Promise.reject("This password is too common! Please use a different one.")
+        } else {
+            return Promise.resolve()
+        }
+    };
 
     render() {
         const { token } = this.props
@@ -62,9 +76,16 @@ class RegistrationForm extends React.Component {
                     <Input />
                 </Form.Item>
 
-                <Form.Item name="password" label="Password" rules={[{required: true, message: "Input password",}
+                <Form.Item name="password" label="Password" validateTrigger= {['onBlur']} rules={[
+                    // {required: true, message: "Input password"},
+                    {required: true, message: "Your password must be at least 8 characters.", validator: this.checkLength},
+                    {
+                        required: true, message: "This password is too common! Please use a different one.", 
+                        validator: this.compareToBadPasswords
+                    }
+
                 ]}>
-                    <Input.Password />
+                    <Input.Password onBlur={this.handleConfirmBlur} />
                 </Form.Item>
 
                 <Form.Item name="confirm" label="Confirm" validateTrigger= {['onBlur']} rules={[{

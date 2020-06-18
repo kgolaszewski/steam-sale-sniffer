@@ -15,7 +15,6 @@ import * as actions from '../store/actions/auth';
 const BASE_URL = process.env.NODE_ENV === 'production' ? 'steam-sale-sniffer.herokuapp.com' : 'localhost:8000'
 
 const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
-// const vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
 
 class App extends Component {
     constructor(props) {
@@ -40,8 +39,6 @@ class App extends Component {
         }
         axios
             .get(`http://${BASE_URL}/api/wishlists/${this.state.activeItem.user}/`)
-            // .get(`http://${BASE_URL}/api/wishlists/6/`)
-            // .get(`http://${BASE_URL}/api/wishlistitems/`)
             .then( res => {
                 console.log(res.data.filter(game => !game.purchased))
                 this.setState({wishlistitems: res.data.filter(game => !game.purchased)})

@@ -186,7 +186,7 @@ class App extends Component {
 
   render() {
     let tableHeaders = (
-      <div className="row" key={this.state.games ? {} : { 'display': 'none' }}>
+      <div className="row">
         <div className="offset-lg-1 col-lg-10 col-12">
           <div className='row'>
           <div className='col-lg-5 col-md-4 col-3 game-title title-header table-header text'>

@@ -25,7 +25,7 @@ def scrape():
 
     # src: https://chromedriver.chromium.org/capabilities (Common Use Cases)
     # src: stackoverflow.com/questions/53599079/
-    chrome_options.add_arguments(f"--profile-directory={os.environ.get("TMPDIR")}");
+    chrome_options.add_arguments(f"--profile-directory={os.environ.get('TMPDIR')}");
     driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
 
     steam_ids = [game.steam_id for game in Game.objects.all()]

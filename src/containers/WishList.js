@@ -12,7 +12,7 @@ import { Menu, Dropdown } from 'antd';
 import { connect } from 'react-redux';
 import * as actions from '../store/actions/auth';
 
-const BASE_URL = process.env.NODE_ENV === 'production' ? 'steam-sale-sniffer.herokuapp.com' : 'localhost:8000'
+const BASE_URL = process.env.NODE_ENV === 'production' ? 'https://steam-sale-sniffer.herokuapp.com' : 'http://localhost:8000'
 
 const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
 
@@ -38,7 +38,7 @@ class App extends Component {
             'Authorization': `Token ${this.props.token}`
         }
         axios
-            .get(`http://${BASE_URL}/api/wishlists/${this.state.activeItem.user}/`)
+            .get(`${BASE_URL}/api/wishlists/${this.state.activeItem.user}/`)
             .then( res => {
                 console.log(res.data.filter(game => !game.purchased))
                 this.setState({wishlistitems: res.data.filter(game => !game.purchased)})
@@ -65,7 +65,7 @@ class App extends Component {
             'Authorization': `Token ${this.props.token}`
         }
         axios
-            .delete(`http://${BASE_URL}/api/wishlistitems/${item_id}/`)
+            .delete(`${BASE_URL}/api/wishlistitems/${item_id}/`)
             .then(res => { console.log() })
             .catch(err => { console.log(err);})
         let updated_wishlist = this.state.wishlistitems.filter(e => e.id !== item_id && !e.purchased)
@@ -80,7 +80,7 @@ class App extends Component {
             "Authorization": `Token ${this.props.token}`
         }
         axios
-            .put(`http://${BASE_URL}/api/wishlistitems/${item.id}/`, item)
+            .put(`${BASE_URL}/api/wishlistitems/${item.id}/`, item)
             .then(res => { console.log(res); console.log(axios.defaults.headers) })
             .catch(err => { 
                 console.log('ERROR', '\n', item, '\n', JSON.stringify(err), '\n', axios.defaults.headers);
@@ -103,7 +103,7 @@ class App extends Component {
     addToCollection = (item) => {
         let purchased = { ...item, purchased: true, game: item.game.id, user: +this.state.activeItem.user }
         axios
-            .put(`http://${BASE_URL}/api/wishlistitems/${item.id}/`, purchased)
+            .put(`${BASE_URL}/api/wishlistitems/${item.id}/`, purchased)
             .then(res => { console.log() })
             .catch(err => { console.log(err);})
         let updated_wishlist = this.state.wishlistitems.filter(e => e.id !== item.id && !e.purchased)

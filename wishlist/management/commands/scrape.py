@@ -4,17 +4,11 @@ from selenium import webdriver
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.common.exceptions import NoSuchElementException
-# from selenium.webdriver.firefox.options import Options as FirefoxOptions
 import os
 
 from wishlist.models import Game
 
 def scrape():
-    # options = FirefoxOptions()
-    # options.add_argument("--headless")
-    # driver = webdriver.Firefox(options=options)
-    # driver = webdriver.Firefox()
-
     # src: andressevilla.com/running-chromedriver-with-python-selenium-on-heroku/
     chrome_options = webdriver.ChromeOptions()
     chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
@@ -22,10 +16,6 @@ def scrape():
     chrome_options.add_argument("--disable-gpu")  # src: stackoverflow.com/questions/62195869/
     chrome_options.add_argument("--disable-dev-shm-usage")
     chrome_options.add_argument("--no-sandbox")
-
-    # src: https://chromedriver.chromium.org/capabilities (Common Use Cases)
-    # src: stackoverflow.com/questions/53599079/
-    # chrome_options.add_argument(f"--profile-directory={os.environ.get('TMPDIR')}")
     chrome_options.add_argument(f"--user-data-dir={os.environ.get('TMPDIR')}")
     driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
 

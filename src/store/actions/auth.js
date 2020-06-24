@@ -2,7 +2,7 @@
 import axios from 'axios'
 import * as actionTypes from './actionTypes'
 
-const BASE_URL = process.env.NODE_ENV === 'production' ? 'steam-sale-sniffer.herokuapp.com' : 'localhost:8000'
+const BASE_URL = process.env.NODE_ENV === 'production' ? 'https://steam-sale-sniffer.herokuapp.com' : 'http://localhost:8000'
 
 export const authStart   = () => { return { type: actionTypes.AUTH_START } }
 export const authSuccess = (token) => { return { type: actionTypes.AUTH_SUCCESS, token: token } }
@@ -28,7 +28,7 @@ export const authLogin =  (username, password) => {
             username: username, 
             password: password
         }
-        axios.post(`http://${BASE_URL}/rest-auth/login/`, user)
+        axios.post(`${BASE_URL}/rest-auth/login/`, user)
         .then(res => {
             const token = res.data.key
             const expirationDate = new Date(new Date().getTime() + 3600 * 1000)
@@ -71,7 +71,7 @@ export const authSignup = (username, email, password1, password2) => {
             password1: password1,
             password2: password2,
         }
-        axios.post(`http://${BASE_URL}/rest-auth/registration/`, user)
+        axios.post(`${BASE_URL}/rest-auth/registration/`, user)
         .then(res => {
             console.log('User POSTED to /rest-auth/registration')
             const token = res.data.key

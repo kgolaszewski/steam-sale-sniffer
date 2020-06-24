@@ -17,7 +17,7 @@ const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth
 
 const { Search } = Input
 
-const BASE_URL = process.env.NODE_ENV === 'production' ? 'steam-sale-sniffer.herokuapp.com' : 'localhost:8000'
+const BASE_URL = process.env.NODE_ENV === 'production' ? 'https://steam-sale-sniffer.herokuapp.com' : 'http://localhost:8000'
 
 class App extends Component {
   constructor(props) {
@@ -28,7 +28,7 @@ class App extends Component {
       activeItem: { game: '', user: 1, target_price: "", purchased: false, },
       loading: false,
       hasMore: true,
-      next: `http://${BASE_URL}/api/search/?q=&page=2`,
+      next: `${BASE_URL}/api/search/?q=&page=2`,
       search: "",
       prev: "",
       modalerror: false,
@@ -39,7 +39,7 @@ class App extends Component {
   componentDidMount() {
     window.scrollTo(0,0)
     axios
-      .get(`http://${BASE_URL}/api/search/?q=`)
+      .get(`${BASE_URL}/api/search/?q=`)
       .then( res => { this.setState({ 
         games: res.data.results.filter(game => !game.users.includes(+localStorage.getItem('userId'))),
         activeItem: {
@@ -50,7 +50,6 @@ class App extends Component {
       }) } )
       .catch( err => console.log(err) )
     this.timer = null;
-    console.log(this.state.next)
   }
 
   handleInfiniteLoad = ({ startIndex, stopIndex }) => {
@@ -95,26 +94,22 @@ class App extends Component {
         "Authorization": `Token ${this.props.token}`
       }
       axios
-        .post(`http://${BASE_URL}/api/wishlistitems/`, item)
+        .post(`${BASE_URL}/api/wishlistitems/`, item)
         .then(res => { console.log(item) })
-        // .catch(err => {console.log(item); console.log(err);})
         .catch(err => { 
           console.log('ERROR\n', item, '\n', JSON.stringify(err), '\n', axios.defaults.headers);
           console.log(err.response)
         })
-      this.setState({ 
-        games: this.state.games.filter(game => game.id !== item.game)
-      })
+      this.setState({ games: this.state.games.filter(game => game.id !== item.game) })
       this.toggle()
     } else {
       this.setState({ modalerror: true })
-      console.log( this.state.modalerror)
     }
   }
 
   dynamicSearch = (value, page=1) => {
     this.loadedRowsMap = {}
-    axios.get(`http://${BASE_URL}/api/search/?q=${value}&page=${page}`)
+    axios.get(`${BASE_URL}/api/search/?q=${value}&page=${page}`)
       .then(res => {
         let { results, next } = res.data
         let updated_games = results.filter(

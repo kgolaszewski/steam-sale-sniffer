@@ -95,7 +95,7 @@ class App extends Component {
                 <div className='col-lg-5 col-md-5 col-sm-4 col-3 game-title collection-header table-header text'>
                   <strong>Game Title</strong>
                 </div>
-                <div className={`col-sm-2 col-1 game-price table-header curr-header text collection-price1`} id='price1'><strong>Current Price</strong></div>
+                <div className={`col-sm-2 col-1 game-price table-header curr-header text collection-price1`} id='price1'><strong>Purchase Price</strong></div>
                 <div className={`col-2 game-price table-header base-header text collection-price2`} id='price2'><strong>Base Price</strong></div>
                 </div>
               </div>

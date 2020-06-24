@@ -33,17 +33,34 @@ class App extends Component {
     }
 
     componentDidMount() {
-        axios.defaults.headers = {
-            "Content-Type": "application/json",
-            'Authorization': `Token ${this.props.token}`
+        if (this.props.token) {
+            axios.defaults.headers = {
+                "Content-Type": "application/json",
+                'Authorization': `Token ${this.props.token}`
+            }
+            axios
+                .get(`${BASE_URL}/api/wishlists/${this.state.activeItem.user}/`)
+                .then( res => {
+                    // console.log(res.data.filter(game => !game.purchased))
+                    this.setState({wishlistitems: res.data.filter(game => !game.purchased)})
+                })
+                // .catch( err => console.log(err) )
         }
-        axios
-            .get(`${BASE_URL}/api/wishlists/${this.state.activeItem.user}/`)
-            .then( res => {
-                console.log(res.data.filter(game => !game.purchased))
-                this.setState({wishlistitems: res.data.filter(game => !game.purchased)})
-            })
-            .catch( err => console.log(err) )
+    }
+
+    componentDidUpdate(prevProps) {
+        if (this.props.token !== prevProps.token) {
+            axios.defaults.headers = {
+                "Content-Type": "application/json",
+                'Authorization': `Token ${this.props.token}`
+            }
+            axios
+                .get(`${BASE_URL}/api/wishlists/${localStorage.getItem('userId')}/`)
+                .then( res => {
+                    this.setState({wishlistitems: res.data.filter(game => !game.purchased)})
+                })
+                // .catch( err => console.log(err) )
+        }
     }
 
     toggle = (id, game) => { 
@@ -66,26 +83,29 @@ class App extends Component {
         }
         axios
             .delete(`${BASE_URL}/api/wishlistitems/${item_id}/`)
-            .then(res => { console.log() })
-            .catch(err => { console.log(err);})
+            // .then(res => { console.log() })
+            // .catch(err => { console.log(err);})
         let updated_wishlist = this.state.wishlistitems.filter(e => e.id !== item_id && !e.purchased)
         this.setState({ wishlistitems: updated_wishlist })
     }
 
     handleEdit = (e, item) => {
         e.preventDefault()
-        console.log(item)
+        // console.log(item)
         axios.defaults.headers = {
             "Content-Type": "application/json",
             "Authorization": `Token ${this.props.token}`
         }
         axios
             .put(`${BASE_URL}/api/wishlistitems/${item.id}/`, item)
-            .then(res => { console.log(res); console.log(axios.defaults.headers) })
-            .catch(err => { 
-                console.log('ERROR', '\n', item, '\n', JSON.stringify(err), '\n', axios.defaults.headers);
-                console.log(err.response)
-            })
+            // .then(res => { 
+            //     res
+            //     console.log(res); 
+            // })
+            // .catch(err => { 
+            //     console.log('ERROR', '\n', item, '\n', JSON.stringify(err), '\n', axios.defaults.headers);
+            //     console.log(err.response)
+            // })
         let updated_wishlist = this.state.wishlistitems.map(e => {
             if (e.id === item.id) {
                 return {
@@ -104,8 +124,8 @@ class App extends Component {
         let purchased = { ...item, purchased: true, game: item.game.id, user: +this.state.activeItem.user }
         axios
             .put(`${BASE_URL}/api/wishlistitems/${item.id}/`, purchased)
-            .then(res => { console.log() })
-            .catch(err => { console.log(err);})
+            // .then(res => { console.log() })
+            // .catch(err => { console.log(err);})
         let updated_wishlist = this.state.wishlistitems.filter(e => e.id !== item.id && !e.purchased)
         this.setState({ wishlistitems: updated_wishlist })
     }

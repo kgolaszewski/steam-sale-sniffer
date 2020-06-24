@@ -23,19 +23,40 @@ class App extends Component {
             modal: false,
             activeItem: {
                 game: '',
-                user: localStorage.getItem('userId'),
+                user: +localStorage.getItem('userId'),
                 id: '',
             },    
         }
     }
 
     componentDidMount() {
-        axios
-            .get(`${BASE_URL}/api/collections/${this.state.activeItem.user}/`)
-            .then( res => {
-                this.setState({wishlistitems: res.data.filter(game => game.purchased)})
-            })
-            .catch( err => console.log(err) )
+        if (this.props.token) {
+            axios.defaults.headers = {
+                "Content-Type": "application/json",
+                'Authorization': `Token ${this.props.token}`
+            }
+            axios
+                .get(`${BASE_URL}/api/collections/${this.state.activeItem.user}/`)
+                .then( res => {
+                    this.setState({wishlistitems: res.data.filter(game => game.purchased)})
+                })
+                // .catch( err => console.log(err) )
+        }
+    }
+
+    componentDidUpdate(prevProps) {
+        if (this.props.token !== prevProps.token) {
+            axios.defaults.headers = {
+                "Content-Type": "application/json",
+                'Authorization': `Token ${this.props.token}`
+            }
+            axios
+                .get(`${BASE_URL}/api/collections/${localStorage.getItem('userId')}/`)
+                .then( res => {
+                    this.setState({wishlistitems: res.data.filter(game => game.purchased)})
+                })
+                // .catch( err => console.log(err) )
+        }
     }
 
     toggle = (id, game) => { 
@@ -52,10 +73,14 @@ class App extends Component {
     }
 
     handleDelete = (item_id) => {
+        axios.defaults.headers = {
+            "Content-Type": "application/json",
+            'Authorization': `Token ${this.props.token}`
+        }
         axios
             .delete(`${BASE_URL}/api/wishlistitems/${item_id}/`)
-            .then(res => { console.log() })
-            .catch(err => { console.log('State of item during error'); console.log(err);})
+            // .then(res => { console.log('Success') })
+            // .catch(err => { console.log('State of item during error'); console.log(err);})
         let updated_wishlist = this.state.wishlistitems.filter(e => e.id !== item_id && e.purchased)
         this.setState({ wishlistitems: updated_wishlist })
     }
@@ -89,7 +114,7 @@ class App extends Component {
                     let menu = (
                         <Menu>
                             <Menu.Item>
-                                <a href="/" id={game.id} onClick={() => this.handleDelete(item.id)}>Remove</a>
+                                <a href="/" id={game.id} onClick={(e) => { e.preventDefault(); this.handleDelete(item.id)} }>Remove</a>
                             </Menu.Item>
                         </Menu>
                     )

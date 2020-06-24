@@ -15,7 +15,7 @@ export default class CustomModal extends Component {
     }
 
     handleSubmit = (onSave, e, item) => {
-        if (parseFloat(item.target_price)) {
+        if (parseFloat(item.target_price) >= 0) {
             onSave(e, item)
         } else {
             e.preventDefault()

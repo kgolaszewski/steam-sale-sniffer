@@ -39,7 +39,7 @@ export const authLogin =  (username, password) => {
             dispatch(authSuccess(token))
             dispatch(checkAuthTimeout(3600))
         })
-        .catch(err => {dispatch(authFail(err)); console.log(err); console.log('Axios failed') })
+        .catch(err => {dispatch(authFail(err)); })
     }
 }
 
@@ -83,6 +83,6 @@ export const authSignup = (username, email, password1, password2) => {
             dispatch(authSuccess(token))
             dispatch(checkAuthTimeout(3600))
         })
-        .catch(err => {dispatch(authFail(err)); console.log(err) })
+        .catch(err => {dispatch(authFail(err)); })
     }
 }

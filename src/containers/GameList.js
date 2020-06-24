@@ -48,7 +48,7 @@ class App extends Component {
         },
 
       }) } )
-      .catch( err => console.log(err) )
+      // .catch( err => console.log(err) )
     this.timer = null;
   }
 
@@ -88,18 +88,18 @@ class App extends Component {
       target_price: parseFloat(item.target_price)
     }
     e.preventDefault()
-    if (item.target_price) {
+    if (item.target_price >= 0) {
       axios.defaults.headers = {
         "Content-Type": "application/json",
         "Authorization": `Token ${this.props.token}`
       }
       axios
         .post(`${BASE_URL}/api/wishlistitems/`, item)
-        .then(res => { console.log(item) })
-        .catch(err => { 
-          console.log('ERROR\n', item, '\n', JSON.stringify(err), '\n', axios.defaults.headers);
-          console.log(err.response)
-        })
+        // .then(res => { console.log(item) })
+        // .catch(err => { 
+        //   console.log('ERROR\n', item, '\n', JSON.stringify(err), '\n', axios.defaults.headers);
+        //   console.log(err.response)
+        // })
       this.setState({ games: this.state.games.filter(game => game.id !== item.game) })
       this.toggle()
     } else {
@@ -230,7 +230,7 @@ class App extends Component {
 
     return (
       <div className="App background">
-        <h1>Recommended Steam Games</h1>
+        <h1>Add Steam Games to Wishlist</h1>
         <div className="container"
           // id='gamelist'
         >
@@ -256,7 +256,7 @@ class App extends Component {
             <div className="offset-lg-1 col-lg-10 col-12" id='gamelist'>
               {games.length > 0 && <WindowScroller>{infiniteLoader}</WindowScroller>}
               {games.length === 0 && 
-              <div className='row game blank-search'>
+              <div className='row game blank-search text'>
                 No results match your search.
               </div>  
               }

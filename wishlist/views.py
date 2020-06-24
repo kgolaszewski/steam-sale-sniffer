@@ -44,7 +44,7 @@ class WishListView(viewsets.ViewSet):
         user = request.user 
         if user == User.objects.get(id=pk):
             queryset = WishListItem.objects.filter(user_id=pk).filter(purchased=False).order_by(
-                (F('game__curr_price')-F('target_price'))/F('target_price'), 'game__title'
+                (F('game__curr_price')-F('target_price'))/(F('target_price')+0.01), 'game__title'
             )
             serializer = WishListSerializer(queryset, many=True)
             return Response(serializer.data)

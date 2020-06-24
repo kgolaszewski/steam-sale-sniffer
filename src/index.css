@@ -36,7 +36,7 @@ div.game-title > a {
 
 .background {
   background-color: #1b2838;
-  min-height: 35em;
+  min-height: 81vh;
 }
 
 .game {
@@ -384,4 +384,14 @@ div.game-title > a {
 div.blank-search {
   color: #fff;
   justify-content: center;
+}
+
+.ant-layout-footer {
+  background-color: #001529 !important;
+  color: #67737f !important;
+  /* padding: 0.5em 2em !important; */
+  padding-left: 2em !important;
+  padding-right: 2em !important;
+  padding-top: 1.5vh !important; 
+  padding-bottom: 3.2vh !important;
 }

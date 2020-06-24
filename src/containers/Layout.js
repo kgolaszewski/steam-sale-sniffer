@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSteam } from '@fortawesome/free-brands-svg-icons'
 
 const { Header, Content, Footer } = Layout;
+// const vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
 
 class CustomLayout extends React.Component {
     render() {
@@ -41,10 +42,6 @@ class CustomLayout extends React.Component {
                             <Menu.Item key="4">
                             <Link to="/collection">My Games</Link>
                             </Menu.Item>
-
-                            {/* <Menu.Item key="5">
-                            User {localStorage.getItem('userId')}
-                            </Menu.Item> */}
                         </Menu>
                         ) : (
                         <Menu theme="dark" selectedKeys={[]} mode="horizontal" 
@@ -76,7 +73,8 @@ class CustomLayout extends React.Component {
                     {this.props.children}
                 </Content>
                 <Footer style={{ textAlign: 'center' }}>
-                    Ant Design ©2016 Created by Ant UED
+                    <div>STEAM SALE SNIFFER™</div>
+                    <div id="disclaimer" style={{fontSize: "0.7em"}}>This site is not affiliated with Valve Corp.</div>
                 </Footer>
             </Layout>
         )

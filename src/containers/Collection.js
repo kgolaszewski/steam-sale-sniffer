@@ -154,7 +154,7 @@ class App extends Component {
 
             { this.state.wishlistitems.length === 0 && 
                 <div className='row game blank-search text'>
-                    <div>You haven't add any games to your Collection!</div>
+                    <div>You haven't added any games to your Collection yet!</div>
                 </div>  
             }
 
